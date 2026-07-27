@@ -1,0 +1,606 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+/*
+ * Design system: restrained technical editorial.
+ * Warm off white canvas, near black ink, single burnt orange accent.
+ * Geometric sans (Space Grotesk) + monospace (JetBrains Mono) for numerals.
+ */
+
+@theme inline {
+  --radius-sm: 6px;
+  --radius-md: 6px;
+  --radius-lg: 6px;
+  --radius-xl: 6px;
+  --radius-2xl: 6px;
+  --radius-3xl: 6px;
+  --radius-4xl: 6px;
+  --font-sans: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent-soft: var(--accent-soft);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-hairline: var(--hairline);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-surface: var(--surface);
+}
+
+:root {
+  --radius: 6px;
+  --background: oklch(0.982 0.004 85);
+  --foreground: oklch(0.185 0.005 60);
+  --surface: oklch(0.965 0.006 85);
+  --card: oklch(0.995 0.003 85);
+  --card-foreground: oklch(0.185 0.005 60);
+  --popover: oklch(0.995 0.003 85);
+  --popover-foreground: oklch(0.185 0.005 60);
+  --primary: oklch(0.185 0.005 60);
+  --primary-foreground: oklch(0.985 0.004 85);
+  --secondary: oklch(0.945 0.006 85);
+  --secondary-foreground: oklch(0.185 0.005 60);
+  --muted: oklch(0.955 0.005 85);
+  --muted-foreground: oklch(0.505 0.012 65);
+  --accent: oklch(0.52 0.187 39.5);
+  --accent-foreground: oklch(0.99 0.004 85);
+  --accent-soft: oklch(0.955 0.028 45);
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.985 0.004 85);
+  --border: oklch(0.9 0.008 75);
+  --hairline: oklch(0.878 0.009 75);
+  --input: oklch(0.9 0.008 75);
+  --ring: oklch(0.52 0.187 39.5);
+}
+
+/*
+ * Custom properties only interpolate once they are registered with a real type,
+ * so every palette token is declared as a <color> here. That makes a theme
+ * class swap animatable: the whole site pivots hue on navigation instead of
+ * snapping, and every component follows for free because they all read these.
+ * initial-value mirrors :root, the untinted default.
+ */
+@property --background {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: oklch(0.982 0.004 85);
+}
+@property --foreground {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: oklch(0.185 0.005 60);
+}
+@property --surface {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: oklch(0.965 0.006 85);
+}
+@property --card {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: oklch(0.995 0.003 85);
+}
+@property --card-foreground {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: oklch(0.185 0.005 60);
+}
+@property --popover {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: oklch(0.995 0.003 85);
+}
+@property --popover-foreground {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: oklch(0.185 0.005 60);
+}
+@property --primary {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: oklch(0.185 0.005 60);
+}
+@property --primary-foreground {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: oklch(0.985 0.004 85);
+}
+@property --secondary {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: oklch(0.945 0.006 85);
+}
+@property --secondary-foreground {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: oklch(0.185 0.005 60);
+}
+@property --muted {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: oklch(0.955 0.005 85);
+}
+@property --muted-foreground {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: oklch(0.505 0.012 65);
+}
+@property --accent {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: oklch(0.52 0.187 39.5);
+}
+@property --accent-foreground {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: oklch(0.99 0.004 85);
+}
+@property --accent-soft {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: oklch(0.955 0.028 45);
+}
+@property --border {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: oklch(0.9 0.008 75);
+}
+@property --hairline {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: oklch(0.878 0.009 75);
+}
+@property --input {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: oklch(0.9 0.008 75);
+}
+@property --ring {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: oklch(0.52 0.187 39.5);
+}
+/* Ink for a CSS-drawn motif. Transparent by default, so a theme opts in just by
+ * giving it a colour, and it fades in and out with the rest of the palette
+ * instead of needing its own layer. */
+@property --motif-ink {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+
+/*
+ * Lives on the always-present app shell, not on a theme class, so the fade runs
+ * both entering and leaving a themed route. oklch interpolation is what makes
+ * navy to sky blue sweep through the hues instead of washing out through grey.
+ */
+.palette-shift {
+  /* Own stacking context, so the decorative layers below can sit at z-index -1:
+   * above this element's background, beneath every bit of content. */
+  isolation: isolate;
+
+  /* Engineering grid. Drawn from --motif-ink, so it is invisible on themes that
+   * leave that transparent and needs no image file. */
+  background-image:
+    linear-gradient(to right, var(--motif-ink) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--motif-ink) 1px, transparent 1px);
+  background-size: 68px 68px;
+  background-attachment: fixed;
+
+  transition:
+    --motif-ink 650ms ease,
+    --background 650ms ease,
+    --foreground 650ms ease,
+    --surface 650ms ease,
+    --card 650ms ease,
+    --card-foreground 650ms ease,
+    --popover 650ms ease,
+    --popover-foreground 650ms ease,
+    --primary 650ms ease,
+    --primary-foreground 650ms ease,
+    --secondary 650ms ease,
+    --secondary-foreground 650ms ease,
+    --muted 650ms ease,
+    --muted-foreground 650ms ease,
+    --accent 650ms ease,
+    --accent-foreground 650ms ease,
+    --accent-soft 650ms ease,
+    --border 650ms ease,
+    --hairline 650ms ease,
+    --input 650ms ease,
+    --ring 650ms ease,
+    background-color 650ms ease;
+}
+
+/*
+ * Each theme's decorative wallpaper gets its own always-present layer, faded in
+ * by opacity. background-image cannot interpolate, so two layers cross-fading
+ * is what keeps the nebula and the food pattern from popping in at full
+ * strength while the palette is still mid-pivot.
+ */
+.palette-shift::before,
+.palette-shift::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 650ms ease;
+}
+
+.palette-shift::before {
+  background-image:
+    radial-gradient(85% 50% at 12% 0%, oklch(0.3 0.07 275 / 0.4), transparent 62%),
+    radial-gradient(65% 42% at 92% 24%, oklch(0.28 0.06 245 / 0.3), transparent 64%);
+}
+
+.palette-shift::after {
+  background-image:
+    linear-gradient(oklch(0.95 0.022 225 / 0.72), oklch(0.95 0.022 225 / 0.72)),
+    url("/pantry-pattern.png");
+  background-size:
+    auto,
+    920px;
+  background-repeat: repeat;
+}
+
+.theme-space::before,
+.theme-pantry::after {
+  opacity: 1;
+}
+
+/*
+ * Shell for the pages that are not case studies: the same night sky as Event
+ * Compass, but keeping the site's burnt orange as its accent so home and about
+ * read as the parent of the three projects rather than a fourth one.
+ */
+.theme-shell {
+  --background: oklch(0.16 0.028 265);
+  --foreground: oklch(0.985 0.005 265);
+  --surface: oklch(0.21 0.034 265);
+  --card: oklch(0.2 0.032 265);
+  --card-foreground: oklch(0.985 0.005 265);
+  --popover: oklch(0.2 0.032 265);
+  --popover-foreground: oklch(0.985 0.005 265);
+  --primary: oklch(0.985 0.005 265);
+  --primary-foreground: oklch(0.16 0.028 265);
+  --secondary: oklch(0.245 0.036 265);
+  --secondary-foreground: oklch(0.985 0.005 265);
+  --muted: oklch(0.245 0.036 265);
+  --muted-foreground: oklch(0.775 0.018 265);
+  --accent: oklch(0.7 0.165 45);
+  --accent-foreground: oklch(0.16 0.028 265);
+  --accent-soft: oklch(0.28 0.06 42);
+  --border: oklch(0.34 0.036 265);
+  --hairline: oklch(0.39 0.038 265);
+  --input: oklch(0.34 0.036 265);
+  --ring: oklch(0.7 0.165 45);
+
+  color: var(--foreground);
+}
+
+html:has(.theme-shell) {
+  background-color: oklch(0.16 0.028 265);
+}
+
+/*
+ * Deep space palette, scoped to the Event Compass case study. Same token names
+ * as :root, so every component inherits it without knowing it exists. Blue and
+ * white, taken from the compass logo, in place of the site's burnt orange.
+ */
+.theme-space {
+  --background: oklch(0.155 0.03 265);
+  --foreground: oklch(0.99 0.004 265);
+  --surface: oklch(0.205 0.036 265);
+  --card: oklch(0.195 0.034 265);
+  --card-foreground: oklch(0.99 0.004 265);
+  --popover: oklch(0.195 0.034 265);
+  --popover-foreground: oklch(0.99 0.004 265);
+  --primary: oklch(0.99 0.004 265);
+  --primary-foreground: oklch(0.155 0.03 265);
+  --secondary: oklch(0.24 0.038 265);
+  --secondary-foreground: oklch(0.99 0.004 265);
+  --muted: oklch(0.24 0.038 265);
+  --muted-foreground: oklch(0.79 0.018 265);
+  --accent: oklch(0.74 0.135 255);
+  --accent-foreground: oklch(0.155 0.03 265);
+  --accent-soft: oklch(0.28 0.06 258);
+  --border: oklch(0.35 0.038 265);
+  --hairline: oklch(0.4 0.04 265);
+  --input: oklch(0.35 0.038 265);
+  --ring: oklch(0.74 0.135 255);
+
+  /* body sets colour from the :root palette and everything without an explicit
+   * colour inherits it, so headings, numerals, and buttons would stay
+   * near-black on navy. Note --foreground, not --color-foreground: @theme
+   * inline bakes the :root value into the --color-* tokens, so only the raw
+   * variable actually re-resolves inside this scope. */
+  /* Nebula wash lives on .palette-shift::before so it can cross-fade. */
+  color: var(--foreground);
+}
+
+/* Keeps overscroll bounce dark instead of flashing the light page canvas. */
+html:has(.theme-space) {
+  background-color: oklch(0.155 0.03 265);
+}
+
+/*
+ * Sky blue kitchen palette, scoped to the Pantry AI case study. The doodle
+ * pattern is the shipped green artwork hue-shifted to blue once, offline, so
+ * there is no runtime filter to fight with the content on top of it.
+ */
+.theme-pantry {
+  --background: oklch(0.95 0.022 225);
+  --foreground: oklch(0.24 0.03 245);
+  --surface: oklch(0.93 0.032 222);
+  --card: oklch(0.995 0.004 225);
+  --card-foreground: oklch(0.24 0.03 245);
+  --popover: oklch(0.995 0.004 225);
+  --popover-foreground: oklch(0.24 0.03 245);
+  --primary: oklch(0.24 0.03 245);
+  --primary-foreground: oklch(0.985 0.006 225);
+  --secondary: oklch(0.91 0.032 222);
+  --secondary-foreground: oklch(0.24 0.03 245);
+  --muted: oklch(0.92 0.028 222);
+  --muted-foreground: oklch(0.46 0.035 240);
+  --accent: oklch(0.55 0.135 235);
+  --accent-foreground: oklch(0.99 0.004 225);
+  --accent-soft: oklch(0.93 0.05 228);
+  --border: oklch(0.83 0.038 225);
+  --hairline: oklch(0.8 0.042 225);
+  --input: oklch(0.83 0.038 225);
+  --ring: oklch(0.55 0.135 235);
+
+  /* Doodle pattern lives on .palette-shift::after so it can cross-fade. */
+  color: var(--foreground);
+}
+
+html:has(.theme-pantry) {
+  background-color: oklch(0.95 0.022 225);
+}
+
+/*
+ * Graphite palette, scoped to the NCR Assistant case study. Near-neutral and
+ * restrained for a factory reporting tool, with a single amber accent that
+ * reads as instrument panel rather than decoration. Its motif is the grid on
+ * .palette-shift, switched on by --motif-ink.
+ */
+.theme-ncr {
+  --background: oklch(0.17 0.006 250);
+  --foreground: oklch(0.98 0.002 250);
+  --surface: oklch(0.215 0.007 250);
+  --card: oklch(0.205 0.007 250);
+  --card-foreground: oklch(0.98 0.002 250);
+  --popover: oklch(0.205 0.007 250);
+  --popover-foreground: oklch(0.98 0.002 250);
+  --primary: oklch(0.98 0.002 250);
+  --primary-foreground: oklch(0.17 0.006 250);
+  --secondary: oklch(0.245 0.007 250);
+  --secondary-foreground: oklch(0.98 0.002 250);
+  --muted: oklch(0.245 0.007 250);
+  --muted-foreground: oklch(0.755 0.008 250);
+  --accent: oklch(0.79 0.145 72);
+  --accent-foreground: oklch(0.17 0.006 250);
+  --accent-soft: oklch(0.28 0.05 66);
+  --border: oklch(0.335 0.008 250);
+  --hairline: oklch(0.385 0.009 250);
+  --input: oklch(0.335 0.008 250);
+  --ring: oklch(0.79 0.145 72);
+  --motif-ink: oklch(0.42 0.01 250 / 0.55);
+
+  color: var(--foreground);
+}
+
+html:has(.theme-ncr) {
+  background-color: oklch(0.17 0.006 250);
+}
+
+/* Mascot float. Small enough to read as breathing, not bouncing. */
+@keyframes bob {
+  50% {
+    transform: translateY(-14px);
+  }
+}
+
+/* The sky turns about Polaris. One rotation drives the whole starfield. */
+@keyframes sky-wheel {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes twinkle {
+  50% {
+    opacity: 0.12;
+  }
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    scroll-behavior: smooth;
+    /* Matches .palette-shift so the overscroll gutter keeps pace. */
+    transition: background-color 650ms ease;
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    letter-spacing: -0.022em;
+    text-wrap: balance;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+}
+
+@utility meta-row {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+
+@utility num {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.03em;
+}
+
+/* Faint ruled column grid, printed-page feel. */
+@utility rule-grid {
+  background-image: linear-gradient(
+    to right,
+    color-mix(in oklab, var(--hairline) 55%, transparent) 1px,
+    transparent 1px
+  );
+  background-size: 25% 100%;
+}
+
+/* Warm paper tone behind a band of content. */
+@utility paper-band {
+  background:
+    radial-gradient(
+        120% 90% at 8% 0%,
+        color-mix(in oklab, var(--accent) 7%, transparent),
+        transparent 62%
+      ),
+    var(--surface);
+}
+
+/* Oversized editorial index numeral. */
+@utility index-num {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.05em;
+  color: color-mix(in oklab, var(--accent) 34%, transparent);
+}
+
+/* Card with a real lift and an accent edge on hover. */
+@utility card-craft {
+  position: relative;
+  transition:
+    transform 380ms cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 380ms cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 380ms ease;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 2px;
+    background: var(--accent);
+    opacity: 0;
+    transform: scaleY(0.3);
+    transform-origin: top;
+    transition:
+      opacity 380ms ease,
+      transform 380ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  &:hover {
+    transform: translateY(-3px);
+    border-color: color-mix(in oklab, var(--accent) 45%, transparent);
+    box-shadow: 0 18px 40px -28px color-mix(in oklab, var(--foreground) 55%, transparent);
+  }
+
+  &:hover::before {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+}
+
+/* Small caps label with an accent tick in front. */
+@utility tick-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+
+  &::before {
+    content: "";
+    width: 1.5rem;
+    height: 1px;
+    background: var(--accent);
+  }
+}
+
+
+
+@utility reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 600ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
+
+  &[data-revealed="true"] {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* Hero collage entrance. Fade and lift only, no spin or slide. */
+@keyframes collage-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+}
+
+@utility collage-in {
+  animation: collage-in 700ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .collage-in {
+    animation: none !important;
+    opacity: 1 !important;
+  }
+}

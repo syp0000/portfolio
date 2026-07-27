@@ -60,6 +60,7 @@ export function CaseStudy({ data }: { data: CaseData }) {
     <article>
       <div className="mx-auto max-w-6xl px-5 pt-16 pb-14 md:px-8 md:pt-24 md:pb-16">
         <Reveal>
+         <div className="relative">
           <ul className="meta-row flex flex-wrap items-center gap-x-3 gap-y-2">
             {data.meta.map((m, i) => (
               <li key={m} className="flex items-center gap-3">
@@ -68,16 +69,15 @@ export function CaseStudy({ data }: { data: CaseData }) {
               </li>
             ))}
           </ul>
-          <div className="relative mt-6">
-            <h1 className="max-w-4xl text-4xl font-semibold md:text-6xl">{data.headline}</h1>
-            {/* Absolute so the mark's size never drives the headline block's
-             * height or indentation, however big it gets. */}
-            {data.mark && (
-              <div className="pointer-events-none absolute right-0 top-1/2 hidden -translate-y-1/2 md:block">
-                {data.mark}
-              </div>
-            )}
-          </div>
+          <h1 className="mt-6 max-w-4xl text-4xl font-semibold md:text-6xl">{data.headline}</h1>
+          {/* Absolute, and centred on the whole intro rather than the headline
+           * alone: a mark taller than the headline would otherwise hang down
+           * over the lede. Never drives layout, however big it gets. */}
+          {data.mark && (
+            <div className="pointer-events-none absolute right-0 top-1/2 hidden -translate-y-1/2 md:block">
+              {data.mark}
+            </div>
+          )}
           <p className="mt-6 max-w-2xl text-lg leading-relaxed text-muted-foreground">
             {data.lede}
           </p>
@@ -103,7 +103,7 @@ export function CaseStudy({ data }: { data: CaseData }) {
               </a>
             )}
           </div>
-
+         </div>
         </Reveal>
       </div>
 

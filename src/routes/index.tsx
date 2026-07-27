@@ -4,6 +4,7 @@ import { ArrowRight, EnvelopeSimple } from "@phosphor-icons/react";
 import { MetricStrip, Section } from "@/components/Blocks";
 import { Reveal } from "@/components/Reveal";
 import { HeroCollage } from "@/components/HeroCollage";
+import { DeviceFrame, frameKind } from "@/components/Frames";
 import { shotImages, shotDims } from "@/lib/shots";
 
 export const Route = createFileRoute("/")({
@@ -58,9 +59,25 @@ function ShotCycle({ files, name, offsetMs }: { files: string[]; name: string; o
 
   const len = files.length;
   const active = step % len;
+  // One kind for the whole card: a project's shots all come off the same device.
+  const kind = frameKind(files[0]);
+  const d = shotDims[files[0]];
+  const phoneRatio = d ? `${d.w} / ${d.h}` : "9 / 16";
 
   return (
-    <div className="relative aspect-[16/9] w-full transition-transform duration-300 ease-out group-hover:scale-[1.02]">
+    <div
+      // A phone stands on the card at its own height, with no surrounding
+      // panel. A browser gets the 16:9 slot and the panel chrome around it.
+      // overflow-hidden on both: the queued slides sit one card-width off to
+      // the right and would otherwise be visible beside the current one.
+      className={`relative w-full overflow-hidden transition-transform duration-300 ease-out group-hover:scale-[1.02] ${
+        kind === "phone"
+          ? // Tall enough to carry the feature card on its own, since it sits
+            // beside the copy rather than above it.
+            "h-[26rem]"
+          : "aspect-[16/9] rounded-md border border-hairline bg-surface"
+      }`}
+    >
       {files.map((f, n) => {
         // Distance forward from the current shot: 0 is on screen, len-1 is the
         // one that just left, everything else waits off to the right.
@@ -71,22 +88,35 @@ function ShotCycle({ files, name, offsetMs }: { files: string[]; name: string; o
         // animating it would drag a stray screenshot across the card.
         const slides = rel === 0 || rel === len - 1;
         return (
-          <img
+          <div
             key={f}
-            src={shotImages[f]}
-            // Only the first carries the alt text: the rest are the same subject
-            // rephrased, and announcing all of them would be noise.
-            alt={n === 0 ? `${name} screenshot` : ""}
-            aria-hidden={n === 0 ? undefined : true}
-            width={shotDims[f]?.w}
-            height={shotDims[f]?.h}
-            loading="lazy"
-            decoding="async"
             style={{ transform: `translateX(${x}%)` }}
-            className={`absolute inset-0 block h-full w-full object-cover object-top ${
+            className={`absolute inset-0 flex items-center justify-center ${
               slides ? "transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]" : ""
             }`}
-          />
+          >
+            <DeviceFrame
+              kind={kind}
+              // A phone stands to the card's full height; its width has to come
+              // from an explicit ratio, or the bezel stretches across the flex
+              // line instead of following the image. A browser just fills.
+              className={kind === "phone" ? "h-full" : "h-full w-full"}
+              style={kind === "phone" ? { aspectRatio: phoneRatio } : undefined}
+            >
+              <img
+                src={shotImages[f]}
+                // Only the first carries the alt text: the rest are the same
+                // subject rephrased, and announcing all would be noise.
+                alt={n === 0 ? `${name} screenshot` : ""}
+                aria-hidden={n === 0 ? undefined : true}
+                width={shotDims[f]?.w}
+                height={shotDims[f]?.h}
+                loading="lazy"
+                decoding="async"
+                className="block h-full w-full object-cover object-top"
+              />
+            </DeviceFrame>
+          </div>
         );
       })}
     </div>
@@ -223,16 +253,20 @@ function Home() {
               delay={i * 60}
               className={p.feature ? "lg:col-span-6" : "flex lg:col-span-3"}
             >
+              {/* The feature card runs side by side: shot at the leading edge,
+               * every line of text in one column beside it. The narrow cards
+               * keep the stacked arrangement, shot above text. */}
               <Link
                 to={p.to}
-                className={`group card-craft flex w-full flex-col overflow-hidden rounded-md border border-hairline bg-card p-6 md:p-8 ${
-                  p.feature ? "lg:grid lg:grid-cols-[1.35fr_1fr] lg:gap-12" : ""
+                className={`group card-craft flex w-full overflow-hidden rounded-md border border-hairline bg-card p-6 md:p-8 ${
+                  p.feature ? "flex-col lg:flex-row lg:items-center lg:gap-12" : "flex-col"
                 }`}
               >
-                <div className="min-w-0">
-                  <div className="mb-6 overflow-hidden rounded-md border border-hairline bg-surface">
-                    <ShotCycle files={p.thumbs} name={p.name} offsetMs={i * 900} />
-                  </div>
+                <div className={p.feature ? "mb-6 shrink-0 lg:mb-0 lg:w-72" : "mb-6"}>
+                  <ShotCycle files={p.thumbs} name={p.name} offsetMs={i * 900} />
+                </div>
+
+                <div className="flex min-w-0 flex-1 flex-col">
                   <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
                     <div className="flex items-baseline gap-3">
                       <span className="index-num text-2xl font-medium md:text-3xl">
@@ -246,12 +280,12 @@ function Home() {
                   <p className="mt-5 text-[1.05rem] font-semibold leading-relaxed md:text-xl">
                     {p.problem}
                   </p>
-                </div>
-                <div className="mt-6 flex min-w-0 flex-col justify-between lg:mt-0">
-                  <p className="text-[0.975rem] leading-relaxed text-muted-foreground">
+                  <p className="mt-4 text-[0.975rem] leading-relaxed text-muted-foreground">
                     {p.outcome}
                   </p>
-                  <div className="mt-7">
+                  {/* mt-auto pins the footer down, so the narrow cards end at
+                   * the same line however long their copy runs. */}
+                  <div className="mt-auto pt-7">
                     <p className="num text-xs text-muted-foreground">{p.stack}</p>
                     <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-accent">
                       Read the case

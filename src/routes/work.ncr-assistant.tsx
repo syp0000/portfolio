@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { CaseStudy, type CaseData } from "@/components/CaseStudy";
 import { NcrDiagram } from "@/components/Diagrams";
+import { StandingShot } from "@/components/Frames";
 
 import { shotImages } from "@/lib/shots";
 import ncrDemo from "@/assets/ncr-demo.mp4.asset.json";
@@ -31,6 +32,7 @@ export const Route = createFileRoute("/work/ncr-assistant")({
 const data: CaseData = {
   meta: ["In production", "2026", "LSP USA", "Sole engineer"],
   headline: "Ten minutes on paper, three minutes on a phone.",
+  mark: <StandingShot file="ncr-01-form.jpg" className="h-80" />,
   repoUrl: "https://github.com/syp0000/Demo_ncr",
 
   lede: "Nonconformance reports on the battery line were still being written by hand, passed around verbally, and entered again later. I noticed the problem while working on root cause analysis and built a tool to replace that process, even though nobody had asked me to.",
@@ -125,10 +127,8 @@ const data: CaseData = {
       "A thirty second walkthrough: filling a work completion report, polishing the free text, the duplicate guard refusing a repeat entry, and the saved record in the log.",
   },
   shotCols: 3,
-  fullBleed: {
-    file: "ncr-01-form.jpg",
-    caption: "The form an operator lead fills out at the station, on a phone, in about three minutes.",
-  },
+  // No full-bleed hero: the form sits beside the headline as the mark instead,
+  // and appears again at readable size in the grid below.
   shots: [
     {
       file: "ncr-01-form.jpg",

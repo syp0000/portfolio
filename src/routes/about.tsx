@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { Section } from "@/components/Blocks";
 import { Reveal } from "@/components/Reveal";
@@ -59,28 +60,66 @@ const timeline = [
   },
 ];
 
+/**
+ * Circular portrait. A muted, looping, controlless video behaves like a GIF but
+ * at a fraction of the bytes and without the 256 colour ceiling. Paused for
+ * anyone who asked for reduced motion, since CSS cannot stop playback.
+ */
+function Portrait() {
+  const ref = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) ref.current?.pause();
+  }, []);
+
+  return (
+    <figure className="flex flex-col items-center gap-3">
+      <video
+        ref={ref}
+        src="/me_smile.mp4"
+        aria-label="Siyeon Park"
+        autoPlay
+        loop
+        muted
+        playsInline
+        preload="metadata"
+        className="size-48 rounded-full border border-hairline bg-surface object-cover shadow-[0_24px_50px_-28px_rgb(0_0_0/0.6)] md:size-64"
+      />
+      <figcaption className="meta-row max-w-[16rem] text-center leading-relaxed">
+        AI generated with Gemini, so the real face may differ
+      </figcaption>
+    </figure>
+  );
+}
+
 function About() {
   return (
     <div>
       <Section className="pb-10 md:pb-12">
-        <Reveal>
-          <h1 className="max-w-4xl text-4xl font-semibold leading-[1.08] md:text-6xl">
-            I spot operational problems and build the fix.
-          </h1>
-        </Reveal>
-        <Reveal delay={60}>
+        <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-start lg:gap-16">
+         <div>
+          <Reveal>
+            <h1 className="max-w-4xl text-4xl font-semibold leading-[1.08] md:text-6xl">
+              I spot operational problems and build the fix.
+            </h1>
+          </Reveal>
+          <Reveal delay={60}>
           <div className="mt-10 max-w-2xl space-y-6 text-[1.0625rem] leading-relaxed text-foreground/80">
             <p>
-              I'm a software engineer with a background in data science, working directly with users on a manufacturing
-              floor. I found a real operational business problem and built a solution without being asked.
+              I’m a software engineer with a background in data science. I currently work directly with users on a manufacturing floor, where I found a real workflow problem and built a solution without being asked.
             </p>
             <p>
-              I’m good at bridging technical systems and the people who rely on them, using sound judgment to turn
-              problems into solutions people will actually adopt.
+              I like learning new technologies and picking up unfamiliar systems quickly. At the same time, I try to understand the problem before deciding what to build. I care about whether a solution makes sense for the people who will actually use it.
             </p>
-            <p>I am looking for new grad software engineering and forward deployed engineering roles.</p>
+            <p>I’m looking for new grad software engineering and forward deployed engineering roles where I can keep learning and solve real problems.</p>
+            <p>Outside of work, I like to cook and travel. I also smile a lot.</p>
           </div>
-        </Reveal>
+          </Reveal>
+         </div>
+         <Reveal delay={120} className="order-first lg:order-none">
+           <Portrait />
+         </Reveal>
+        </div>
       </Section>
 
       <Section className="pt-0">

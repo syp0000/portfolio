@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { CaseStudy, type CaseData } from "@/components/CaseStudy";
 import { CompassDiagram, CompassMark } from "@/components/Diagrams";
+import { StandingShot } from "@/components/Frames";
 import demoVideo from "@/assets/event-compass-demo.mp4.asset.json";
 import { shotImages } from "@/lib/shots";
 
@@ -30,7 +31,18 @@ const data: CaseData = {
   meta: ["Senior capstone", "2025", "Team of 5", "University Program Board"],
   headline: "Everything the planner sees first.",
   // The logo's navy blue disappears against the space palette, so lift it.
-  mark: <CompassMark className="h-96 w-96 brightness-[2.3] saturate-150" />,
+  mark: (
+    <div className="relative h-80 w-80">
+      {/* Tucked low and to the right, behind the compass. Smaller than the mark
+       * so it reads as a detail hanging off it, not a second subject. */}
+      <StandingShot
+        file="ec-01-insights.jpg"
+        alt="Campus Insights, the landing dashboard"
+        className="absolute left-40 top-52 z-0 h-32"
+      />
+      <CompassMark className="relative z-10 h-80 w-80 -translate-y-8 brightness-[2.3] saturate-150" />
+    </div>
+  ),
   repoUrl: "https://github.com/syp0000/EventCompass",
 
   lede: "The University Program Board runs some of the biggest events on campus, but planning often depended on what previous organizers happened to remember. For Event Compass, I built the data foundation behind the planner dashboard, turning a raw Qualtrics export into reliable analytics planners could actually use.",
@@ -169,10 +181,8 @@ const data: CaseData = {
     caption:
       "A one minute walkthrough of the real system: Campus Insights, guided intake, concept generation, the eight tab plan, live product search inside the shopping list, and the Forecast tab.",
   },
-  fullBleed: {
-    file: "ec-01-insights.jpg",
-    caption: "Campus Insights, the landing dashboard that reads from the cleaned survey dataset.",
-  },
+  // No full-bleed hero: Campus Insights rides beside the compass at the top,
+  // and still opens the shot grid below at full size.
   shots: [
     {
       file: "ec-01-insights.jpg",

@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { Reveal } from "./Reveal";
 import { shotImages, shotDims } from "@/lib/shots";
 import { CountUp } from "./CountUp";
+import { DeviceFrame, frameKind } from "./Frames";
 
 export type Metric = { value: string; label: string };
 
@@ -194,23 +195,21 @@ export function ScreenshotSlot({
   ) : null;
 
   if (src) {
-    const isPortrait = dims ? dims.h > dims.w : false;
+    const kind = frameKind(file);
     return (
-      <figure
-        className={`overflow-hidden rounded-md border border-hairline bg-surface ${
-          isPortrait ? "mx-auto w-full max-w-[360px]" : ""
-        }`}
-      >
-        <img
-          src={src}
-          alt={caption}
-          loading="lazy"
-          decoding="async"
-          width={dims?.w}
-          height={dims?.h}
-          className="block h-auto w-full bg-surface object-contain"
-        />
-        <figcaption className="border-t border-hairline px-5 py-4 text-left text-sm leading-relaxed text-muted-foreground">
+      <figure className={kind === "phone" ? "mx-auto w-full max-w-[320px]" : ""}>
+        <DeviceFrame kind={kind}>
+          <img
+            src={src}
+            alt={caption}
+            loading="lazy"
+            decoding="async"
+            width={dims?.w}
+            height={dims?.h}
+            className="block h-auto w-full bg-surface object-contain"
+          />
+        </DeviceFrame>
+        <figcaption className="mt-4 text-left text-sm leading-relaxed text-muted-foreground">
           {ownerTag}
           {caption}
         </figcaption>
@@ -303,15 +302,17 @@ export function FullBleedShot({ file, caption }: { file: string; caption: string
     <Reveal as="section" className="py-16 md:py-24">
       <figure>
         <div className="flex justify-center px-5 md:px-8">
-          <img
-            src={src}
-            alt={caption}
-            width={dims?.w}
-            height={dims?.h}
-            loading="lazy"
-            decoding="async"
-            className="block max-h-[80vh] w-auto max-w-full rounded-md border border-hairline bg-surface object-contain shadow-[0_40px_80px_-50px_color-mix(in_oklab,var(--color-foreground)_60%,transparent)]"
-          />
+          <DeviceFrame kind={frameKind(file)} className="max-w-full">
+            <img
+              src={src}
+              alt={caption}
+              width={dims?.w}
+              height={dims?.h}
+              loading="lazy"
+              decoding="async"
+              className="block max-h-[75vh] w-auto max-w-full bg-surface object-contain"
+            />
+          </DeviceFrame>
         </div>
         <figcaption className="mx-auto mt-6 max-w-6xl px-5 text-sm leading-relaxed text-muted-foreground md:px-8">
           {caption}

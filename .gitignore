@@ -34,3 +34,6 @@ dist-ssr
 # Local Claude Code settings
 .claude/settings.local.json
 .vercel
+
+# Raw pasta scans, unreferenced; keep out of the repo
+public/pasta/[0-9].png

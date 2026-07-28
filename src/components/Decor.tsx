@@ -302,165 +302,97 @@ export function CursorFollower({ kind }: { kind: CursorKind }) {
 }
 
 /**
- * Pantry AI's answer to the Big Dipper: the life of one meal, drawn as the
- * line-art doodles the pantry wallpaper already speaks. Six stages, top to
- * bottom, lit by scroll progress; the payoff line lands at the end of the
- * page. Every path strokes currentColor, so each stage renders twice: a muted
- * base and an accent copy fading in as the reader reaches it.
+ * PantryAI food journey: loose hand-drawn line art travelling a soft S down
+ * the band beside the case study. Phase 1, pantry ingredients surface
+ * scattered along the top of the S; phase 2, they drift toward the middle and
+ * hand off to a brief swirl of pasta on a fork; phase 3, everything resolves
+ * into one finished plate that holds. Scroll owns all of it, nothing loops,
+ * and there is not a word of text: the picture is the explanation.
+ *
+ * Ingredients stay lighter than body copy; the plate alone gets to be darker,
+ * being the point of the story. Reduced motion swaps the choreography for a
+ * static composition of ingredients leading to the plate.
  */
-const JOURNEY = [
-  {
-    y: 24,
-    label: "ingredients",
-    art: (
-      <g fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
-        {/* Paper-wrapped spaghetti bundle, on the diagonal */}
-        <path d="M-19 -17 L-13 -2 M-16.5 -18 L-11 -2.5 M-14 -18.5 L-9 -3 M-11.5 -18 L-7 -3 M-21 -15.5 L-15 -1.5" />
-        <path d="M-17 -6 L-5 -9 L-4 -3 L-16 0 Z" />
-        <path d="M-16 -3 L-5 -6" strokeWidth="0.7" />
-        <path d="M-15 0 L-11 13 M-13 -0.5 L-9 13.5 M-11 -1 L-7 13 M-9 -1.7 L-5 12 M-7 -2.2 L-2 11" />
-        {/* Garlic bulb, clove lines and a little hatching */}
-        <path d="M10 -19 C8.6 -16.5 5 -16 4.3 -12.2 C3.7 -8.8 6.5 -6.3 10 -6.3 C13.5 -6.3 16.3 -8.8 15.7 -12.2 C15 -16 11.4 -16.5 10 -19 Z" />
-        <path d="M8.2 -6.6 C8 -10 8.6 -13.5 10 -19 M12 -6.6 C12.2 -10 11.6 -13.5 10 -19" strokeWidth="0.7" />
-        <path d="M8 -6.3 l-0.5 1.4 M10 -6.2 l0 1.5 M12 -6.3 l0.5 1.4" strokeWidth="0.7" />
-        <path d="M6.3 -8.6 q-0.8 -2.2 0 -4.2 M13.9 -8.8 q0.8 -2.2 0 -4.1" strokeWidth="0.7" />
-        {/* Tomato with star calyx and a highlight */}
-        <path d="M4 5 C4 1.6 6.6 -0.9 10 -0.9 C13.4 -0.9 16.1 1.7 16 5 C15.9 8.4 13.3 11 9.9 10.9 C6.5 10.8 4 8.3 4 5 Z" />
-        <path d="M10 -0.9 l-3.2 -1.7 M10 -0.9 l-1.2 -3 M10 -0.9 l1.4 -2.9 M10 -0.9 l3.3 -1.5" strokeWidth="0.9" />
-        <path d="M6.4 3.2 q0.5 -1.9 2.1 -2.7" strokeWidth="0.7" />
-        {/* Basil, two veined leaves */}
-        <path d="M-8 17.5 C-6 12.5 -1 11 3 13.5 C1.5 18.5 -3.5 20.5 -8 17.5 Z" />
-        <path d="M-6.5 17 C-4 14.5 -1 13.5 2 13.8" strokeWidth="0.7" />
-        <path d="M-4.8 15.8 l-0.8 1.7 M-2.4 14.6 l-0.7 1.9 M-0.2 13.9 l-0.5 1.9" strokeWidth="0.7" />
-        <path d="M4.5 16.2 C6.3 13 10.2 12.4 12.8 14.2 C11.6 17.6 7.9 18.8 4.5 16.2 Z" />
-        <path d="M5.8 16 C8.2 14.2 10.6 14 12.1 14.4" strokeWidth="0.7" />
-      </g>
-    ),
-  },
-  {
-    y: 88,
-    label: "prep",
-    art: (
-      <g fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
-        {/* Wooden board with grain and a handle hole */}
-        <path d="M-16 4 L12 3.4 Q15.5 3.4 15.6 6.8 L15.8 11.6 Q15.8 14.8 12.4 14.9 L-13 15.4 Q-16.4 15.4 -16.3 12 Z" />
-        <path d="M-13 8 q6 -1 12 0 t10 0.4 M-12 11.6 q6 1 12 0 t9 -0.6" strokeWidth="0.7" />
-        <circle cx="12.6" cy="9" r="1.2" strokeWidth="0.9" />
-        {/* Chef's knife, riveted handle */}
-        <path d="M-15 -8.8 L2.5 -9.4 C1.8 -5.4 -1.5 -3.4 -6 -3.6 L-12.6 -4.4 C-15 -5.2 -15.8 -7 -15 -8.8 Z" />
-        <path d="M2.6 -9.6 L13 -10.1 Q14.8 -10.2 14.7 -8.4 Q14.6 -6.6 12.8 -6.6 L2.9 -6.9 Z" />
-        <circle cx="6.2" cy="-8.4" r="0.45" fill="currentColor" stroke="none" />
-        <circle cx="10.6" cy="-8.6" r="0.45" fill="currentColor" stroke="none" />
-        {/* Chopped tomato, seeds in the wedges */}
-        <path d="M-8 7.6 l2.6 -1.4 l0.8 2.6 l-2.8 0.7 Z M-1 9.6 l2.4 -1.2 l1 2.4 l-2.7 0.8 Z M6 7 l2.2 -1 l0.9 2.2 l-2.5 0.7 Z" strokeWidth="0.9" />
-        <circle cx="-6.6" cy="7.9" r="0.35" fill="currentColor" stroke="none" />
-        <circle cx="0.4" cy="9.8" r="0.35" fill="currentColor" stroke="none" />
-        <circle cx="7.2" cy="7.5" r="0.35" fill="currentColor" stroke="none" />
-      </g>
-    ),
-  },
-  {
-    y: 152,
-    label: "boil",
-    art: (
-      <g fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
-        {/* Stock pot, doubled rim, loop handles */}
-        <path d="M-14.5 -4 Q0 -5.6 14.5 -4 M-14.5 -4 Q0 -2.6 14.5 -4" />
-        <path d="M-13 -3.9 C-13.4 3 -12.6 8.4 -10.6 10.6 Q-5 12.4 0 12.4 Q5 12.4 10.6 10.6 C12.6 8.4 13.4 3 13 -3.9" />
-        <path d="M-13.2 -1.5 Q-17.5 -1 -16.8 2 Q-16.2 4.4 -13.1 3.4 M13.2 -1.5 Q17.5 -1 16.8 2 Q16.2 4.4 13.1 3.4" />
-        {/* Spaghetti fanned into the water, bubbles at the line */}
-        <path d="M-4 -4 L-8 -19 M-1.5 -4 L-2.5 -20 M1 -4 L3.5 -19.5 M3.5 -4 L9 -18 M6 -4.4 L13 -15.5" />
-        <circle cx="-8" cy="-2.4" r="0.8" strokeWidth="0.7" />
-        <circle cx="7" cy="-1.2" r="0.8" strokeWidth="0.7" />
-        <circle cx="0" cy="-0.8" r="0.8" strokeWidth="0.7" />
-        {/* Steam curls */}
-        <path d="M-15.5 -9 C-18 -12 -15 -14.5 -17 -17.5 M17 -8 C19.5 -11 16.5 -13.5 18.5 -16.5" strokeWidth="0.9" />
-      </g>
-    ),
-  },
-  {
-    y: 216,
-    label: "sauce",
-    art: (
-      <g fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
-        {/* Saucepan, doubled rim, gripped handle */}
-        <path d="M-17.6 -2.2 L7.6 -2.7 M-17 -2.2 C-17.4 2 -16.6 5.2 -14.6 7.2 Q-6 9 4.6 7.4 C6.8 5.6 7.6 2.4 7.2 -2.5" />
-        <path d="M7.4 -2.6 L20 -3.7 Q21.6 -3.8 21.5 -2.2 Q21.4 -0.7 19.8 -0.6 L7.6 0.3" />
-        <path d="M16.4 -3.2 l-0.2 2.4 M18.6 -3.4 l-0.2 2.5" strokeWidth="0.7" />
-        {/* Bolognese: wavy surface, stippled, one basil leaf */}
-        <path d="M-15 0.6 Q-12 -1.2 -9 0.6 T-3 0.6 T3 0.6" strokeWidth="0.9" />
-        <circle cx="-12" cy="2.8" r="0.4" fill="currentColor" stroke="none" />
-        <circle cx="-8" cy="3.8" r="0.4" fill="currentColor" stroke="none" />
-        <circle cx="-4" cy="2.6" r="0.4" fill="currentColor" stroke="none" />
-        <circle cx="0" cy="3.6" r="0.4" fill="currentColor" stroke="none" />
-        <circle cx="3" cy="2.4" r="0.4" fill="currentColor" stroke="none" />
-        <circle cx="-10" cy="5.4" r="0.4" fill="currentColor" stroke="none" />
-        <circle cx="-2" cy="5.8" r="0.4" fill="currentColor" stroke="none" />
-        <path d="M-7 3.6 c1.4 -1.8 3.6 -1.8 4.6 -0.4 c-1.2 1.6 -3.4 1.8 -4.6 0.4 Z" strokeWidth="0.9" />
-        {/* Steam curls */}
-        <path d="M-8 -6 C-10 -9 -7.5 -11 -9.5 -14 M0 -6.5 C-2 -9.5 0.5 -11.5 -1.5 -14.5" strokeWidth="0.9" />
-      </g>
-    ),
-  },
-  {
-    y: 280,
-    label: "plate",
-    art: (
-      <g fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
-        {/* Plate, fork left, spoon right, like a recipe card */}
-        <path d="M-12.5 0 C-12.5 -7 -7 -12.6 0 -12.5 C7 -12.4 12.6 -7 12.5 0 C12.4 7 7 12.6 0 12.5 C-7 12.4 -12.5 7 -12.5 0 Z" />
-        {/* Noodle nest with strand texture */}
-        <path d="M-9.5 0.5 C-9 -5.5 -4.5 -9.6 1 -9.2 C6.5 -8.8 9.8 -4.6 9.3 0.8 C8.8 5.8 4.4 9.6 -0.8 9.3 C-5.8 9 -9.8 5.4 -9.5 0.5 Z" strokeWidth="0.9" />
-        <path d="M-8 -3 q2 -1.6 4.2 -0.6 M-3 -7.5 q2.4 -1 4.6 0.2 M4 -6.5 q2 0.8 2.8 3 M7 1.5 q-0.4 2.6 -2.6 4 M1 7.6 q-2.6 0.6 -4.8 -0.8 M-7 4 q-1.4 -2 -1.2 -4.4" strokeWidth="0.7" />
-        {/* Sauce blob, stippled, basil on top */}
-        <path d="M-4.5 -0.5 C-4 -3.8 -1 -5.4 2 -4.6 C4.8 -3.9 5.6 -1 4.6 1.6 C3.6 4 0.4 5 -2.2 4 C-4.4 3.2 -5 1.4 -4.5 -0.5 Z" strokeWidth="0.9" />
-        <circle cx="-2" cy="-1.5" r="0.35" fill="currentColor" stroke="none" />
-        <circle cx="1" cy="-2.4" r="0.35" fill="currentColor" stroke="none" />
-        <circle cx="2.6" cy="0" r="0.35" fill="currentColor" stroke="none" />
-        <circle cx="0.4" cy="1.8" r="0.35" fill="currentColor" stroke="none" />
-        <circle cx="-2.6" cy="1.2" r="0.35" fill="currentColor" stroke="none" />
-        <path d="M0 -3.4 c0.8 -1.6 2.6 -2 3.6 -1 c-0.6 1.4 -2.4 1.9 -3.6 1 Z" strokeWidth="0.9" />
-        {/* Fork */}
-        <path d="M-21 -9 V-4.6 M-19.7 -9.4 V-4.6 M-18.3 -9.4 V-4.6 M-17 -9 V-4.6" strokeWidth="0.9" />
-        <path d="M-21 -4.6 L-20.4 -1.5 L-17.6 -1.5 L-17 -4.6 M-19 -1.5 V9.5" />
-        {/* Spoon */}
-        <path d="M19 -9.5 C21.3 -9.5 22.6 -7.2 22.4 -4.8 C22.2 -2.6 20.8 -1.2 19 -1.2 C17.2 -1.2 15.8 -2.6 15.6 -4.8 C15.4 -7.2 16.7 -9.5 19 -9.5 Z" />
-        <path d="M19 -1.2 V9.5" />
-      </g>
-    ),
-  },
-  {
-    y: 344,
-    label: "done",
-    art: (
-      <g fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
-        {/* Clean plate, inner ring, faint sauce traces and crumbs */}
-        <path d="M-12.5 0 C-12.5 -7 -7 -12.6 0 -12.5 C7 -12.4 12.6 -7 12.5 0 C12.4 7 7 12.6 0 12.5 C-7 12.4 -12.5 7 -12.5 0 Z" />
-        <path d="M-8 0 C-8 -4.5 -4.5 -8.1 0 -8 C4.5 -7.9 8.1 -4.5 8 0 C7.9 4.5 4.5 8.1 0 8 C-4.5 7.9 -8 4.5 -8 0 Z" strokeWidth="0.8" opacity="0.7" />
-        <path d="M-4 2 q2 1.7 5 0.7 M-1 -3.4 q2.2 0.4 3.4 2" strokeWidth="0.7" />
-        <circle cx="-4.6" cy="-1.6" r="0.35" fill="currentColor" stroke="none" />
-        <circle cx="3.4" cy="4" r="0.35" fill="currentColor" stroke="none" />
-        {/* Cutlery laid together across the plate: finished */}
-        <path d="M-6.5 8 L4.5 -5 M4.5 -5 l0.6 -3 M4.5 -5 l2 -2.4 M4.5 -5 l3 -1.2" />
-        <path d="M-9 3.6 L2 -9" />
-        <path d="M-8.2 4.4 L-4 -0.6" strokeWidth="0.7" />
-        {/* The shine of a plate used well */}
-        <path d="M13.5 -16.5 V-9.5 M10 -13 H17" strokeWidth="0.9" />
-        <circle cx="16.5" cy="-8" r="0.4" fill="currentColor" stroke="none" />
-      </g>
-    ),
-  },
+const smooth = (t: number) => (t <= 0 ? 0 : t >= 1 ? 1 : t * t * (3 - 2 * t));
+
+/** Shared ink, one stroke weight throughout. */
+function Ink({ children }: { children: React.ReactNode }) {
+  return (
+    <g fill="none" stroke="var(--accent)" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round">
+      {children}
+    </g>
+  );
+}
+
+const ING_ART = {
+  bundle: (
+    <Ink>
+      <path d="M-5 -14 L0 13 M-2 -15 L3 12 M1 -15 L6 12 M4 -14 L9 11" />
+      <path d="M-7 -3 L6 -6 L7 0 L-6 3 Z" />
+    </Ink>
+  ),
+  tomatoes: (
+    <Ink>
+      <circle cx="-4" cy="2" r="3.4" />
+      <circle cx="3.5" cy="4" r="2.8" />
+      <circle cx="1" cy="-3.5" r="3" />
+      <path d="M-4 -1.4 l-1 -1.6 M1 -6.5 l0.8 -1.6 M3.5 1.2 l1.2 -1.4" />
+    </Ink>
+  ),
+  pepper: (
+    <Ink>
+      <path d="M0 -8 C-6 -8 -8 -2 -7 3 C-6 8 -3 10.5 0 10.5 C3 10.5 6 8 7 3 C8 -2 6 -8 0 -8 Z" />
+      <path d="M-2.5 10 C-2.6 4 -2.6 -2 -1.6 -7.6 M2.5 10 C2.6 4 2.6 -2 1.6 -7.6" />
+      <path d="M0 -8 C0.2 -10 -0.8 -11 -1.8 -12.2 M-3 -9.6 q3 -1.4 6 0" />
+    </Ink>
+  ),
+  basil: (
+    <Ink>
+      <path d="M-9 2 C-7 -3 -2 -4.5 2 -2 C0.5 3 -4.5 5 -9 2 Z" />
+      <path d="M-7.5 1.6 C-5 -0.9 -2 -1.9 1 -1.6" />
+      <path d="M2 3.5 C4 0.3 8 -0.3 10.5 1.5 C9.4 4.9 5.6 6.1 2 3.5 Z" />
+      <path d="M3.4 3.4 C5.8 1.6 8.2 1.4 9.7 1.8" />
+    </Ink>
+  ),
+  oil: (
+    <Ink>
+      <path d="M-2.5 -13 h5 v3.5 c3 1.5 4.5 4 4.5 7 v11.5 a2.5 2.5 0 0 1 -2.5 2.5 h-9 a2.5 2.5 0 0 1 -2.5 -2.5 v-11.5 c0 -3 1.5 -5.5 4.5 -7 z" />
+      <path d="M-3.2 -14.6 h6.4 M-6 3 q3 -1.4 6 0 t6 0" />
+    </Ink>
+  ),
+  swirl: (
+    <Ink>
+      <path d="M0 13 V0 M-3 -10 V-2.5 M0 -11 V-2.5 M3 -10 V-2.5 M-3 -2.5 Q0 0 3 -2.5" />
+      <path d="M-7 -7 A7 5.6 0 1 0 7 -8 M5.5 -10.5 A4.5 3.6 0 1 1 -4.5 -9" />
+    </Ink>
+  ),
+  plate: (
+    <Ink>
+      <path d="M-15 0 C-15 -8.5 -8.5 -15.2 0 -15 C8.8 -14.8 15.2 -8.3 15 0 C14.8 8.6 8.4 15.2 0 15 C-8.6 14.8 -15 8.4 -15 0 Z" />
+      <path d="M-9.5 0.5 C-9 -5.3 -4.5 -9.4 1 -9 C6.4 -8.6 9.7 -4.5 9.2 0.8 C8.7 5.7 4.3 9.4 -0.8 9.1 C-5.7 8.8 -9.7 5.3 -9.5 0.5 Z" opacity="0.75" />
+      <path d="M-7.5 -3 q2 -1.7 4.3 -0.6 M-2.5 -7 q2.4 -1 4.6 0.2 M4.5 -5.5 q2 0.9 2.7 3 M6.5 2 q-0.4 2.5 -2.5 3.9 M0.5 7.3 q-2.6 0.6 -4.7 -0.8 M-6.6 3.8 q-1.4 -2 -1.1 -4.2" opacity="0.75" />
+      <path d="M-0.5 -2.5 c0.8 -1.6 2.6 -2 3.6 -1 c-0.6 1.4 -2.4 1.9 -3.6 1 Z" />
+    </Ink>
+  ),
+};
+
+/** Rest pose on the S, entry drift, and the progress marks of each life. */
+const INGREDIENTS = [
+  { art: ING_ART.bundle, x: 60, y: 42, r: -6, enter: 0.03, fade: 0.46, drift: 14 },
+  { art: ING_ART.tomatoes, x: 33, y: 82, r: 5, enter: 0.08, fade: 0.54, drift: 12 },
+  { art: ING_ART.pepper, x: 63, y: 116, r: 7, enter: 0.14, fade: 0.5, drift: 13 },
+  { art: ING_ART.basil, x: 29, y: 146, r: -8, enter: 0.11, fade: 0.57, drift: 12 },
+  { art: ING_ART.oil, x: 59, y: 176, r: 4, enter: 0.21, fade: 0.59, drift: 14 },
 ] as const;
 
-/**
- * One stage at a time: each drawing dissolves upward as the next rises into
- * its place, a slow lantern-slide of the meal's life. Scroll owns the
- * crossfade, so scrubbing back replays it in reverse.
- */
+const CENTER = { x: 46, y: 208 };
+
 export function PantryJourney() {
   const [progress, setProgress] = useState(0);
+  const [reduced, setReduced] = useState(false);
 
   useEffect(() => {
+    setReduced(window.matchMedia("(prefers-reduced-motion: reduce)").matches);
     const onScroll = () => {
       const max = document.documentElement.scrollHeight - window.innerHeight;
       setProgress(max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0);
@@ -470,85 +402,58 @@ export function PantryJourney() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Fractional stage position. Adjacent opacities sum to one, so the fade of
-  // one drawing is exactly the arrival of the next.
-  const pos = progress * (JOURNEY.length - 1);
-  const payoff = Math.min(1, Math.max(0, (progress - 0.78) / 0.22));
+  // Reduced motion: a still life, ingredients leading to the plate.
+  const p = reduced ? null : progress;
+
+  const swirlIn = p === null ? 0 : smooth((p - 0.36) / 0.1);
+  const swirlOut = p === null ? 1 : smooth((p - 0.62) / 0.1);
+  const plateIn = p === null ? 1 : smooth((p - 0.6) / 0.16);
 
   return (
     <div
       aria-hidden="true"
       className="pointer-events-none fixed inset-y-0 left-0 z-0 hidden w-[25vw] lg:flex lg:items-center lg:justify-center"
     >
-      <svg viewBox="0 0 100 190" className="max-h-[88vh] w-full overflow-visible">
-        {JOURNEY.map((s, i) => {
-          const t = Math.max(-1, Math.min(1, pos - i));
-          const o = 1 - Math.min(1, Math.abs(pos - i));
+      <svg viewBox="0 0 100 380" className="max-h-[90vh] w-full overflow-visible">
+        {INGREDIENTS.map((g) => {
+          // Each ingredient: drifts up into its rest pose, later slides toward
+          // the centre of the S and fades. Staggered marks keep the five from
+          // ever moving as one.
+          const a = p === null ? 1 : smooth((p - g.enter) / 0.09);
+          const f = p === null ? 0 : smooth((p - g.fade) / 0.12);
+          const c = p === null ? 0 : smooth((p - 0.44) / 0.2);
+          const o = a * (1 - f) * (p === null ? 0.55 : 0.75);
           if (o <= 0.01) return null;
+          const x = g.x + (CENTER.x - g.x) * c * 0.8;
+          const y = g.y + g.drift * (1 - a) + (CENTER.y - g.y) * c * 0.8;
+          const r = g.r * (1 - a * 0.4) + c * 6;
           return (
-            <g
-              key={s.label}
-              opacity={o}
-              // Incoming stage rises from below centre, outgoing drifts above,
-              // easing scale slightly so the handoff breathes.
-              transform={`translate(50 ${80 - t * 14}) scale(${2.05 * (1 - Math.abs(t) * 0.08)})`}
-            >
-              {s.art}
+            <g key={g.x + "-" + g.y} opacity={o} transform={`translate(${x} ${y}) rotate(${r}) scale(1.25)`}>
+              {g.art}
             </g>
           );
         })}
 
-        {JOURNEY.map((s, i) => {
-          const t = Math.max(-1, Math.min(1, pos - i));
-          // Sharper falloff than the art, and drifting with it, so two labels
-          // never sit superimposed mid-handoff.
-          const o = Math.max(0, 1 - 2 * Math.abs(pos - i));
-          if (o <= 0.01) return null;
-          return (
-            <text
-              key={s.label}
-              x="50"
-              y={150 - t * 7}
-              textAnchor="middle"
-              fontSize="4"
-              letterSpacing="0.22em"
-              fill="var(--muted-foreground)"
-              opacity={o * 0.85}
-              style={{ fontFamily: "var(--font-mono)" }}
-            >
-              {`0${i + 1} \u00b7 ${s.label.toUpperCase()}`}
-            </text>
-          );
-        })}
+        {/* The brief middle beat: pasta on the fork, mixing */}
+        {swirlIn > 0.01 && swirlOut < 0.99 && (
+          <g
+            opacity={swirlIn * (1 - swirlOut) * 0.85}
+            transform={`translate(${CENTER.x} ${CENTER.y}) rotate(${-6 + 12 * (p ?? 0.5)}) scale(${1.2 + swirlIn * 0.25})`}
+          >
+            {ING_ART.swirl}
+          </g>
+        )}
 
-        {/* Pager: which frame of six is on screen */}
-        {JOURNEY.map((s, i) => {
-          const active = 1 - Math.min(1, Math.abs(pos - i));
-          return (
-            <circle
-              key={s.label}
-              cx={50 + (i - 2.5) * 6}
-              cy="161"
-              r={1 + active * 0.6}
-              fill="var(--accent)"
-              opacity={0.25 + active * 0.65}
-            />
-          );
-        })}
-
-        {/* The point of the pantry, spelled out once the plate is clean. */}
-        <text
-          x="50"
-          y="174"
-          textAnchor="middle"
-          fontSize="3.6"
-          letterSpacing="0.18em"
-          fill="var(--accent)"
-          opacity={payoff * 0.9}
-          style={{ fontFamily: "var(--font-mono)" }}
-        >
-          USED WELL, NOT WASTED
-        </text>
+        {/* The meal. Alone on the page by the time it settles, and the one
+            drawing allowed to be darker than the rest. */}
+        {plateIn > 0.01 && (
+          <g
+            opacity={plateIn * 0.95}
+            transform={`translate(46 ${302 - (1 - plateIn) * 10}) scale(${1.35 + plateIn * 0.25})`}
+          >
+            {ING_ART.plate}
+          </g>
+        )}
       </svg>
     </div>
   );

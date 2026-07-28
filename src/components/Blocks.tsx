@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Reveal } from "./Reveal";
 import { shotImages, shotDims } from "@/lib/shots";
 import { CountUp } from "./CountUp";
@@ -126,23 +126,47 @@ export function AiRows({
   );
 }
 
+/**
+ * One decision. Its own emphasis language, distinct from the summary's
+ * underline and the prose highlighter: a rule draws down the left edge and the
+ * numeral warms to the accent while the decision sits in the reading band, then
+ * both retract as it leaves. Nothing inline changes, so the text never reflows.
+ */
+function DecisionItem({ index, title, body }: { index: number; title: string; body: string }) {
+  const ref = useRef<HTMLLIElement>(null);
+  const [lit, setLit] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver(([e]) => setLit(e.isIntersecting), {
+      rootMargin: "-25% 0px -25% 0px",
+    });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  return (
+    <li
+      ref={ref}
+      data-lit={lit}
+      className="decision-row grid grid-cols-[auto_minmax(0,1fr)] gap-x-5 border-t border-hairline py-6 pl-5 first:border-t-0 first:pt-0"
+    >
+      <span className="num decision-num pt-0.5 text-sm">{String(index + 1).padStart(2, "0")}</span>
+      <div className="min-w-0">
+        <h4 className="text-[1.0625rem] font-semibold">{title}</h4>
+        <p className="mt-2 text-[1.0125rem] leading-relaxed text-muted-foreground">{body}</p>
+      </div>
+    </li>
+  );
+}
+
 /** Numbered decision list. Deliberately not the CardGrid layout. */
 export function DecisionList({ items }: { items: { title: string; body: string }[] }) {
   return (
     <ol className="max-w-3xl">
       {items.map((d, i) => (
-        <li
-          key={d.title}
-          className="grid grid-cols-[auto_minmax(0,1fr)] gap-x-5 border-t border-hairline py-6 first:border-t-0 first:pt-0"
-        >
-          <span className="num pt-0.5 text-sm text-accent">
-            {String(i + 1).padStart(2, "0")}
-          </span>
-          <div className="min-w-0">
-            <h4 className="text-[1.0625rem] font-semibold">{d.title}</h4>
-            <p className="mt-2 text-[1.0125rem] leading-relaxed text-muted-foreground">{d.body}</p>
-          </div>
-        </li>
+        <DecisionItem key={d.title} index={i} title={d.title} body={d.body} />
       ))}
     </ol>
   );

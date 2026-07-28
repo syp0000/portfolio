@@ -53,18 +53,19 @@ export function StarField() {
 }
 
 /**
- * Big Dipper stood on end: Dubhe at the top, Alkaid at the bottom, so scroll
- * progress runs down the constellation. Coordinates are the real asterism
- * shape transposed into a 100x180 viewBox.
+ * Big Dipper as it hangs on a summer evening: handle arcing up and to the left,
+ * bowl sitting low and right. Listed from the handle tip down, so scroll
+ * progress lights the constellation top to bottom as the page moves.
+ * Coordinates are the real asterism shape in a 100x180 viewBox.
  */
 const DIPPER = [
-  [34, 20], // Dubhe
-  [78, 12], // Merak
-  [72, 68], // Phecda
-  [40, 70], // Megrez
-  [26, 100], // Alioth
-  [30, 132], // Mizar
-  [42, 170], // Alkaid
+  [42, 10], // Alkaid, handle tip
+  [30, 48], // Mizar
+  [26, 80], // Alioth
+  [40, 110], // Megrez, where the handle meets the bowl
+  [72, 112], // Phecda
+  [78, 168], // Merak
+  [34, 160], // Dubhe
 ] as const;
 
 const POINTS = DIPPER.map(([x, y]) => `${x},${y}`).join(" ");
@@ -98,8 +99,9 @@ export function BigDipper() {
             <feGaussianBlur stdDeviation="3.5" />
           </filter>
         </defs>
-        {/* Bowl's fourth side. Not on the progress path, so it stays faint. */}
-        <line x1="40" y1="70" x2="34" y2="20" stroke="var(--hairline)" strokeWidth="1" />
+        {/* Bowl's fourth side, Dubhe back to Megrez. Not on the progress path,
+            so it stays faint. */}
+        <line x1="34" y1="160" x2="40" y2="110" stroke="var(--hairline)" strokeWidth="1" />
         <polyline points={POINTS} fill="none" stroke="var(--hairline)" strokeWidth="1" />
         {/* pathLength=1 lets the dash offset be the scroll fraction directly. */}
         <polyline

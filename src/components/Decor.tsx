@@ -537,23 +537,99 @@ export function PantryJourney() {
 }
 
 /**
- * NCR Assistant's counterpart: a live diagnostic schematic, not an
- * illustration. Thin technical lines, labeled rectangular nodes, and log
- * fragments appearing as evidence while scroll traces the signal path. The
- * accent amber marks the active fault; green appears exactly once, at
- * verified recovery. Everything unaffected stays muted.
+ * NCR Assistant's counterpart: PLC ladder logic, the diagram an actual
+ * controls tech reads. Two power rails, rungs of NO and NC contacts driving
+ * SET/RST coils, tag names and bit addresses over every element. Scroll
+ * energizes the ladder rung by rung; amber is the fault path, and green
+ * appears exactly once, on the rung that resets SYS_FAULT.
  */
-const CIRCUIT = [
-  { y: 24, label: "HMI", kind: "ok", note: ["op lead @ line", "shift day  09:35"] },
-  { y: 88, label: "PLC #4", kind: "ok", note: ["modbus poll 200ms"] },
-  { y: 152, label: "EOL #1", kind: "fault", note: ["ERR 0x03 CRC", "09:41:07 timeout"] },
-  { y: 216, label: "NCR FORM", kind: "ok", note: ["mgmt #1482", "issue: serial NG"] },
-  { y: 280, label: "PG / RDS", kind: "ok", note: ["INSERT 200 OK", "rec_id 2517"] },
-  { y: 344, label: "RESOLVED", kind: "recovered", note: ["verified 10:32"] },
+type Contact = { x: number; tag: string; bit: string; nc?: boolean };
+type Rung = {
+  y: number;
+  n: string;
+  kind: "ok" | "fault" | "recovered";
+  contacts: readonly Contact[];
+  coil: { tag: string; bit: string; op?: string };
+  stamp?: string;
+};
+
+const RUNGS: readonly Rung[] = [
+  {
+    y: 30, n: "001", kind: "ok",
+    contacts: [
+      { x: 30, tag: "AUTO_HMIPB", bit: "BIT 5.10" },
+      { x: 52, tag: "SYS_FAULT", bit: "BIT 3.0", nc: true },
+    ],
+    coil: { tag: "SYS_AUTO", bit: "BIT 3.1", op: "SET" },
+  },
+  {
+    y: 92, n: "002", kind: "ok",
+    contacts: [
+      { x: 30, tag: "MANL_HMIPB", bit: "BIT 5.11" },
+      { x: 52, tag: "SYS_FAULT", bit: "BIT 3.0", nc: true },
+    ],
+    coil: { tag: "SYS_MANUAL", bit: "BIT 3.2", op: "SET" },
+  },
+  {
+    y: 154, n: "003", kind: "fault", stamp: "09:41:07",
+    contacts: [
+      { x: 30, tag: "MB_TIMEOUT", bit: "IN 1.10" },
+      { x: 52, tag: "EOL1_CRC", bit: "ERR 0x03" },
+    ],
+    coil: { tag: "SYS_FAULT", bit: "BIT 3.0", op: "SET" },
+  },
+  {
+    y: 216, n: "004", kind: "ok",
+    contacts: [
+      { x: 30, tag: "SYS_FAULT", bit: "BIT 3.0" },
+      { x: 52, tag: "NCR_SUBMIT", bit: "MGMT 1482" },
+    ],
+    coil: { tag: "REC_INSERT", bit: "PG / RDS" },
+  },
+  {
+    y: 278, n: "005", kind: "ok",
+    contacts: [{ x: 30, tag: "DB_ACK", bit: "200 OK" }],
+    coil: { tag: "REC_SAVED", bit: "ID 2517" },
+  },
+  {
+    y: 340, n: "006", kind: "recovered", stamp: "10:32",
+    contacts: [
+      { x: 30, tag: "FIX_VERIFIED", bit: "BIT 9.0" },
+      { x: 52, tag: "OP_CONFIRM", bit: "BIT 5.12" },
+    ],
+    coil: { tag: "SYS_FAULT", bit: "BIT 3.0", op: "RST" },
+  },
 ] as const;
 
-const CIRCUIT_LINE = "M30 34V78M30 98V142M30 162V206M30 226V270M30 290V334";
 const RECOVERY_GREEN = "oklch(0.72 0.17 152)";
+
+/** One rung's glyphs in one ink, so base and lit copies stay identical. */
+function RungGlyphs({ r, line, text, bits, o }: { r: Rung; line: string; text: string; bits: string; o: number }) {
+  return (
+    <g opacity={o}>
+      <path d={`M16 ${r.y} H88`} stroke={line} strokeWidth="0.5" fill="none" />
+      {r.contacts.map((c) => (
+        <g key={c.tag + c.x}>
+          {/* NO contact ticks; the slash makes it NC */}
+          <path d={`M${c.x - 2} ${r.y - 3.5} V${r.y + 3.5} M${c.x + 2} ${r.y - 3.5} V${r.y + 3.5}`} stroke={line} strokeWidth="0.85" fill="none" />
+          {c.nc && <path d={`M${c.x - 3.2} ${r.y + 4} L${c.x + 3.2} ${r.y - 4}`} stroke={line} strokeWidth="0.55" fill="none" />}
+          <text x={c.x} y={r.y - 8.8} textAnchor="middle" fontSize="2.5" fill={text}>{c.tag}</text>
+          <text x={c.x} y={r.y - 5.5} textAnchor="middle" fontSize="2.5" fill={bits}>{c.bit}</text>
+        </g>
+      ))}
+      {/* Coil */}
+      <circle cx="76" cy={r.y} r="4" stroke={line} strokeWidth="0.85" fill="none" />
+      {r.coil.op && (
+        <text x="76" y={r.y + 1.1} textAnchor="middle" fontSize="2.6" fill={line}>{r.coil.op}</text>
+      )}
+      <text x="76" y={r.y - 8.8} textAnchor="middle" fontSize="2.5" fill={text}>{r.coil.tag}</text>
+      <text x="76" y={r.y - 5.5} textAnchor="middle" fontSize="2.5" fill={bits}>{r.coil.bit}</text>
+      {/* Rung number outside the left rail */}
+      <text x="13" y={r.y + 0.9} textAnchor="end" fontSize="2.6" fill={text}>{r.n}</text>
+      {r.stamp && <text x="52" y={r.y + 8} textAnchor="middle" fontSize="2.5" fill={bits}>{r.stamp}</text>}
+    </g>
+  );
+}
 
 export function NcrSchematic() {
   const [progress, setProgress] = useState(0);
@@ -568,7 +644,7 @@ export function NcrSchematic() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const lead = progress * (CIRCUIT.length - 1);
+  const lead = progress * (RUNGS.length - 1);
   const payoff = Math.min(1, Math.max(0, (progress - 0.75) / 0.25));
 
   return (
@@ -576,16 +652,16 @@ export function NcrSchematic() {
       aria-hidden="true"
       className="pointer-events-none fixed inset-y-0 left-0 z-0 hidden w-[25vw] lg:flex lg:items-center lg:justify-center"
     >
-      <svg viewBox="8 0 100 384" className="max-h-[90vh] w-full overflow-visible">
-        {/* Bus: quiet trace, then the established path, then the live pulse
-            travelling down whatever scroll has verified so far. */}
-        <path d={CIRCUIT_LINE} fill="none" stroke="var(--hairline)" strokeWidth="0.5" />
+      <svg viewBox="4 0 100 384" className="max-h-[90vh] w-full overflow-visible" style={{ fontFamily: "var(--font-mono)" }}>
+        {/* Power rails. The left rail energizes with scroll and carries the
+            pulse; the right rail stays quiet, as it does on a real ladder. */}
+        <path d="M16 16 V354 M88 16 V354" fill="none" stroke="var(--hairline)" strokeWidth="0.7" />
         <path
-          d={CIRCUIT_LINE}
+          d="M16 16 V354"
           fill="none"
           stroke="var(--foreground)"
-          strokeWidth="0.5"
-          opacity="0.55"
+          strokeWidth="0.7"
+          opacity="0.6"
           pathLength={1}
           strokeDasharray="1"
           strokeDashoffset={1 - progress}
@@ -593,91 +669,36 @@ export function NcrSchematic() {
         <g opacity={progress * 0.8}>
           <path
             className="sig-pulse"
-            d={CIRCUIT_LINE}
+            d="M16 16 V354"
             fill="none"
             stroke="var(--accent)"
-            strokeWidth="0.8"
+            strokeWidth="0.9"
             strokeDasharray="2 16"
             strokeLinecap="round"
           />
         </g>
 
-        {CIRCUIT.map((s, i) => {
+        {RUNGS.map((r, i) => {
           const on = Math.min(1, Math.max(0, lead - i + 1));
-          const lit =
-            s.kind === "fault"
-              ? "var(--accent)"
-              : s.kind === "recovered"
-                ? RECOVERY_GREEN
-                : "var(--foreground)";
+          const lit = r.kind === "fault" ? "var(--accent)" : r.kind === "recovered" ? RECOVERY_GREEN : "var(--foreground)";
+          const litBits = r.kind === "ok" ? "var(--accent)" : lit;
           return (
-            <g key={s.label} style={{ fontFamily: "var(--font-mono)" }}>
-              {/* Node, muted base then lit overlay */}
-              <rect x="14" y={s.y - 6.5} width="32" height="13" rx="1" fill="none" stroke="var(--hairline)" strokeWidth="0.6" />
-              <rect
-                x="14"
-                y={s.y - 6.5}
-                width="32"
-                height="13"
-                rx="1"
-                fill="none"
-                stroke={lit}
-                strokeWidth="0.7"
-                opacity={on * (s.kind === "ok" ? 0.65 : 1)}
-              />
-              {/* Alarm ring, only while the fault is the active stage */}
-              {s.kind === "fault" && (
-                <rect
-                  x="12.2"
-                  y={s.y - 8.3}
-                  width="35.6"
-                  height="16.6"
-                  rx="1.6"
-                  fill="none"
-                  stroke="var(--accent)"
-                  strokeWidth="0.45"
-                  strokeDasharray="2 2"
-                  opacity={on * 0.7}
-                />
-              )}
-              <text x="30" y={s.y + 1.4} textAnchor="middle" fontSize="3.4" letterSpacing="0.08em" fill="var(--muted-foreground)" opacity="0.55">
-                {s.label}
-              </text>
-              <text x="30" y={s.y + 1.4} textAnchor="middle" fontSize="3.4" letterSpacing="0.08em" fill={lit} opacity={on}>
-                {s.label}
-              </text>
-              {/* Verified check, the one green mark on the board */}
-              {s.kind === "recovered" && (
-                <path d={`M48.5 ${s.y - 0.5} l1.6 2 l3.2 -4.4`} fill="none" stroke={RECOVERY_GREEN} strokeWidth="0.9" strokeLinecap="round" strokeLinejoin="round" opacity={on} />
-              )}
-              {/* Evidence stub and log fragments */}
-              <path d={`M46 ${s.y} H50`} stroke={lit} strokeWidth="0.4" opacity={on * 0.6} />
-              {s.note.map((line, n) => (
-                <text
-                  key={line}
-                  x="52"
-                  y={s.y - 1 + n * 4.4}
-                  fontSize="2.9"
-                  fill={s.kind === "ok" ? "var(--muted-foreground)" : lit}
-                  opacity={on * 0.85}
-                >
-                  {line}
-                </text>
-              ))}
+            <g key={r.n}>
+              <RungGlyphs r={r} line="var(--hairline)" text="var(--muted-foreground)" bits="var(--muted-foreground)" o={0.5} />
+              <RungGlyphs r={r} line={lit} text={r.kind === "ok" ? "var(--muted-foreground)" : lit} bits={litBits} o={on * (r.kind === "ok" ? 0.8 : 1)} />
             </g>
           );
         })}
 
-        {/* The thesis, once the trace completes. */}
+        {/* The thesis, once the ladder has run. */}
         <text
-          x="30"
+          x="52"
           y="374"
           textAnchor="middle"
           fontSize="3.3"
           letterSpacing="0.16em"
           fill="var(--muted-foreground)"
           opacity={payoff * 0.85}
-          style={{ fontFamily: "var(--font-mono)" }}
         >
           EVERY FAULT LEAVES A RECORD
         </text>

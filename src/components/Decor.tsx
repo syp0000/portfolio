@@ -75,7 +75,7 @@ const DIPPER = [
 const POINTS = DIPPER.map((s) => `${s.x},${s.y}`).join(" ");
 
 /** Apparent magnitude to drawn radius: brighter star, bigger point. */
-const starR = (mag: number) => (4.9 - mag) * 0.95;
+const starR = (mag: number) => (4.9 - mag) * 0.62;
 
 /**
  * Constellation in the margin, lighting star by star with scroll progress.
@@ -101,11 +101,16 @@ export function BigDipper() {
   const pointer = Math.min(1, Math.max(0, (progress - 0.72) / 0.28));
 
   return (
+    // Background scale: the left quarter of the viewport is the dipper's band.
+    // z-0 keeps it behind the content column (main sits at z-10), so it reads
+    // as sky, not furniture.
     <div
       aria-hidden="true"
-      className="pointer-events-none fixed left-8 top-1/2 z-40 hidden -translate-y-1/2 lg:block"
+      className="pointer-events-none fixed inset-y-0 left-0 z-0 hidden w-[25vw] lg:flex lg:items-center lg:justify-center"
     >
-      <svg viewBox="0 0 100 180" className="h-[26rem] w-[14.4rem] overflow-visible">
+      {/* viewBox starts at -16 so the Polaris pointer, which extends past the
+          bowl to the left, stays inside the drawing on every viewport. */}
+      <svg viewBox="-16 0 116 180" className="max-h-[88vh] w-full overflow-visible">
         <defs>
           {/* One blur, reused by every lit star's halo. */}
           <filter id="star-glow" x="-200%" y="-200%" width="500%" height="500%">
@@ -115,16 +120,16 @@ export function BigDipper() {
 
         {/* Bowl's fourth side, Dubhe back to Megrez. Not on the progress path,
             so it stays faint. */}
-        <line x1="34" y1="160" x2="40" y2="110" stroke="var(--hairline)" strokeWidth="1" />
-        <polyline points={POINTS} fill="none" stroke="var(--hairline)" strokeWidth="1" />
+        <line x1="34" y1="160" x2="40" y2="110" stroke="var(--hairline)" strokeWidth="0.55" />
+        <polyline points={POINTS} fill="none" stroke="var(--hairline)" strokeWidth="0.55" />
         {/* pathLength=1 lets the dash offset be the scroll fraction directly.
             Two passes: a soft glow under a crisp line, like starlight. */}
         <polyline
           points={POINTS}
           fill="none"
           stroke="#fff"
-          strokeWidth="2.4"
-          opacity="0.35"
+          strokeWidth="1.7"
+          opacity="0.3"
           filter="url(#star-glow)"
           pathLength={1}
           strokeDasharray="1"
@@ -134,7 +139,7 @@ export function BigDipper() {
           points={POINTS}
           fill="none"
           stroke="#fff"
-          strokeWidth="1.2"
+          strokeWidth="0.75"
           opacity="0.9"
           pathLength={1}
           strokeDasharray="1"
@@ -146,8 +151,8 @@ export function BigDipper() {
           x="56"
           y="140"
           textAnchor="middle"
-          fontSize="4.2"
-          letterSpacing="0.18em"
+          fontSize="3.6"
+          letterSpacing="0.2em"
           fill="var(--muted-foreground)"
           opacity="0.4"
           style={{ fontFamily: "var(--font-mono)" }}
@@ -163,26 +168,26 @@ export function BigDipper() {
             x2="-3"
             y2="153.3"
             stroke="#fff"
-            strokeWidth="0.6"
-            strokeDasharray="2 3"
+            strokeWidth="0.4"
+            strokeDasharray="1.6 2.4"
             opacity="0.5"
           />
           <g transform="translate(-5 152.9)">
-            <circle r="4.5" fill="#fff" opacity="0.5" filter="url(#star-glow)" />
+            <circle r="3.6" fill="#fff" opacity="0.5" filter="url(#star-glow)" />
             <path
-              d="M0 -4.6 V4.6 M-4.6 0 H4.6"
+              d="M0 -3.6 V3.6 M-3.6 0 H3.6"
               stroke="#fff"
-              strokeWidth="0.6"
+              strokeWidth="0.45"
               strokeLinecap="round"
               opacity="0.8"
             />
-            <circle r="1.5" fill="#fff" />
+            <circle r="1.1" fill="#fff" />
           </g>
           <text
             x="-5"
             y="144"
             textAnchor="middle"
-            fontSize="4"
+            fontSize="3.2"
             fill="var(--muted-foreground)"
             opacity="0.75"
             style={{ fontFamily: "var(--font-mono)" }}
@@ -195,7 +200,7 @@ export function BigDipper() {
           const on = Math.min(1, Math.max(0, lead - i + 1));
           const r = starR(s.mag);
           const color = s.warm ? "#ffd9a8" : "#d7e5ff";
-          const spike = r * (2.6 + on * 2.4);
+          const spike = r * (2.8 + on * 2.6);
           return (
             <g key={s.name} transform={`translate(${s.x} ${s.y})`}>
               {/* Breathe wraps the whole star so halo, spikes, and core
@@ -211,7 +216,7 @@ export function BigDipper() {
                 <path
                   d={`M0 ${-spike} V${spike} M${-spike} 0 H${spike}`}
                   stroke={color}
-                  strokeWidth="0.65"
+                  strokeWidth="0.45"
                   strokeLinecap="round"
                   opacity={on * 0.85}
                 />
@@ -220,15 +225,15 @@ export function BigDipper() {
               {/* Alcor rides just above Mizar, the old eyesight test. */}
               {s.name === "Mizar" && (
                 <g className="star-breathe" style={{ animationDuration: "4.6s", animationDelay: "1.9s" }}>
-                  <circle cx="5" cy="-4" r="2.4" fill={color} opacity={0.12 + on * 0.3} filter="url(#star-glow)" />
-                  <circle cx="5" cy="-4" r="0.9" fill="#fff" opacity={0.6 + on * 0.4} />
+                  <circle cx="4.5" cy="-3.6" r="1.9" fill={color} opacity={0.12 + on * 0.3} filter="url(#star-glow)" />
+                  <circle cx="4.5" cy="-3.6" r="0.7" fill="#fff" opacity={0.6 + on * 0.4} />
                 </g>
               )}
               <text
                 x={s.lx}
                 y={s.ly}
                 textAnchor={s.end ? "end" : "start"}
-                fontSize="4"
+                fontSize="3.1"
                 fill="var(--muted-foreground)"
                 opacity={0.25 + on * 0.45}
                 style={{ fontFamily: "var(--font-mono)" }}

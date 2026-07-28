@@ -452,8 +452,11 @@ const JOURNEY = [
   },
 ] as const;
 
-const JOURNEY_LINE = "M40 45V67M40 109V131M40 173V195M40 237V259M40 301V323";
-
+/**
+ * One stage at a time: each drawing dissolves upward as the next rises into
+ * its place, a slow lantern-slide of the meal's life. Scroll owns the
+ * crossfade, so scrubbing back replays it in reverse.
+ */
 export function PantryJourney() {
   const [progress, setProgress] = useState(0);
 
@@ -467,61 +470,76 @@ export function PantryJourney() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Leading stage index, fractional so each one fades in rather than snaps.
-  const lead = progress * (JOURNEY.length - 1);
-  // The moral of the story arrives with the last stretch of the page.
-  const payoff = Math.min(1, Math.max(0, (progress - 0.75) / 0.25));
+  // Fractional stage position. Adjacent opacities sum to one, so the fade of
+  // one drawing is exactly the arrival of the next.
+  const pos = progress * (JOURNEY.length - 1);
+  const payoff = Math.min(1, Math.max(0, (progress - 0.78) / 0.22));
 
   return (
-    // Same band as the Big Dipper: left quarter, full height, behind content.
     <div
       aria-hidden="true"
       className="pointer-events-none fixed inset-y-0 left-0 z-0 hidden w-[25vw] lg:flex lg:items-center lg:justify-center"
     >
-      {/* viewBox min-x of 14 slides the whole column toward the screen edge. */}
-      <svg viewBox="14 0 100 384" className="max-h-[90vh] w-full overflow-visible">
-        {/* Dotted route between stages, then the accent line drawing over it. */}
-        <path d={JOURNEY_LINE} fill="none" stroke="var(--hairline)" strokeWidth="0.8" strokeDasharray="0.5 3" strokeLinecap="round" />
-        <path
-          d={JOURNEY_LINE}
-          fill="none"
-          stroke="var(--accent)"
-          strokeWidth="0.9"
-          strokeLinecap="round"
-          pathLength={1}
-          strokeDasharray="1"
-          strokeDashoffset={1 - progress}
-          opacity="0.8"
-        />
+      <svg viewBox="0 0 100 190" className="max-h-[88vh] w-full overflow-visible">
+        {JOURNEY.map((s, i) => {
+          const t = Math.max(-1, Math.min(1, pos - i));
+          const o = 1 - Math.min(1, Math.abs(pos - i));
+          if (o <= 0.01) return null;
+          return (
+            <g
+              key={s.label}
+              opacity={o}
+              // Incoming stage rises from below centre, outgoing drifts above,
+              // easing scale slightly so the handoff breathes.
+              transform={`translate(50 ${80 - t * 14}) scale(${2.05 * (1 - Math.abs(t) * 0.08)})`}
+            >
+              {s.art}
+            </g>
+          );
+        })}
 
         {JOURNEY.map((s, i) => {
-          const on = Math.min(1, Math.max(0, lead - i + 1));
+          const t = Math.max(-1, Math.min(1, pos - i));
+          // Sharper falloff than the art, and drifting with it, so two labels
+          // never sit superimposed mid-handoff.
+          const o = Math.max(0, 1 - 2 * Math.abs(pos - i));
+          if (o <= 0.01) return null;
           return (
-            <g key={s.label} transform={`translate(40 ${s.y})`}>
-              <g style={{ color: "var(--muted-foreground)" }} opacity={0.35}>
-                {s.art}
-              </g>
-              <g style={{ color: "var(--accent)" }} opacity={on}>
-                {s.art}
-              </g>
-              <text
-                x="27"
-                y="2"
-                fontSize="4"
-                fill="var(--muted-foreground)"
-                opacity={0.4 + on * 0.45}
-                style={{ fontFamily: "var(--font-mono)" }}
-              >
-                {s.label}
-              </text>
-            </g>
+            <text
+              key={s.label}
+              x="50"
+              y={150 - t * 7}
+              textAnchor="middle"
+              fontSize="4"
+              letterSpacing="0.22em"
+              fill="var(--muted-foreground)"
+              opacity={o * 0.85}
+              style={{ fontFamily: "var(--font-mono)" }}
+            >
+              {`0${i + 1} \u00b7 ${s.label.toUpperCase()}`}
+            </text>
+          );
+        })}
+
+        {/* Pager: which frame of six is on screen */}
+        {JOURNEY.map((s, i) => {
+          const active = 1 - Math.min(1, Math.abs(pos - i));
+          return (
+            <circle
+              key={s.label}
+              cx={50 + (i - 2.5) * 6}
+              cy="161"
+              r={1 + active * 0.6}
+              fill="var(--accent)"
+              opacity={0.25 + active * 0.65}
+            />
           );
         })}
 
         {/* The point of the pantry, spelled out once the plate is clean. */}
         <text
           x="50"
-          y="376"
+          y="174"
           textAnchor="middle"
           fontSize="3.6"
           letterSpacing="0.18em"
@@ -537,99 +555,55 @@ export function PantryJourney() {
 }
 
 /**
- * NCR Assistant's counterpart: PLC ladder logic, the diagram an actual
- * controls tech reads. Two power rails, rungs of NO and NC contacts driving
- * SET/RST coils, tag names and bit addresses over every element. Scroll
- * energizes the ladder rung by rung; amber is the fault path, and green
- * appears exactly once, on the rung that resets SYS_FAULT.
+ * NCR Assistant's counterpart: one circuit, run long and vertical, drawn in
+ * the ladder-logic vocabulary of the plant floor. A single wire threads
+ * through contacts, splits into a parallel branch, and lands on a coil.
+ * Monochrome by design: no status colors, just ink and current. The only
+ * words on the board are the fault contact's.
+ *
+ * The life in it is the current: scroll energizes the wire top to bottom, a
+ * pulse runs the energized stretch, each contact visibly closes as power
+ * reaches it, and the coil breathes once it latches.
  */
-type Contact = { x: number; tag: string; bit: string; nc?: boolean };
-type Rung = {
-  y: number;
-  n: string;
-  kind: "ok" | "fault" | "recovered";
-  contacts: readonly Contact[];
-  coil: { tag: string; bit: string; op?: string };
-  stamp?: string;
-};
+/* Dead wire, drawn with open gaps at every contact and at the coil. */
+const WIRE = [
+  "M30 8 V58",
+  "M30 62 V108",
+  "M30 112 V158",
+  "M30 162 V196",
+  "M30 196 H22 V224",
+  "M22 228 V244 H30",
+  "M30 196 H38 V224",
+  "M38 228 V244 H30",
+  "M30 244 V304",
+  "M30 316 V366",
+].join(" ");
 
-const RUNGS: readonly Rung[] = [
-  {
-    y: 30, n: "001", kind: "ok",
-    contacts: [
-      { x: 30, tag: "AUTO_HMIPB", bit: "BIT 5.10" },
-      { x: 52, tag: "SYS_FAULT", bit: "BIT 3.0", nc: true },
-    ],
-    coil: { tag: "SYS_AUTO", bit: "BIT 3.1", op: "SET" },
-  },
-  {
-    y: 92, n: "002", kind: "ok",
-    contacts: [
-      { x: 30, tag: "MANL_HMIPB", bit: "BIT 5.11" },
-      { x: 52, tag: "SYS_FAULT", bit: "BIT 3.0", nc: true },
-    ],
-    coil: { tag: "SYS_MANUAL", bit: "BIT 3.2", op: "SET" },
-  },
-  {
-    y: 154, n: "003", kind: "fault", stamp: "09:41:07",
-    contacts: [
-      { x: 30, tag: "MB_TIMEOUT", bit: "IN 1.10" },
-      { x: 52, tag: "EOL1_CRC", bit: "ERR 0x03" },
-    ],
-    coil: { tag: "SYS_FAULT", bit: "BIT 3.0", op: "SET" },
-  },
-  {
-    y: 216, n: "004", kind: "ok",
-    contacts: [
-      { x: 30, tag: "SYS_FAULT", bit: "BIT 3.0" },
-      { x: 52, tag: "NCR_SUBMIT", bit: "MGMT 1482" },
-    ],
-    coil: { tag: "REC_INSERT", bit: "PG / RDS" },
-  },
-  {
-    y: 278, n: "005", kind: "ok",
-    contacts: [{ x: 30, tag: "DB_ACK", bit: "200 OK" }],
-    coil: { tag: "REC_SAVED", bit: "ID 2517" },
-  },
-  {
-    y: 340, n: "006", kind: "recovered", stamp: "10:32",
-    contacts: [
-      { x: 30, tag: "FIX_VERIFIED", bit: "BIT 9.0" },
-      { x: 52, tag: "OP_CONFIRM", bit: "BIT 5.12" },
-    ],
-    coil: { tag: "SYS_FAULT", bit: "BIT 3.0", op: "RST" },
-  },
-] as const;
+/* The current's actual route: ONE continuous subpath, top to bottom through
+ * the left branch. pathLength dash-drawing on a multi-subpath path advances
+ * every subpath at once in Chromium, which read as the whole board growing
+ * simultaneously; a single subpath draws strictly in order. Running unbroken
+ * through the contact gaps is the point: current arriving is what closes them. */
+const WIRE_LIVE = "M30 8 V196 H22 V244 H30 V366";
 
-const RECOVERY_GREEN = "oklch(0.72 0.17 152)";
+/* The parallel branch is a spur off the route: it energizes as a unit when
+ * current reaches the split, rather than being drawn along. */
+const WIRE_SPUR = "M30 196 H38 V224 M38 228 V244 H30";
 
-/** One rung's glyphs in one ink, so base and lit copies stay identical. */
-function RungGlyphs({ r, line, text, bits, o }: { r: Rung; line: string; text: string; bits: string; o: number }) {
-  return (
-    <g opacity={o}>
-      <path d={`M16 ${r.y} H88`} stroke={line} strokeWidth="0.5" fill="none" />
-      {r.contacts.map((c) => (
-        <g key={c.tag + c.x}>
-          {/* NO contact ticks; the slash makes it NC */}
-          <path d={`M${c.x - 2} ${r.y - 3.5} V${r.y + 3.5} M${c.x + 2} ${r.y - 3.5} V${r.y + 3.5}`} stroke={line} strokeWidth="0.85" fill="none" />
-          {c.nc && <path d={`M${c.x - 3.2} ${r.y + 4} L${c.x + 3.2} ${r.y - 4}`} stroke={line} strokeWidth="0.55" fill="none" />}
-          <text x={c.x} y={r.y - 8.8} textAnchor="middle" fontSize="2.5" fill={text}>{c.tag}</text>
-          <text x={c.x} y={r.y - 5.5} textAnchor="middle" fontSize="2.5" fill={bits}>{c.bit}</text>
-        </g>
-      ))}
-      {/* Coil */}
-      <circle cx="76" cy={r.y} r="4" stroke={line} strokeWidth="0.85" fill="none" />
-      {r.coil.op && (
-        <text x="76" y={r.y + 1.1} textAnchor="middle" fontSize="2.6" fill={line}>{r.coil.op}</text>
-      )}
-      <text x="76" y={r.y - 8.8} textAnchor="middle" fontSize="2.5" fill={text}>{r.coil.tag}</text>
-      <text x="76" y={r.y - 5.5} textAnchor="middle" fontSize="2.5" fill={bits}>{r.coil.bit}</text>
-      {/* Rung number outside the left rail */}
-      <text x="13" y={r.y + 0.9} textAnchor="end" fontSize="2.6" fill={text}>{r.n}</text>
-      {r.stamp && <text x="52" y={r.y + 8} textAnchor="middle" fontSize="2.5" fill={bits}>{r.stamp}</text>}
-    </g>
-  );
-}
+/** Contacts along the wire: x center, y center, cumulative distance from the
+ *  top of the path, half-width of the plates, normally-closed slash. */
+type WireContact = { x: number; y: number; d: number; w: number; nc: boolean; fault?: boolean };
+const CONTACTS: readonly WireContact[] = [
+  { x: 30, y: 60, d: 52, w: 6, nc: false },
+  { x: 30, y: 110, d: 102, w: 6, nc: false },
+  { x: 30, y: 160, d: 152, w: 6, nc: true, fault: true },
+  { x: 22, y: 226, d: 226, w: 5, nc: false },
+  { x: 38, y: 226, d: 226, w: 5, nc: true },
+];
+
+const WIRE_LEN = 374;
+const COIL_D = 318;
+const SPUR_D = 226;
 
 export function NcrSchematic() {
   const [progress, setProgress] = useState(0);
@@ -644,64 +618,86 @@ export function NcrSchematic() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const lead = progress * (RUNGS.length - 1);
-  const payoff = Math.min(1, Math.max(0, (progress - 0.75) / 0.25));
+  // How energized an element at distance d along the wire is, 0..1.
+  const energize = (d: number) => Math.min(1, Math.max(0, (progress * WIRE_LEN - d) / 25));
+  const coilOn = energize(COIL_D);
 
   return (
     <div
       aria-hidden="true"
       className="pointer-events-none fixed inset-y-0 left-0 z-0 hidden w-[25vw] lg:flex lg:items-center lg:justify-center"
     >
-      <svg viewBox="4 0 100 384" className="max-h-[90vh] w-full overflow-visible" style={{ fontFamily: "var(--font-mono)" }}>
-        {/* Power rails. The left rail energizes with scroll and carries the
-            pulse; the right rail stays quiet, as it does on a real ladder. */}
-        <path d="M16 16 V354 M88 16 V354" fill="none" stroke="var(--hairline)" strokeWidth="0.7" />
+      <svg viewBox="6 0 100 384" className="max-h-[90vh] w-full overflow-visible">
+        {/* Dead wire, then the energized run, then the current itself. */}
+        <path d={WIRE} fill="none" stroke="var(--hairline)" strokeWidth="0.7" />
         <path
-          d="M16 16 V354"
+          d={WIRE_LIVE}
           fill="none"
           stroke="var(--foreground)"
-          strokeWidth="0.7"
-          opacity="0.6"
+          strokeWidth="0.75"
+          opacity="0.85"
           pathLength={1}
           strokeDasharray="1"
           strokeDashoffset={1 - progress}
         />
-        <g opacity={progress * 0.8}>
+        <path
+          d={WIRE_SPUR}
+          fill="none"
+          stroke="var(--foreground)"
+          strokeWidth="0.75"
+          opacity={energize(SPUR_D) * 0.85}
+        />
+        <g opacity={progress * 0.6}>
           <path
             className="sig-pulse"
-            d="M16 16 V354"
+            d={WIRE_LIVE}
             fill="none"
-            stroke="var(--accent)"
-            strokeWidth="0.9"
+            stroke="var(--foreground)"
+            strokeWidth="1"
             strokeDasharray="2 16"
             strokeLinecap="round"
           />
         </g>
 
-        {RUNGS.map((r, i) => {
-          const on = Math.min(1, Math.max(0, lead - i + 1));
-          const lit = r.kind === "fault" ? "var(--accent)" : r.kind === "recovered" ? RECOVERY_GREEN : "var(--foreground)";
-          const litBits = r.kind === "ok" ? "var(--accent)" : lit;
+        {CONTACTS.map((c) => {
+          const on = energize(c.d);
+          const horizontal = `M${c.x - c.w} ${c.y - 2} H${c.x + c.w} M${c.x - c.w} ${c.y + 2} H${c.x + c.w}`;
           return (
-            <g key={r.n}>
-              <RungGlyphs r={r} line="var(--hairline)" text="var(--muted-foreground)" bits="var(--muted-foreground)" o={0.5} />
-              <RungGlyphs r={r} line={lit} text={r.kind === "ok" ? "var(--muted-foreground)" : lit} bits={litBits} o={on * (r.kind === "ok" ? 0.8 : 1)} />
+            <g key={c.x + "-" + c.y}>
+              {/* Contact plates, dead then energized */}
+              <path d={horizontal} fill="none" stroke="var(--hairline)" strokeWidth="0.9" />
+              <path d={horizontal} fill="none" stroke="var(--foreground)" strokeWidth="0.95" strokeLinecap="round" opacity={on * 0.9} />
+              {c.nc && (
+                <>
+                  <path d={`M${c.x - 4.5} ${c.y + 4} L${c.x + 4.5} ${c.y - 4}`} fill="none" stroke="var(--hairline)" strokeWidth="0.6" />
+                  <path d={`M${c.x - 4.5} ${c.y + 4} L${c.x + 4.5} ${c.y - 4}`} fill="none" stroke="var(--foreground)" strokeWidth="0.65" opacity={on * 0.9} />
+                </>
+              )}
+              {/* The contact closing: the gap bridges only once power arrives */}
+              <path d={`M${c.x} ${c.y - 2} V${c.y + 2}`} fill="none" stroke="var(--foreground)" strokeWidth="0.75" opacity={on} />
+              {c.fault && (
+                <text
+                  x={c.x + 8.5}
+                  y={c.y + 1}
+                  fontSize="2.8"
+                  letterSpacing="0.12em"
+                  fill="var(--muted-foreground)"
+                  opacity={0.45 + on * 0.4}
+                  style={{ fontFamily: "var(--font-mono)" }}
+                >
+                  SYSTEM FAULT
+                </text>
+              )}
             </g>
           );
         })}
 
-        {/* The thesis, once the ladder has run. */}
-        <text
-          x="52"
-          y="374"
-          textAnchor="middle"
-          fontSize="3.3"
-          letterSpacing="0.16em"
-          fill="var(--muted-foreground)"
-          opacity={payoff * 0.85}
-        >
-          EVERY FAULT LEAVES A RECORD
-        </text>
+        {/* Coil. Breathes once the circuit latches. */}
+        <circle cx="30" cy="310" r="6" fill="none" stroke="var(--hairline)" strokeWidth="0.8" />
+        <g className="star-breathe" opacity={coilOn}>
+          <circle cx="30" cy="310" r="6" fill="none" stroke="var(--foreground)" strokeWidth="0.85" />
+          <circle cx="30" cy="310" r="2" fill="var(--foreground)" opacity="0.8" />
+        </g>
       </svg>
     </div>
   );

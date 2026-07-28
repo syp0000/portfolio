@@ -280,7 +280,7 @@ function Home() {
                   <p className="mt-5 text-[1.05rem] font-semibold leading-relaxed md:text-xl">
                     {p.problem}
                   </p>
-                  <p className="mt-4 text-[0.975rem] leading-relaxed text-muted-foreground">
+                  <p className="mt-4 text-[1.0125rem] leading-relaxed text-muted-foreground">
                     {p.outcome}
                   </p>
                   {/* mt-auto pins the footer down, so the narrow cards end at
@@ -315,7 +315,7 @@ function Home() {
               className="border-t border-hairline py-6 first:border-t-0 first:pt-0"
             >
               <h3 className="text-base font-semibold">{a.title}</h3>
-              <p className="mt-1.5 text-[0.975rem] leading-relaxed text-muted-foreground">
+              <p className="mt-1.5 text-[1.0125rem] leading-relaxed text-muted-foreground">
                 {a.body}
               </p>
             </Reveal>

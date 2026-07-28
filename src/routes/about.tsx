@@ -86,7 +86,7 @@ function Portrait() {
         className="size-48 rounded-full border border-hairline bg-surface object-cover shadow-[0_24px_50px_-28px_rgb(0_0_0/0.6)] md:size-64"
       />
       <figcaption className="meta-row max-w-[16rem] text-center leading-relaxed">
-        AI generated with Gemini, so the real face may differ
+        AI-generated with Gemini. Synthetic media, clearly disclosed.
       </figcaption>
     </figure>
   );
@@ -104,7 +104,7 @@ function About() {
             </h1>
           </Reveal>
           <Reveal delay={60}>
-          <div className="mt-10 max-w-2xl space-y-6 text-[1.0625rem] leading-relaxed text-foreground/80">
+          <div className="mt-10 max-w-2xl space-y-6 text-[1.125rem] leading-relaxed text-foreground/90">
             <p>
               I’m a software engineer with a background in data science. I currently work directly with users on a manufacturing floor, where I found a real workflow problem and built a solution without being asked.
             </p>
@@ -135,7 +135,7 @@ function About() {
               <div className="min-w-0">
                 <h2 className="text-lg font-semibold">{t.role}</h2>
                 <p className="meta-row mt-1">{t.org}</p>
-                <ul className="mt-3 max-w-2xl space-y-2 text-[0.975rem] leading-relaxed text-muted-foreground">
+                <ul className="mt-3 max-w-2xl space-y-2 text-[1.0125rem] leading-relaxed text-muted-foreground">
                   {t.body.map((line) => (
                     <li key={line} className="flex gap-2.5">
                       <span aria-hidden className="mt-[0.55em] size-1 shrink-0 rounded-full bg-muted-foreground/60" />

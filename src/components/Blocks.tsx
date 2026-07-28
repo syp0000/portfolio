@@ -22,7 +22,7 @@ export function MetricStrip({ items }: { items: Metric[] }) {
           <div className="num text-4xl font-medium md:text-5xl">
             <CountUp value={m.value} />
           </div>
-          <p className="mt-3 max-w-[24ch] text-sm leading-relaxed text-muted-foreground">
+          <p className="mt-3 max-w-[24ch] text-[0.9375rem] leading-relaxed text-muted-foreground">
             {m.label}
           </p>
         </Reveal>
@@ -75,7 +75,7 @@ export function CaseBlock({
 
 export function Prose({ children }: { children: ReactNode }) {
   return (
-    <div className="max-w-3xl space-y-5 text-[1.0625rem] leading-relaxed text-foreground/80">
+    <div className="max-w-3xl space-y-5 text-[1.125rem] leading-relaxed text-foreground/90">
       {children}
     </div>
   );
@@ -85,7 +85,7 @@ export function MiniCard({ title, body }: { title: string; body: string }) {
   return (
     <div className="card-craft overflow-hidden rounded-md border border-hairline bg-card p-5">
       <h4 className="text-[0.95rem] font-semibold">{title}</h4>
-      <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{body}</p>
+      <p className="mt-2 text-[0.9375rem] leading-relaxed text-muted-foreground">{body}</p>
     </div>
   );
 }
@@ -140,7 +140,7 @@ export function DecisionList({ items }: { items: { title: string; body: string }
           </span>
           <div className="min-w-0">
             <h4 className="text-[1.0625rem] font-semibold">{d.title}</h4>
-            <p className="mt-2 text-[0.975rem] leading-relaxed text-muted-foreground">{d.body}</p>
+            <p className="mt-2 text-[1.0125rem] leading-relaxed text-muted-foreground">{d.body}</p>
           </div>
         </li>
       ))}
@@ -168,7 +168,7 @@ export function ContributionRows({
         ))}
       </div>
       {note && (
-        <p className="mt-5 max-w-3xl text-[0.975rem] leading-relaxed text-muted-foreground">
+        <p className="mt-5 max-w-3xl text-[1.0125rem] leading-relaxed text-muted-foreground">
           {note}
         </p>
       )}
@@ -209,7 +209,7 @@ export function ScreenshotSlot({
             className="block h-auto w-full bg-surface object-contain"
           />
         </DeviceFrame>
-        <figcaption className="mt-4 text-left text-sm leading-relaxed text-muted-foreground">
+        <figcaption className="mt-4 text-left text-[0.9375rem] leading-relaxed text-muted-foreground">
           {ownerTag}
           {caption}
         </figcaption>
@@ -223,7 +223,7 @@ export function ScreenshotSlot({
       <p className="meta-row">Screenshot placeholder</p>
       {file && <p className="num text-sm text-accent">{file}</p>}
       {ownerTag}
-      <p className="max-w-md text-sm leading-relaxed text-muted-foreground">{caption}</p>
+      <p className="max-w-md text-[0.9375rem] leading-relaxed text-muted-foreground">{caption}</p>
     </div>
   );
 }
@@ -243,7 +243,7 @@ export function Figure({
   return (
     <figure className="rounded-md border border-hairline bg-card p-5 md:p-8">
       <div className="overflow-x-auto">{children}</div>
-      <figcaption className="mt-5 border-t border-hairline pt-4 text-sm leading-relaxed text-muted-foreground">
+      <figcaption className="mt-5 border-t border-hairline pt-4 text-[0.9375rem] leading-relaxed text-muted-foreground">
         <span className="num mr-2 text-foreground">Fig. {number}.</span>
         {caption}
       </figcaption>
@@ -286,7 +286,7 @@ export function VideoFigure({
           <p className="meta-row text-muted-foreground">Video slot, expected file: ncr-demo.mp4</p>
         </div>
       )}
-      <figcaption className="border-t border-hairline px-5 py-4 text-sm leading-relaxed text-muted-foreground">
+      <figcaption className="border-t border-hairline px-5 py-4 text-[0.9375rem] leading-relaxed text-muted-foreground">
         {caption}
       </figcaption>
     </figure>
@@ -314,7 +314,7 @@ export function FullBleedShot({ file, caption }: { file: string; caption: string
             />
           </DeviceFrame>
         </div>
-        <figcaption className="mx-auto mt-6 max-w-6xl px-5 text-sm leading-relaxed text-muted-foreground md:px-8">
+        <figcaption className="mx-auto mt-6 max-w-6xl px-5 text-[0.9375rem] leading-relaxed text-muted-foreground md:px-8">
           {caption}
         </figcaption>
       </figure>

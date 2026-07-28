@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { CaseStudy, type CaseData } from "@/components/CaseStudy";
+import { CaseStudy, Key, Mark, type CaseData } from "@/components/CaseStudy";
 import { NcrDiagram } from "@/components/Diagrams";
 import { StandingShot } from "@/components/Frames";
 
@@ -36,6 +36,24 @@ const data: CaseData = {
   repoUrl: "https://github.com/syp0000/Demo_ncr",
 
   lede: "Nonconformance reports on the battery line were still being written by hand, passed around verbally, and entered again later. I noticed the problem while working on root cause analysis and built a tool to replace that process, even though nobody had asked me to.",
+  summary: {
+    problem: (
+      <>
+        Managers manually wrote around <Key>100 reports per day</Key>.
+      </>
+    ),
+    built: (
+      <>
+        A <Key>production reporting workflow</Key> used by the floor team.
+      </>
+    ),
+    result: (
+      <>
+        Reporting time fell from <Key>10 minutes to 3</Key>, with{" "}
+        <Key>2,500+ structured records</Key>.
+      </>
+    ),
+  },
   metrics: [
     { value: "10 to 3", label: "Minutes per report" },
     { value: "100", label: "Reports moving through it each day" },
@@ -78,21 +96,21 @@ const data: CaseData = {
   built: (
     <>
       <p>
-        I built a mobile first quality reporting tool for the production line, designed for the
+        I built a <Mark>mobile first quality reporting tool</Mark> for the production line, designed for the
         moment when an operator lead is standing at the station with a phone in hand and no time to
         fight software.
       </p>
       <p>
-        The app turns a quick line side form into a structured, auditable record in PostgreSQL on
+        The app turns a quick line side form into a <Mark>structured, auditable record</Mark> in PostgreSQL on
         AWS RDS. Operators can see all records, edit only their own, and grant shared edit access
         when another user needs to help. Admins get full database access. Completed records are
-        locked before editing, and every change is captured in per record history, so the audit
+        locked before editing, and <Mark>every change is captured in per record history</Mark>, so the audit
         trail is as real as the report itself.
       </p>
       <p>
         The workflow is built around the way the plant actually runs. Records are grouped into My
-        Records and All Records, filtered by Open and Done, and shown across the last two
-        operational days instead of calendar days. Deletion is soft, bulk actions are supported, and
+        Records and All Records, filtered by Open and Done, and shown across the <Mark>last two
+        operational days instead of calendar days</Mark>. Deletion is soft, bulk actions are supported, and
         each report carries the details that matter on the floor: management number, station, time
         window, report type, issue, action, and optional evidence photo.
       </p>
@@ -100,19 +118,19 @@ const data: CaseData = {
         The form does the quiet work for the operator. It calculates duration from start and end
         time, steps management numbers up or down, handles suffixes, switches between Work
         Completion and Defect Report modes, and catches bad entries inline. If someone tries to file
-        the same management number and process twice within twenty four hours, the app stops them
-        with a specific message.
+        the same management number and process twice within twenty four hours, <Mark>the app stops them
+        with a specific message</Mark>.
       </p>
       <p>
         I also added Korean and English polish and translation for the two free text fields. The
         browser never talks to the model directly. The app API relays the request, and the model
-        only touches the text the operator reviews. Structured values stay deterministic, validated,
-        and human owned.
+        only touches the text the operator reviews. <Mark>Structured values stay deterministic, validated,
+        and human owned.</Mark>
       </p>
       <p>
         The result is a tool that removes the worst part of recurring quality reports: retyping the
         same station level defect again and again. Operators can copy a clean numbered report,
-        export JSON, attach evidence, and move on. Fast on the floor, defensible in an audit.
+        export JSON, attach evidence, and move on. <Mark>Fast on the floor, defensible in an audit.</Mark>
       </p>
     </>
   ),

@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { CaseStudy, type CaseData } from "@/components/CaseStudy";
+import { CaseStudy, Key, Mark, type CaseData } from "@/components/CaseStudy";
 import { CompassDiagram, CompassMark } from "@/components/Diagrams";
 import { StandingShot } from "@/components/Frames";
 import demoVideo from "@/assets/event-compass-demo.mp4.asset.json";
@@ -46,6 +46,26 @@ const data: CaseData = {
   repoUrl: "https://github.com/syp0000/EventCompass",
 
   lede: "The University Program Board runs some of the biggest events on campus, but planning often depended on what previous organizers happened to remember. For Event Compass, I built the data foundation behind the planner dashboard, turning a raw Qualtrics export into reliable analytics planners could actually use.",
+  summary: {
+    problem: (
+      <>
+        Campus event planners worked from memory, because the survey data sat in an{" "}
+        <Key>84 column export</Key> nobody could query.
+      </>
+    ),
+    built: (
+      <>
+        The cleaning pipeline, the Supabase schema, <Key>18 analytics endpoints</Key>, and{" "}
+        <Key>Campus Insights</Key>, the dashboard planners open first.
+      </>
+    ),
+    result: (
+      <>
+        <Key>54,684 raw survey points</Key> filtered to <Key>36,308</Key> across 58 documented
+        fields, powering four dashboard views.
+      </>
+    ),
+  },
   metrics: [
     { value: "49", label: "API routes, across 41 React components and 11 pages" },
     {
@@ -120,25 +140,25 @@ const data: CaseData = {
   built: (
     <>
       <p>
-        The project starts with the data. The raw Qualtrics export had 649 survey responses spread
-        across 84 columns, plus extra header rows, metadata, preview entries, low quality
-        submissions, and fields that were not useful for planning. After cleaning, it became 626
-        usable responses across 58 columns. Rows were filtered using reCAPTCHA score and response
-        duration, and identifying or administrative fields were removed before the data was used in
+        The project starts with the data. The raw Qualtrics export had <Mark>649 survey responses spread
+        across 84 columns</Mark>, plus extra header rows, metadata, preview entries, low quality
+        submissions, and fields that were not useful for planning. After cleaning, it became <Mark>626
+        usable responses across 58 columns</Mark>. Rows were <Mark>filtered using reCAPTCHA score and response
+        duration</Mark>, and identifying or administrative fields were removed before the data was used in
         the app.
       </p>
       <p>
-        The cleaning step also created a data dictionary. Every original column was mapped to a
+        <Mark>The cleaning step also created a data dictionary</Mark>. Every original column was mapped to a
         short name, the actual survey question, and the Qualtrics import ID. That made the survey
         easier to query and easier to maintain when the export changed. For open text answers, a
-        second pass protected 46 campus specific phrases such as Cedar Point, West Side Market,
+        second pass protected <Mark>46 campus specific phrases</Mark> such as Cedar Point, West Side Market,
         Thwing Tuesday, UPBeat Spring Concert, and Ninja Creami before tokenizing the text. After
         that, the text was cleaned, lemmatized, and stripped of common filler words.
       </p>
       <p>
         The product built on top of that data is more than a chat box. It opens with Campus
-        Insights, a dashboard for survey analytics with four sections: campus preferences,
-        demographics, budget and price sensitivity, and engagement and community. It shows what
+        Insights, a dashboard for survey analytics with <Mark>four sections: campus preferences,
+        demographics, budget and price sensitivity, and engagement and community</Mark>. It shows what
         students want, who responded, what they are willing to pay, how they hear about events, what
         keeps them from attending, and what makes them feel connected to campus.
       </p>
@@ -146,25 +166,25 @@ const data: CaseData = {
         The event builder starts by asking how much the planner already knows. They can begin with
         no idea, a rough idea, or a solid idea. From there, the app collects the organization name,
         mission, goals, vibe, preferred dates, location needs, venue, constraints, budget, and
-        expected attendance. Based on that brief, it creates several complete event concepts with a
+        expected attendance. Based on that brief, it <Mark>creates several complete event concepts</Mark> with a
         budget range, duration, attendance estimate, venue, activities, schedule, supplies, and prep
         tasks.
       </p>
       <p>
         Once the planner picks a concept, they choose what parts of the plan to create: activities,
-        schedule, shopping list, task checklist, and budget. The final event plan has eight tabs:
+        schedule, shopping list, task checklist, and budget. <Mark>The final event plan has eight tabs</Mark>:
         Overview, Activities, Schedule, Tasks, Budget, Shopping, Summary, and Forecast. Each event
         can move through Planning, Confirmed, Completed, or Cancelled.
       </p>
       <p>
-        The shopping tab connects planning to real products. It searches Amazon first, then Google
-        Shopping if needed, and returns listings with images, prices, ratings, reviews, vendors, and
+        The shopping tab connects planning to real products. It <Mark>searches Amazon first, then Google
+        Shopping if needed</Mark>, and returns listings with images, prices, ratings, reviews, vendors, and
         links within the selected price range. Choosing a product fills in the vendor, price, and
         link for the shopping item.
       </p>
       <p>
         The budget tab tracks the total budget, allocated amounts, spending, remaining funds, and
-        category progress. The forecast tab gives the event a predicted score out of 5.00, estimates
+        category progress. The forecast tab gives the event <Mark>a predicted score out of 5.00</Mark>, estimates
         attendance and rating, and shows which features affected the prediction, including timing,
         structure, incentives, budget, registration, and location. At the end, the planner can
         generate a report and use the browser print dialog to save it as a PDF.

@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { ArrowSquareOut, GithubLogo } from "@phosphor-icons/react";
 import { Reveal } from "./Reveal";
 import {
@@ -25,6 +25,11 @@ export type CaseData = {
   /** Optional decorative mark shown beside the headline. */
   mark?: ReactNode;
   lede: string;
+  /**
+   * The 15 second read. Required, so no case study can ship without one.
+   * ReactNode rather than string so the figures can carry <strong>.
+   */
+  summary: { problem: ReactNode; built: ReactNode; result: ReactNode };
   metrics: Metric[];
   contributions?: { title: string; heading?: string; items: { title: string; body: string }[]; note?: string };
   costLabel?: string;
@@ -54,6 +59,83 @@ export type CaseData = {
 };
 
 
+
+/**
+ * Emphasis for the figure that matters in a summary line. Same accent underline
+ * the homepage headline uses, so the site has one way of saying "this bit".
+ * box-decoration-break keeps the rule under every line when it wraps.
+ */
+export function Key({ children }: { children: ReactNode }) {
+  return (
+    <span className="border-b-[0.09em] border-accent/70 pb-[0.03em] font-semibold [box-decoration-break:clone]">
+      {children}
+    </span>
+  );
+}
+
+/**
+ * Highlighter for a phrase inside a long paragraph. Sweeps in while the phrase
+ * is in the middle of the viewport and retracts once it leaves, in both scroll
+ * directions. The words stay semibold throughout: animating weight would reflow
+ * the paragraph under the reader's eye mid-scroll.
+ */
+export function Mark({ children }: { children: ReactNode }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const [lit, setLit] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      // Stays observing rather than disconnecting on first hit, so the
+      // highlight retracts on the way out and sweeps back in on the way
+      // return, in whichever direction the reader is going.
+      ([e]) => setLit(e.isIntersecting),
+      // Symmetric band: lit only while the phrase sits in the middle 60% of
+      // the viewport, so it lights and clears at the same point either way.
+      { rootMargin: "-20% 0px -20% 0px" },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  return (
+    <span ref={ref} data-lit={lit} className="mark-sweep">
+      {children}
+    </span>
+  );
+}
+
+/**
+ * The whole case study in three lines, above the fold. Everything here is said
+ * again at length further down; this is the version for someone who gives the
+ * page twenty seconds.
+ */
+function SkimBlock({ summary }: { summary: CaseData["summary"] }) {
+  const rows: [string, ReactNode][] = [
+    ["Problem", summary.problem],
+    ["What I built", summary.built],
+    ["Result", summary.result],
+  ];
+
+  return (
+    <div className="mt-10">
+      <p className="meta-row tick-label text-accent">Quick summary</p>
+      {/* Full container width, matching the metric strip below it. */}
+      <dl className="mt-4 divide-y divide-hairline rounded-md border-2 border-accent/40 bg-surface">
+        {rows.map(([label, value]) => (
+          <div
+            key={label}
+            className="grid gap-1 px-5 py-4 md:grid-cols-[minmax(0,9rem)_1fr] md:gap-8 md:px-6"
+          >
+            <dt className="meta-row pt-0.5 text-accent">{label}</dt>
+            <dd className="text-[1.0625rem] font-medium leading-relaxed">{value}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  );
+}
 
 export function CaseStudy({ data }: { data: CaseData }) {
   return (
@@ -104,6 +186,9 @@ export function CaseStudy({ data }: { data: CaseData }) {
             )}
           </div>
          </div>
+        </Reveal>
+        <Reveal delay={80}>
+          <SkimBlock summary={data.summary} />
         </Reveal>
       </div>
 

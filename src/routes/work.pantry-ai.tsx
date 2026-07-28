@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { CaseStudy, type CaseData } from "@/components/CaseStudy";
+import { CaseStudy, Key, Mark, type CaseData } from "@/components/CaseStudy";
 import { PantryDiagram, PantryMark } from "@/components/Diagrams";
 import { shotImages } from "@/lib/shots";
 
@@ -28,6 +28,25 @@ const data: CaseData = {
   headline: "Cook from what you already have.",
   mark: <PantryMark className="h-80 w-80" />,
   lede: "Food gets wasted when people forget what is sitting in the back of the pantry. PantryAI helps users track what they own, see what is close to expiring, generate recipes from those ingredients, and plan meals for the week.",
+  summary: {
+    problem: (
+      <>
+        Food spoils at the <Key>back of the shelf</Key> because nobody remembers it is there.
+      </>
+    ),
+    built: (
+      <>
+        The Supabase schema and the migration off Firebase, <Key>18 pantry API routes</Key>, and the{" "}
+        <Key>weekly meal planner</Key>.
+      </>
+    ),
+    result: (
+      <>
+        A working product across <Key>55 endpoints</Key> and <Key>19 screens</Key>. Placed{" "}
+        <Key>third of twenty teams</Key>.
+      </>
+    ),
+  },
   metrics: [
     {
       value: "55",
@@ -77,7 +96,7 @@ const data: CaseData = {
     <>
       <p>PantryAI has four connected parts.</p>
       <p>
-        The pantry tracks ingredients, quantities, categories, and expiration dates. The recipe
+        <Mark>The pantry tracks ingredients, quantities, categories, and expiration dates</Mark>. The recipe
         generator uses selected pantry items to create recipes. The meal planner lets users schedule
         saved recipes onto a weekly calendar. The grocery list helps users track what they still
         need.
@@ -87,8 +106,8 @@ const data: CaseData = {
         browse what other people are cooking.
       </p>
       <p>
-        The important part is how the pieces connect. The pantry decides what ingredients are
-        available. The recipe generator works from those ingredients. The meal planner schedules the
+        <Mark>The important part is how the pieces connect</Mark>. <Mark>The pantry decides what ingredients are
+        available</Mark>. The recipe generator works from those ingredients. The meal planner schedules the
         recipes. The grocery list fills in what is missing.
       </p>
     </>

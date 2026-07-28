@@ -302,90 +302,24 @@ export function CursorFollower({ kind }: { kind: CursorKind }) {
 }
 
 /**
- * PantryAI food journey: loose hand-drawn line art travelling a soft S down
- * the band beside the case study. Phase 1, pantry ingredients surface
- * scattered along the top of the S; phase 2, they drift toward the middle and
- * hand off to a brief swirl of pasta on a fork; phase 3, everything resolves
- * into one finished plate that holds. Scroll owns all of it, nothing loops,
- * and there is not a word of text: the picture is the explanation.
- *
- * Ingredients stay lighter than body copy; the plate alone gets to be darker,
- * being the point of the story. Reduced motion swaps the choreography for a
- * static composition of ingredients leading to the plate.
+ * PantryAI food journey, in the case study's own watercolor illustrations.
+ * Phase 1: dry spaghetti, canned tomato, garlic, and olive oil surface
+ * scattered down a soft S beside the copy. Phase 2: they drift toward the
+ * middle and hand off to the finished plate of spaghetti. Phase 3: the plate
+ * gives way to an empty one, cutlery down: the meal was used well, not
+ * wasted. Scroll owns everything, and there is no text in the piece.
  */
 const smooth = (t: number) => (t <= 0 ? 0 : t >= 1 ? 1 : t * t * (3 - 2 * t));
 
-/** Shared ink, one stroke weight throughout. */
-function Ink({ children }: { children: React.ReactNode }) {
-  return (
-    <g fill="none" stroke="var(--accent)" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round">
-      {children}
-    </g>
-  );
-}
-
-const ING_ART = {
-  bundle: (
-    <Ink>
-      <path d="M-5 -14 L0 13 M-2 -15 L3 12 M1 -15 L6 12 M4 -14 L9 11" />
-      <path d="M-7 -3 L6 -6 L7 0 L-6 3 Z" />
-    </Ink>
-  ),
-  tomatoes: (
-    <Ink>
-      <circle cx="-4" cy="2" r="3.4" />
-      <circle cx="3.5" cy="4" r="2.8" />
-      <circle cx="1" cy="-3.5" r="3" />
-      <path d="M-4 -1.4 l-1 -1.6 M1 -6.5 l0.8 -1.6 M3.5 1.2 l1.2 -1.4" />
-    </Ink>
-  ),
-  pepper: (
-    <Ink>
-      <path d="M0 -8 C-6 -8 -8 -2 -7 3 C-6 8 -3 10.5 0 10.5 C3 10.5 6 8 7 3 C8 -2 6 -8 0 -8 Z" />
-      <path d="M-2.5 10 C-2.6 4 -2.6 -2 -1.6 -7.6 M2.5 10 C2.6 4 2.6 -2 1.6 -7.6" />
-      <path d="M0 -8 C0.2 -10 -0.8 -11 -1.8 -12.2 M-3 -9.6 q3 -1.4 6 0" />
-    </Ink>
-  ),
-  basil: (
-    <Ink>
-      <path d="M-9 2 C-7 -3 -2 -4.5 2 -2 C0.5 3 -4.5 5 -9 2 Z" />
-      <path d="M-7.5 1.6 C-5 -0.9 -2 -1.9 1 -1.6" />
-      <path d="M2 3.5 C4 0.3 8 -0.3 10.5 1.5 C9.4 4.9 5.6 6.1 2 3.5 Z" />
-      <path d="M3.4 3.4 C5.8 1.6 8.2 1.4 9.7 1.8" />
-    </Ink>
-  ),
-  oil: (
-    <Ink>
-      <path d="M-2.5 -13 h5 v3.5 c3 1.5 4.5 4 4.5 7 v11.5 a2.5 2.5 0 0 1 -2.5 2.5 h-9 a2.5 2.5 0 0 1 -2.5 -2.5 v-11.5 c0 -3 1.5 -5.5 4.5 -7 z" />
-      <path d="M-3.2 -14.6 h6.4 M-6 3 q3 -1.4 6 0 t6 0" />
-    </Ink>
-  ),
-  swirl: (
-    <Ink>
-      <path d="M0 13 V0 M-3 -10 V-2.5 M0 -11 V-2.5 M3 -10 V-2.5 M-3 -2.5 Q0 0 3 -2.5" />
-      <path d="M-7 -7 A7 5.6 0 1 0 7 -8 M5.5 -10.5 A4.5 3.6 0 1 1 -4.5 -9" />
-    </Ink>
-  ),
-  plate: (
-    <Ink>
-      <path d="M-15 0 C-15 -8.5 -8.5 -15.2 0 -15 C8.8 -14.8 15.2 -8.3 15 0 C14.8 8.6 8.4 15.2 0 15 C-8.6 14.8 -15 8.4 -15 0 Z" />
-      <path d="M-9.5 0.5 C-9 -5.3 -4.5 -9.4 1 -9 C6.4 -8.6 9.7 -4.5 9.2 0.8 C8.7 5.7 4.3 9.4 -0.8 9.1 C-5.7 8.8 -9.7 5.3 -9.5 0.5 Z" opacity="0.75" />
-      <path d="M-7.5 -3 q2 -1.7 4.3 -0.6 M-2.5 -7 q2.4 -1 4.6 0.2 M4.5 -5.5 q2 0.9 2.7 3 M6.5 2 q-0.4 2.5 -2.5 3.9 M0.5 7.3 q-2.6 0.6 -4.7 -0.8 M-6.6 3.8 q-1.4 -2 -1.1 -4.2" opacity="0.75" />
-      <path d="M-0.5 -2.5 c0.8 -1.6 2.6 -2 3.6 -1 c-0.6 1.4 -2.4 1.9 -3.6 1 Z" />
-    </Ink>
-  ),
-};
-
 /** Rest pose on the S, entry drift, and the progress marks of each life. */
 const INGREDIENTS = [
-  { art: ING_ART.bundle, x: 60, y: 42, r: -6, enter: 0.03, fade: 0.46, drift: 14 },
-  { art: ING_ART.tomatoes, x: 33, y: 82, r: 5, enter: 0.08, fade: 0.54, drift: 12 },
-  { art: ING_ART.pepper, x: 63, y: 116, r: 7, enter: 0.14, fade: 0.5, drift: 13 },
-  { art: ING_ART.basil, x: 29, y: 146, r: -8, enter: 0.11, fade: 0.57, drift: 12 },
-  { art: ING_ART.oil, x: 59, y: 176, r: 4, enter: 0.21, fade: 0.59, drift: 14 },
+  { href: "/pasta/j-spaghetti.webp", w: 30, h: 527 / 560, x: 56, y: 32, r: -8, enter: 0.03, fade: 0.46, drift: 10 },
+  { href: "/pasta/j-tomato.webp", w: 16, h: 560 / 420, x: 30, y: 62, r: 5, enter: 0.08, fade: 0.54, drift: 8 },
+  { href: "/pasta/j-garlic.webp", w: 24, h: 1, x: 66, y: 86, r: 6, enter: 0.14, fade: 0.5, drift: 9 },
+  { href: "/pasta/j-oil.webp", w: 14, h: 560 / 379, x: 29, y: 108, r: -5, enter: 0.2, fade: 0.58, drift: 9 },
 ] as const;
 
-const CENTER = { x: 46, y: 208 };
+const CENTER = { x: 46, y: 142 };
 
 export function PantryJourney() {
   const [progress, setProgress] = useState(0);
@@ -402,56 +336,56 @@ export function PantryJourney() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Reduced motion: a still life, ingredients leading to the plate.
+  // Reduced motion: a still life, ingredients leading to the finished meal.
   const p = reduced ? null : progress;
 
-  const swirlIn = p === null ? 0 : smooth((p - 0.36) / 0.1);
-  const swirlOut = p === null ? 1 : smooth((p - 0.62) / 0.1);
-  const plateIn = p === null ? 1 : smooth((p - 0.6) / 0.16);
+  const mealIn = p === null ? 1 : smooth((p - 0.48) / 0.14);
+  const mealOut = p === null ? 0 : smooth((p - 0.76) / 0.1);
+  const emptyIn = p === null ? 0 : smooth((p - 0.8) / 0.12);
 
   return (
     <div
       aria-hidden="true"
       className="pointer-events-none fixed inset-y-0 left-0 z-0 hidden w-[25vw] lg:flex lg:items-center lg:justify-center"
     >
-      <svg viewBox="0 0 100 380" className="max-h-[90vh] w-full overflow-visible">
+      <svg viewBox="0 0 100 240" className="max-h-[90vh] w-full overflow-visible">
         {INGREDIENTS.map((g) => {
-          // Each ingredient: drifts up into its rest pose, later slides toward
-          // the centre of the S and fades. Staggered marks keep the five from
+          // Each ingredient drifts up into its rest pose, later slides toward
+          // the centre of the S and fades. Staggered marks keep the four from
           // ever moving as one.
           const a = p === null ? 1 : smooth((p - g.enter) / 0.09);
           const f = p === null ? 0 : smooth((p - g.fade) / 0.12);
           const c = p === null ? 0 : smooth((p - 0.44) / 0.2);
-          const o = a * (1 - f) * (p === null ? 0.55 : 0.75);
+          const o = a * (1 - f) * (p === null ? 0.85 : 0.95);
           if (o <= 0.01) return null;
           const x = g.x + (CENTER.x - g.x) * c * 0.8;
           const y = g.y + g.drift * (1 - a) + (CENTER.y - g.y) * c * 0.8;
           const r = g.r * (1 - a * 0.4) + c * 6;
+          const hh = g.w * g.h;
           return (
-            <g key={g.x + "-" + g.y} opacity={o} transform={`translate(${x} ${y}) rotate(${r}) scale(1.25)`}>
-              {g.art}
+            <g key={g.href} opacity={o} transform={`translate(${x} ${y}) rotate(${r})`}>
+              <image href={g.href} x={-g.w / 2} y={-hh / 2} width={g.w} height={hh} />
             </g>
           );
         })}
 
-        {/* The brief middle beat: pasta on the fork, mixing */}
-        {swirlIn > 0.01 && swirlOut < 0.99 && (
+        {/* The meal, plated, briefly the whole story */}
+        {mealIn > 0.01 && mealOut < 0.99 && (
           <g
-            opacity={swirlIn * (1 - swirlOut) * 0.85}
-            transform={`translate(${CENTER.x} ${CENTER.y}) rotate(${-6 + 12 * (p ?? 0.5)}) scale(${1.2 + swirlIn * 0.25})`}
+            opacity={mealIn * (1 - mealOut)}
+            transform={`translate(${CENTER.x} ${CENTER.y + 14}) rotate(${-3 + 3 * mealIn}) scale(${0.9 + mealIn * 0.12})`}
           >
-            {ING_ART.swirl}
+            <image href="/pasta/j-food.webp" x={-23} y={-23 * (436 / 560)} width={46} height={46 * (436 / 560)} />
           </g>
         )}
 
-        {/* The meal. Alone on the page by the time it settles, and the one
-            drawing allowed to be darker than the rest. */}
-        {plateIn > 0.01 && (
+        {/* And after: the plate empty, cutlery down. Used well, not wasted. */}
+        {emptyIn > 0.01 && (
           <g
-            opacity={plateIn * 0.95}
-            transform={`translate(46 ${302 - (1 - plateIn) * 10}) scale(${1.35 + plateIn * 0.25})`}
+            opacity={emptyIn}
+            transform={`translate(46 ${198 - (1 - emptyIn) * 8}) scale(${0.92 + emptyIn * 0.1})`}
           >
-            {ING_ART.plate}
+            <image href="/pasta/j-empty.webp" x={-22} y={-22 * (439 / 560)} width={44} height={44 * (439 / 560)} />
           </g>
         )}
       </svg>

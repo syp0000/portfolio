@@ -431,6 +431,13 @@ html:has(.theme-ncr) {
   }
 }
 
+/* Gentler shimmer for the Big Dipper's named stars: they breathe, never blink. */
+@keyframes star-breathe {
+  50% {
+    opacity: 0.68;
+  }
+}
+
 @layer base {
   * {
     border-color: var(--border);
@@ -537,6 +544,10 @@ html:has(.theme-ncr) {
   [data-lit="true"] > & {
     color: var(--accent);
   }
+}
+
+@utility star-breathe {
+  animation: star-breathe 3.4s ease-in-out infinite;
 }
 
 @utility num {

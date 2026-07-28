@@ -56,21 +56,32 @@ export function StarField() {
  * Big Dipper as it hangs on a summer evening: handle arcing up and to the left,
  * bowl sitting low and right. Listed from the handle tip down, so scroll
  * progress lights the constellation top to bottom as the page moves.
- * Coordinates are the real asterism shape in a 100x180 viewBox.
+ *
+ * Star sizes come from the real apparent magnitudes, so Megrez is visibly the
+ * faint one and Alioth, Dubhe, and Alkaid carry the shape, the way the actual
+ * asterism reads. Dubhe is a K-class giant, so it alone is warm. Mizar brings
+ * its companion Alcor, the classic eyesight test.
  */
 const DIPPER = [
-  [42, 10], // Alkaid, handle tip
-  [30, 48], // Mizar
-  [26, 80], // Alioth
-  [40, 110], // Megrez, where the handle meets the bowl
-  [72, 112], // Phecda
-  [78, 168], // Merak
-  [34, 160], // Dubhe
+  { x: 42, y: 10, name: "Alkaid", mag: 1.86, warm: false, lx: 7, ly: 2, end: false },
+  { x: 30, y: 48, name: "Mizar", mag: 2.23, warm: false, lx: -7, ly: 2, end: true },
+  { x: 26, y: 80, name: "Alioth", mag: 1.77, warm: false, lx: -7, ly: 2, end: true },
+  { x: 40, y: 110, name: "Megrez", mag: 3.31, warm: false, lx: 6, ly: -4, end: false },
+  { x: 72, y: 112, name: "Phecda", mag: 2.44, warm: false, lx: 7, ly: 2, end: false },
+  { x: 78, y: 168, name: "Merak", mag: 2.37, warm: false, lx: 7, ly: 2, end: false },
+  { x: 34, y: 160, name: "Dubhe", mag: 1.79, warm: true, lx: 2, ly: 9, end: false },
 ] as const;
 
-const POINTS = DIPPER.map(([x, y]) => `${x},${y}`).join(" ");
+const POINTS = DIPPER.map((s) => `${s.x},${s.y}`).join(" ");
 
-/** Constellation in the margin, lighting star by star with scroll progress. */
+/** Apparent magnitude to drawn radius: brighter star, bigger point. */
+const starR = (mag: number) => (4.9 - mag) * 0.95;
+
+/**
+ * Constellation in the margin, lighting star by star with scroll progress.
+ * Once the bowl completes, the pointer stars do their real job: Merak through
+ * Dubhe, a dashed line out to Polaris. The dipper is how you find the way.
+ */
 export function BigDipper() {
   const [progress, setProgress] = useState(0);
 
@@ -86,6 +97,8 @@ export function BigDipper() {
 
   // Leading star index, fractional so each one fades in rather than snaps.
   const lead = progress * (DIPPER.length - 1);
+  // The Polaris pointer earns its reveal only near the end of the page.
+  const pointer = Math.min(1, Math.max(0, (progress - 0.72) / 0.28));
 
   return (
     <div
@@ -99,28 +112,129 @@ export function BigDipper() {
             <feGaussianBlur stdDeviation="3.5" />
           </filter>
         </defs>
+
         {/* Bowl's fourth side, Dubhe back to Megrez. Not on the progress path,
             so it stays faint. */}
         <line x1="34" y1="160" x2="40" y2="110" stroke="var(--hairline)" strokeWidth="1" />
         <polyline points={POINTS} fill="none" stroke="var(--hairline)" strokeWidth="1" />
-        {/* pathLength=1 lets the dash offset be the scroll fraction directly. */}
+        {/* pathLength=1 lets the dash offset be the scroll fraction directly.
+            Two passes: a soft glow under a crisp line, like starlight. */}
         <polyline
           points={POINTS}
           fill="none"
           stroke="#fff"
-          strokeWidth="1.5"
-          opacity="0.85"
+          strokeWidth="2.4"
+          opacity="0.35"
+          filter="url(#star-glow)"
           pathLength={1}
           strokeDasharray="1"
           strokeDashoffset={1 - progress}
         />
-        {DIPPER.map(([x, y], i) => {
+        <polyline
+          points={POINTS}
+          fill="none"
+          stroke="#fff"
+          strokeWidth="1.2"
+          opacity="0.9"
+          pathLength={1}
+          strokeDasharray="1"
+          strokeDashoffset={1 - progress}
+        />
+
+        {/* Star chart caption, sitting inside the bowl. */}
+        <text
+          x="56"
+          y="140"
+          textAnchor="middle"
+          fontSize="4.2"
+          letterSpacing="0.18em"
+          fill="var(--muted-foreground)"
+          opacity="0.4"
+          style={{ fontFamily: "var(--font-mono)" }}
+        >
+          BIG DIPPER
+        </text>
+
+        {/* The Pointers: Merak through Dubhe leads to Polaris, and to north. */}
+        <g opacity={pointer}>
+          <line
+            x1="34"
+            y1="160"
+            x2="-3"
+            y2="153.3"
+            stroke="#fff"
+            strokeWidth="0.6"
+            strokeDasharray="2 3"
+            opacity="0.5"
+          />
+          <g transform="translate(-5 152.9)">
+            <circle r="4.5" fill="#fff" opacity="0.5" filter="url(#star-glow)" />
+            <path
+              d="M0 -4.6 V4.6 M-4.6 0 H4.6"
+              stroke="#fff"
+              strokeWidth="0.6"
+              strokeLinecap="round"
+              opacity="0.8"
+            />
+            <circle r="1.5" fill="#fff" />
+          </g>
+          <text
+            x="-5"
+            y="144"
+            textAnchor="middle"
+            fontSize="4"
+            fill="var(--muted-foreground)"
+            opacity="0.75"
+            style={{ fontFamily: "var(--font-mono)" }}
+          >
+            Polaris
+          </text>
+        </g>
+
+        {DIPPER.map((s, i) => {
           const on = Math.min(1, Math.max(0, lead - i + 1));
+          const r = starR(s.mag);
+          const color = s.warm ? "#ffd9a8" : "#d7e5ff";
+          const spike = r * (2.6 + on * 2.4);
           return (
-            <g key={i}>
-              <circle cx={x} cy={y} r="2.5" fill="var(--hairline)" />
-              <circle cx={x} cy={y} r={7} fill="#fff" opacity={on * 0.75} filter="url(#star-glow)" />
-              <circle cx={x} cy={y} r={2.5 + on * 1.5} fill="#fff" opacity={on} />
+            <g key={s.name} transform={`translate(${s.x} ${s.y})`}>
+              {/* Breathe wraps the whole star so halo, spikes, and core
+                  shimmer together. Duration and delay vary per star, so the
+                  sky never pulses in unison. */}
+              <g
+                className="star-breathe"
+                style={{ animationDuration: `${3.2 + (i % 3) * 0.9}s`, animationDelay: `${i * 0.7}s` }}
+              >
+                <circle r={r * 3.3} fill={color} opacity={0.16 + on * 0.5} filter="url(#star-glow)" />
+                {/* Diffraction spikes, the classic star-chart cross. Only a
+                    star the scroll has reached earns them. */}
+                <path
+                  d={`M0 ${-spike} V${spike} M${-spike} 0 H${spike}`}
+                  stroke={color}
+                  strokeWidth="0.65"
+                  strokeLinecap="round"
+                  opacity={on * 0.85}
+                />
+                <circle r={r * (0.8 + on * 0.35)} fill="#fff" opacity={0.7 + on * 0.3} />
+              </g>
+              {/* Alcor rides just above Mizar, the old eyesight test. */}
+              {s.name === "Mizar" && (
+                <g className="star-breathe" style={{ animationDuration: "4.6s", animationDelay: "1.9s" }}>
+                  <circle cx="5" cy="-4" r="2.4" fill={color} opacity={0.12 + on * 0.3} filter="url(#star-glow)" />
+                  <circle cx="5" cy="-4" r="0.9" fill="#fff" opacity={0.6 + on * 0.4} />
+                </g>
+              )}
+              <text
+                x={s.lx}
+                y={s.ly}
+                textAnchor={s.end ? "end" : "start"}
+                fontSize="4"
+                fill="var(--muted-foreground)"
+                opacity={0.25 + on * 0.45}
+                style={{ fontFamily: "var(--font-mono)" }}
+              >
+                {s.name}
+              </text>
             </g>
           );
         })}

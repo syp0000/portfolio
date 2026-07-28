@@ -200,8 +200,11 @@ export function CaseStudy({ data }: { data: CaseData }) {
         <FullBleedShot file={data.fullBleed.file} caption={data.fullBleed.caption} />
       )}
 
+      {/* Both full-bleed bands use bg-surface/80: translucent so the route's
+       * backdrop, the dipper on Event Compass, the doodles on Pantry, shows
+       * faintly through instead of vanishing for the whole section. */}
       {data.contributions && (
-        <section className="mt-16 border-y-2 border-accent/40 bg-surface md:mt-20">
+        <section className="mt-16 border-y-2 border-accent/40 bg-surface/80 md:mt-20">
           <div className="mx-auto max-w-6xl px-5 py-16 md:px-8 md:py-24">
             <Reveal>
               <p className="meta-row text-accent">{data.contributions.title}</p>
@@ -287,7 +290,7 @@ export function CaseStudy({ data }: { data: CaseData }) {
       </div>
 
       {data.ai && data.ai.length > 0 && (
-        <section className="border-y-2 border-accent/40 bg-surface">
+        <section className="border-y-2 border-accent/40 bg-surface/80">
           <div className="mx-auto max-w-6xl px-5 py-20 md:px-8 md:py-28">
             <Reveal>
               <p className="meta-row text-accent">

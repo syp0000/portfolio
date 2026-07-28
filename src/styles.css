@@ -431,6 +431,13 @@ html:has(.theme-ncr) {
   }
 }
 
+/* Signal pulse travelling down the NCR schematic bus. */
+@keyframes sig-travel {
+  to {
+    stroke-dashoffset: -18;
+  }
+}
+
 /* Gentler shimmer for the Big Dipper's named stars: they breathe, never blink. */
 @keyframes star-breathe {
   50% {
@@ -548,6 +555,10 @@ html:has(.theme-ncr) {
 
 @utility star-breathe {
   animation: star-breathe 3.4s ease-in-out infinite;
+}
+
+@utility sig-pulse {
+  animation: sig-travel 1.1s linear infinite;
 }
 
 @utility num {

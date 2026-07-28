@@ -11,7 +11,7 @@ import {
 import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
-import { BigDipper, CursorFollower, PantryJourney, StarField, type CursorKind } from "../components/Decor";
+import { BigDipper, CursorFollower, NcrSchematic, PantryJourney, StarField, type CursorKind } from "../components/Decor";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { SiteNav, SiteFooter } from "../components/SiteChrome";
 
@@ -129,7 +129,14 @@ function RootShell({ children }: { children: ReactNode }) {
   );
 }
 
-type Look = { theme: string; cursor: CursorKind; stars?: boolean; dipper?: boolean; journey?: boolean };
+type Look = {
+  theme: string;
+  cursor: CursorKind;
+  stars?: boolean;
+  dipper?: boolean;
+  journey?: boolean;
+  schematic?: boolean;
+};
 
 // Keyed by pathname with any trailing slash stripped, so home is "".
 const ROUTE_LOOKS: Record<string, Look> = {
@@ -138,7 +145,7 @@ const ROUTE_LOOKS: Record<string, Look> = {
   "/resume": { theme: "theme-shell", cursor: "star", stars: true },
   "/work/event-compass": { theme: "theme-space", cursor: "star", stars: true, dipper: true },
   "/work/pantry-ai": { theme: "theme-pantry", cursor: "pantry", journey: true },
-  "/work/ncr-assistant": { theme: "theme-ncr", cursor: "pencil" },
+  "/work/ncr-assistant": { theme: "theme-ncr", cursor: "pencil", schematic: true },
 };
 
 const DEFAULT_LOOK: Look = ROUTE_LOOKS[""];
@@ -165,6 +172,7 @@ function RootComponent() {
         <SiteFooter />
         {look.dipper && <BigDipper />}
         {look.journey && <PantryJourney />}
+        {look.schematic && <NcrSchematic />}
         <CursorFollower kind={look.cursor} />
       </div>
     </QueryClientProvider>

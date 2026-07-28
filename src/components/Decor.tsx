@@ -313,17 +313,27 @@ const JOURNEY = [
     y: 24,
     label: "ingredients",
     art: (
-      <g fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round">
-        {/* Dry spaghetti, banded */}
-        <path d="M-16 -13 L-11 13 M-13 -14 L-8 12 M-10 -14.5 L-5 11.5 M-7 -14 L-2 11" />
-        <path d="M-17 -2 L-5 -4 M-16.5 1 L-4.5 -1" />
-        {/* Garlic */}
-        <path d="M11 -15 C10 -12 6 -11.5 6 -8 C6 -4.7 8.5 -3 11 -3 C13.5 -3 16 -4.7 16 -8 C16 -11.5 12 -12 11 -15 Z M11 -8 V-3" />
-        {/* Tomato */}
-        <circle cx="10" cy="8" r="5.5" />
-        <path d="M10 2.5 l-2.5 -2.5 M10 2.5 l2.5 -2.5 M10 2.5 V0" />
-        {/* Basil leaf */}
-        <path d="M-9 16 Q-4 10 2 15 Q-3 21 -9 16 Z M-7.5 15.6 L0 14.8" />
+      <g fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
+        {/* Paper-wrapped spaghetti bundle, on the diagonal */}
+        <path d="M-19 -17 L-13 -2 M-16.5 -18 L-11 -2.5 M-14 -18.5 L-9 -3 M-11.5 -18 L-7 -3 M-21 -15.5 L-15 -1.5" />
+        <path d="M-17 -6 L-5 -9 L-4 -3 L-16 0 Z" />
+        <path d="M-16 -3 L-5 -6" strokeWidth="0.7" />
+        <path d="M-15 0 L-11 13 M-13 -0.5 L-9 13.5 M-11 -1 L-7 13 M-9 -1.7 L-5 12 M-7 -2.2 L-2 11" />
+        {/* Garlic bulb, clove lines and a little hatching */}
+        <path d="M10 -19 C8.6 -16.5 5 -16 4.3 -12.2 C3.7 -8.8 6.5 -6.3 10 -6.3 C13.5 -6.3 16.3 -8.8 15.7 -12.2 C15 -16 11.4 -16.5 10 -19 Z" />
+        <path d="M8.2 -6.6 C8 -10 8.6 -13.5 10 -19 M12 -6.6 C12.2 -10 11.6 -13.5 10 -19" strokeWidth="0.7" />
+        <path d="M8 -6.3 l-0.5 1.4 M10 -6.2 l0 1.5 M12 -6.3 l0.5 1.4" strokeWidth="0.7" />
+        <path d="M6.3 -8.6 q-0.8 -2.2 0 -4.2 M13.9 -8.8 q0.8 -2.2 0 -4.1" strokeWidth="0.7" />
+        {/* Tomato with star calyx and a highlight */}
+        <path d="M4 5 C4 1.6 6.6 -0.9 10 -0.9 C13.4 -0.9 16.1 1.7 16 5 C15.9 8.4 13.3 11 9.9 10.9 C6.5 10.8 4 8.3 4 5 Z" />
+        <path d="M10 -0.9 l-3.2 -1.7 M10 -0.9 l-1.2 -3 M10 -0.9 l1.4 -2.9 M10 -0.9 l3.3 -1.5" strokeWidth="0.9" />
+        <path d="M6.4 3.2 q0.5 -1.9 2.1 -2.7" strokeWidth="0.7" />
+        {/* Basil, two veined leaves */}
+        <path d="M-8 17.5 C-6 12.5 -1 11 3 13.5 C1.5 18.5 -3.5 20.5 -8 17.5 Z" />
+        <path d="M-6.5 17 C-4 14.5 -1 13.5 2 13.8" strokeWidth="0.7" />
+        <path d="M-4.8 15.8 l-0.8 1.7 M-2.4 14.6 l-0.7 1.9 M-0.2 13.9 l-0.5 1.9" strokeWidth="0.7" />
+        <path d="M4.5 16.2 C6.3 13 10.2 12.4 12.8 14.2 C11.6 17.6 7.9 18.8 4.5 16.2 Z" />
+        <path d="M5.8 16 C8.2 14.2 10.6 14 12.1 14.4" strokeWidth="0.7" />
       </g>
     ),
   },
@@ -331,14 +341,21 @@ const JOURNEY = [
     y: 88,
     label: "prep",
     art: (
-      <g fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round">
-        {/* Board */}
-        <rect x="-15" y="2" width="30" height="12" rx="3" />
-        {/* Knife */}
-        <path d="M-13 -9 H3 L1.5 -4.5 H-11 Q-14.5 -6.5 -13 -9 Z" />
-        <path d="M3 -6.75 H12" strokeWidth="2.4" />
-        {/* Chopped bits */}
-        <path d="M-8 6 h2 v2 h-2 Z M-2 8 h2 v2 h-2 Z M4 6 h2 v2 h-2 Z" />
+      <g fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
+        {/* Wooden board with grain and a handle hole */}
+        <path d="M-16 4 L12 3.4 Q15.5 3.4 15.6 6.8 L15.8 11.6 Q15.8 14.8 12.4 14.9 L-13 15.4 Q-16.4 15.4 -16.3 12 Z" />
+        <path d="M-13 8 q6 -1 12 0 t10 0.4 M-12 11.6 q6 1 12 0 t9 -0.6" strokeWidth="0.7" />
+        <circle cx="12.6" cy="9" r="1.2" strokeWidth="0.9" />
+        {/* Chef's knife, riveted handle */}
+        <path d="M-15 -8.8 L2.5 -9.4 C1.8 -5.4 -1.5 -3.4 -6 -3.6 L-12.6 -4.4 C-15 -5.2 -15.8 -7 -15 -8.8 Z" />
+        <path d="M2.6 -9.6 L13 -10.1 Q14.8 -10.2 14.7 -8.4 Q14.6 -6.6 12.8 -6.6 L2.9 -6.9 Z" />
+        <circle cx="6.2" cy="-8.4" r="0.45" fill="currentColor" stroke="none" />
+        <circle cx="10.6" cy="-8.6" r="0.45" fill="currentColor" stroke="none" />
+        {/* Chopped tomato, seeds in the wedges */}
+        <path d="M-8 7.6 l2.6 -1.4 l0.8 2.6 l-2.8 0.7 Z M-1 9.6 l2.4 -1.2 l1 2.4 l-2.7 0.8 Z M6 7 l2.2 -1 l0.9 2.2 l-2.5 0.7 Z" strokeWidth="0.9" />
+        <circle cx="-6.6" cy="7.9" r="0.35" fill="currentColor" stroke="none" />
+        <circle cx="0.4" cy="9.8" r="0.35" fill="currentColor" stroke="none" />
+        <circle cx="7.2" cy="7.5" r="0.35" fill="currentColor" stroke="none" />
       </g>
     ),
   },
@@ -346,13 +363,18 @@ const JOURNEY = [
     y: 152,
     label: "boil",
     art: (
-      <g fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round">
-        {/* Pot with handles */}
-        <path d="M-15 -3 H15 M-12 -3 V8 Q-12 11 -9 11 H9 Q12 11 12 8 V-3 M-15 0 H-18 M15 0 H18" />
-        {/* Spaghetti leaning out */}
-        <path d="M-3 -3 L3 -17 M1 -3 L8 -16" />
-        {/* Steam */}
-        <path d="M-8 -8 q-2.5 -3.5 0 -7 M-4 -9 q-2 -3 0 -6" />
+      <g fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
+        {/* Stock pot, doubled rim, loop handles */}
+        <path d="M-14.5 -4 Q0 -5.6 14.5 -4 M-14.5 -4 Q0 -2.6 14.5 -4" />
+        <path d="M-13 -3.9 C-13.4 3 -12.6 8.4 -10.6 10.6 Q-5 12.4 0 12.4 Q5 12.4 10.6 10.6 C12.6 8.4 13.4 3 13 -3.9" />
+        <path d="M-13.2 -1.5 Q-17.5 -1 -16.8 2 Q-16.2 4.4 -13.1 3.4 M13.2 -1.5 Q17.5 -1 16.8 2 Q16.2 4.4 13.1 3.4" />
+        {/* Spaghetti fanned into the water, bubbles at the line */}
+        <path d="M-4 -4 L-8 -19 M-1.5 -4 L-2.5 -20 M1 -4 L3.5 -19.5 M3.5 -4 L9 -18 M6 -4.4 L13 -15.5" />
+        <circle cx="-8" cy="-2.4" r="0.8" strokeWidth="0.7" />
+        <circle cx="7" cy="-1.2" r="0.8" strokeWidth="0.7" />
+        <circle cx="0" cy="-0.8" r="0.8" strokeWidth="0.7" />
+        {/* Steam curls */}
+        <path d="M-15.5 -9 C-18 -12 -15 -14.5 -17 -17.5 M17 -8 C19.5 -11 16.5 -13.5 18.5 -16.5" strokeWidth="0.9" />
       </g>
     ),
   },
@@ -360,16 +382,23 @@ const JOURNEY = [
     y: 216,
     label: "sauce",
     art: (
-      <g fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round">
-        {/* Pan and handle */}
-        <rect x="-16" y="-2" width="24" height="9.5" rx="2.5" />
-        <path d="M8 1 H20" strokeWidth="2.2" />
-        {/* Sauce wave and tomato bits */}
-        <path d="M-11 2.5 Q-8 -0.5 -5 2.5 Q-2 5.5 1 2.5" />
-        <circle cx="-9" cy="4.5" r="0.7" fill="currentColor" stroke="none" />
-        <circle cx="-2" cy="5" r="0.7" fill="currentColor" stroke="none" />
-        {/* Steam */}
-        <path d="M-6 -7 q-2 -3 0 -6 M0 -8 q-2 -3 0 -6" />
+      <g fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
+        {/* Saucepan, doubled rim, gripped handle */}
+        <path d="M-17.6 -2.2 L7.6 -2.7 M-17 -2.2 C-17.4 2 -16.6 5.2 -14.6 7.2 Q-6 9 4.6 7.4 C6.8 5.6 7.6 2.4 7.2 -2.5" />
+        <path d="M7.4 -2.6 L20 -3.7 Q21.6 -3.8 21.5 -2.2 Q21.4 -0.7 19.8 -0.6 L7.6 0.3" />
+        <path d="M16.4 -3.2 l-0.2 2.4 M18.6 -3.4 l-0.2 2.5" strokeWidth="0.7" />
+        {/* Bolognese: wavy surface, stippled, one basil leaf */}
+        <path d="M-15 0.6 Q-12 -1.2 -9 0.6 T-3 0.6 T3 0.6" strokeWidth="0.9" />
+        <circle cx="-12" cy="2.8" r="0.4" fill="currentColor" stroke="none" />
+        <circle cx="-8" cy="3.8" r="0.4" fill="currentColor" stroke="none" />
+        <circle cx="-4" cy="2.6" r="0.4" fill="currentColor" stroke="none" />
+        <circle cx="0" cy="3.6" r="0.4" fill="currentColor" stroke="none" />
+        <circle cx="3" cy="2.4" r="0.4" fill="currentColor" stroke="none" />
+        <circle cx="-10" cy="5.4" r="0.4" fill="currentColor" stroke="none" />
+        <circle cx="-2" cy="5.8" r="0.4" fill="currentColor" stroke="none" />
+        <path d="M-7 3.6 c1.4 -1.8 3.6 -1.8 4.6 -0.4 c-1.2 1.6 -3.4 1.8 -4.6 0.4 Z" strokeWidth="0.9" />
+        {/* Steam curls */}
+        <path d="M-8 -6 C-10 -9 -7.5 -11 -9.5 -14 M0 -6.5 C-2 -9.5 0.5 -11.5 -1.5 -14.5" strokeWidth="0.9" />
       </g>
     ),
   },
@@ -377,14 +406,26 @@ const JOURNEY = [
     y: 280,
     label: "plate",
     art: (
-      <g fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round">
-        <circle r="15" />
-        <circle r="10" opacity="0.6" />
-        {/* Noodle twirl */}
-        <path d="M-6 -1 A6 5 0 1 1 5.5 1.5 A4 3.5 0 1 1 -3 2 A2 1.7 0 1 1 1.5 2" />
-        <circle cx="3" cy="-4" r="0.8" fill="currentColor" stroke="none" />
-        <circle cx="-4" cy="4" r="0.8" fill="currentColor" stroke="none" />
-        <path d="M0 -6 l2 -2" />
+      <g fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
+        {/* Plate, fork left, spoon right, like a recipe card */}
+        <path d="M-12.5 0 C-12.5 -7 -7 -12.6 0 -12.5 C7 -12.4 12.6 -7 12.5 0 C12.4 7 7 12.6 0 12.5 C-7 12.4 -12.5 7 -12.5 0 Z" />
+        {/* Noodle nest with strand texture */}
+        <path d="M-9.5 0.5 C-9 -5.5 -4.5 -9.6 1 -9.2 C6.5 -8.8 9.8 -4.6 9.3 0.8 C8.8 5.8 4.4 9.6 -0.8 9.3 C-5.8 9 -9.8 5.4 -9.5 0.5 Z" strokeWidth="0.9" />
+        <path d="M-8 -3 q2 -1.6 4.2 -0.6 M-3 -7.5 q2.4 -1 4.6 0.2 M4 -6.5 q2 0.8 2.8 3 M7 1.5 q-0.4 2.6 -2.6 4 M1 7.6 q-2.6 0.6 -4.8 -0.8 M-7 4 q-1.4 -2 -1.2 -4.4" strokeWidth="0.7" />
+        {/* Sauce blob, stippled, basil on top */}
+        <path d="M-4.5 -0.5 C-4 -3.8 -1 -5.4 2 -4.6 C4.8 -3.9 5.6 -1 4.6 1.6 C3.6 4 0.4 5 -2.2 4 C-4.4 3.2 -5 1.4 -4.5 -0.5 Z" strokeWidth="0.9" />
+        <circle cx="-2" cy="-1.5" r="0.35" fill="currentColor" stroke="none" />
+        <circle cx="1" cy="-2.4" r="0.35" fill="currentColor" stroke="none" />
+        <circle cx="2.6" cy="0" r="0.35" fill="currentColor" stroke="none" />
+        <circle cx="0.4" cy="1.8" r="0.35" fill="currentColor" stroke="none" />
+        <circle cx="-2.6" cy="1.2" r="0.35" fill="currentColor" stroke="none" />
+        <path d="M0 -3.4 c0.8 -1.6 2.6 -2 3.6 -1 c-0.6 1.4 -2.4 1.9 -3.6 1 Z" strokeWidth="0.9" />
+        {/* Fork */}
+        <path d="M-21 -9 V-4.6 M-19.7 -9.4 V-4.6 M-18.3 -9.4 V-4.6 M-17 -9 V-4.6" strokeWidth="0.9" />
+        <path d="M-21 -4.6 L-20.4 -1.5 L-17.6 -1.5 L-17 -4.6 M-19 -1.5 V9.5" />
+        {/* Spoon */}
+        <path d="M19 -9.5 C21.3 -9.5 22.6 -7.2 22.4 -4.8 C22.2 -2.6 20.8 -1.2 19 -1.2 C17.2 -1.2 15.8 -2.6 15.6 -4.8 C15.4 -7.2 16.7 -9.5 19 -9.5 Z" />
+        <path d="M19 -1.2 V9.5" />
       </g>
     ),
   },
@@ -392,14 +433,20 @@ const JOURNEY = [
     y: 344,
     label: "done",
     art: (
-      <g fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round">
-        {/* Empty plate, cutlery laid together: finished */}
-        <circle r="15" />
-        <circle r="10" opacity="0.6" />
-        <path d="M-6 8 L8 -8 M8 -8 l1.5 -3 M8 -8 l3 -1.5" />
-        <path d="M-9 4 L5 -12" />
-        {/* A small shine for a meal used well */}
-        <path d="M15 -14 v-4 M15 -14 v4 M13 -16 h4 M13 -12 h4" strokeWidth="0.9" />
+      <g fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
+        {/* Clean plate, inner ring, faint sauce traces and crumbs */}
+        <path d="M-12.5 0 C-12.5 -7 -7 -12.6 0 -12.5 C7 -12.4 12.6 -7 12.5 0 C12.4 7 7 12.6 0 12.5 C-7 12.4 -12.5 7 -12.5 0 Z" />
+        <path d="M-8 0 C-8 -4.5 -4.5 -8.1 0 -8 C4.5 -7.9 8.1 -4.5 8 0 C7.9 4.5 4.5 8.1 0 8 C-4.5 7.9 -8 4.5 -8 0 Z" strokeWidth="0.8" opacity="0.7" />
+        <path d="M-4 2 q2 1.7 5 0.7 M-1 -3.4 q2.2 0.4 3.4 2" strokeWidth="0.7" />
+        <circle cx="-4.6" cy="-1.6" r="0.35" fill="currentColor" stroke="none" />
+        <circle cx="3.4" cy="4" r="0.35" fill="currentColor" stroke="none" />
+        {/* Cutlery laid together across the plate: finished */}
+        <path d="M-6.5 8 L4.5 -5 M4.5 -5 l0.6 -3 M4.5 -5 l2 -2.4 M4.5 -5 l3 -1.2" />
+        <path d="M-9 3.6 L2 -9" />
+        <path d="M-8.2 4.4 L-4 -0.6" strokeWidth="0.7" />
+        {/* The shine of a plate used well */}
+        <path d="M13.5 -16.5 V-9.5 M10 -13 H17" strokeWidth="0.9" />
+        <circle cx="16.5" cy="-8" r="0.4" fill="currentColor" stroke="none" />
       </g>
     ),
   },
@@ -431,7 +478,8 @@ export function PantryJourney() {
       aria-hidden="true"
       className="pointer-events-none fixed inset-y-0 left-0 z-0 hidden w-[25vw] lg:flex lg:items-center lg:justify-center"
     >
-      <svg viewBox="0 0 100 384" className="max-h-[90vh] w-full overflow-visible">
+      {/* viewBox min-x of 14 slides the whole column toward the screen edge. */}
+      <svg viewBox="14 0 100 384" className="max-h-[90vh] w-full overflow-visible">
         {/* Dotted route between stages, then the accent line drawing over it. */}
         <path d={JOURNEY_LINE} fill="none" stroke="var(--hairline)" strokeWidth="0.8" strokeDasharray="0.5 3" strokeLinecap="round" />
         <path
@@ -482,6 +530,156 @@ export function PantryJourney() {
           style={{ fontFamily: "var(--font-mono)" }}
         >
           USED WELL, NOT WASTED
+        </text>
+      </svg>
+    </div>
+  );
+}
+
+/**
+ * NCR Assistant's counterpart: a live diagnostic schematic, not an
+ * illustration. Thin technical lines, labeled rectangular nodes, and log
+ * fragments appearing as evidence while scroll traces the signal path. The
+ * accent amber marks the active fault; green appears exactly once, at
+ * verified recovery. Everything unaffected stays muted.
+ */
+const CIRCUIT = [
+  { y: 24, label: "HMI", kind: "ok", note: ["op lead @ line", "shift day  09:35"] },
+  { y: 88, label: "PLC #4", kind: "ok", note: ["modbus poll 200ms"] },
+  { y: 152, label: "EOL #1", kind: "fault", note: ["ERR 0x03 CRC", "09:41:07 timeout"] },
+  { y: 216, label: "NCR FORM", kind: "ok", note: ["mgmt #1482", "issue: serial NG"] },
+  { y: 280, label: "PG / RDS", kind: "ok", note: ["INSERT 200 OK", "rec_id 2517"] },
+  { y: 344, label: "RESOLVED", kind: "recovered", note: ["verified 10:32"] },
+] as const;
+
+const CIRCUIT_LINE = "M30 34V78M30 98V142M30 162V206M30 226V270M30 290V334";
+const RECOVERY_GREEN = "oklch(0.72 0.17 152)";
+
+export function NcrSchematic() {
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    const onScroll = () => {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      setProgress(max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0);
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const lead = progress * (CIRCUIT.length - 1);
+  const payoff = Math.min(1, Math.max(0, (progress - 0.75) / 0.25));
+
+  return (
+    <div
+      aria-hidden="true"
+      className="pointer-events-none fixed inset-y-0 left-0 z-0 hidden w-[25vw] lg:flex lg:items-center lg:justify-center"
+    >
+      <svg viewBox="8 0 100 384" className="max-h-[90vh] w-full overflow-visible">
+        {/* Bus: quiet trace, then the established path, then the live pulse
+            travelling down whatever scroll has verified so far. */}
+        <path d={CIRCUIT_LINE} fill="none" stroke="var(--hairline)" strokeWidth="0.5" />
+        <path
+          d={CIRCUIT_LINE}
+          fill="none"
+          stroke="var(--foreground)"
+          strokeWidth="0.5"
+          opacity="0.55"
+          pathLength={1}
+          strokeDasharray="1"
+          strokeDashoffset={1 - progress}
+        />
+        <g opacity={progress * 0.8}>
+          <path
+            className="sig-pulse"
+            d={CIRCUIT_LINE}
+            fill="none"
+            stroke="var(--accent)"
+            strokeWidth="0.8"
+            strokeDasharray="2 16"
+            strokeLinecap="round"
+          />
+        </g>
+
+        {CIRCUIT.map((s, i) => {
+          const on = Math.min(1, Math.max(0, lead - i + 1));
+          const lit =
+            s.kind === "fault"
+              ? "var(--accent)"
+              : s.kind === "recovered"
+                ? RECOVERY_GREEN
+                : "var(--foreground)";
+          return (
+            <g key={s.label} style={{ fontFamily: "var(--font-mono)" }}>
+              {/* Node, muted base then lit overlay */}
+              <rect x="14" y={s.y - 6.5} width="32" height="13" rx="1" fill="none" stroke="var(--hairline)" strokeWidth="0.6" />
+              <rect
+                x="14"
+                y={s.y - 6.5}
+                width="32"
+                height="13"
+                rx="1"
+                fill="none"
+                stroke={lit}
+                strokeWidth="0.7"
+                opacity={on * (s.kind === "ok" ? 0.65 : 1)}
+              />
+              {/* Alarm ring, only while the fault is the active stage */}
+              {s.kind === "fault" && (
+                <rect
+                  x="12.2"
+                  y={s.y - 8.3}
+                  width="35.6"
+                  height="16.6"
+                  rx="1.6"
+                  fill="none"
+                  stroke="var(--accent)"
+                  strokeWidth="0.45"
+                  strokeDasharray="2 2"
+                  opacity={on * 0.7}
+                />
+              )}
+              <text x="30" y={s.y + 1.4} textAnchor="middle" fontSize="3.4" letterSpacing="0.08em" fill="var(--muted-foreground)" opacity="0.55">
+                {s.label}
+              </text>
+              <text x="30" y={s.y + 1.4} textAnchor="middle" fontSize="3.4" letterSpacing="0.08em" fill={lit} opacity={on}>
+                {s.label}
+              </text>
+              {/* Verified check, the one green mark on the board */}
+              {s.kind === "recovered" && (
+                <path d={`M48.5 ${s.y - 0.5} l1.6 2 l3.2 -4.4`} fill="none" stroke={RECOVERY_GREEN} strokeWidth="0.9" strokeLinecap="round" strokeLinejoin="round" opacity={on} />
+              )}
+              {/* Evidence stub and log fragments */}
+              <path d={`M46 ${s.y} H50`} stroke={lit} strokeWidth="0.4" opacity={on * 0.6} />
+              {s.note.map((line, n) => (
+                <text
+                  key={line}
+                  x="52"
+                  y={s.y - 1 + n * 4.4}
+                  fontSize="2.9"
+                  fill={s.kind === "ok" ? "var(--muted-foreground)" : lit}
+                  opacity={on * 0.85}
+                >
+                  {line}
+                </text>
+              ))}
+            </g>
+          );
+        })}
+
+        {/* The thesis, once the trace completes. */}
+        <text
+          x="30"
+          y="374"
+          textAnchor="middle"
+          fontSize="3.3"
+          letterSpacing="0.16em"
+          fill="var(--muted-foreground)"
+          opacity={payoff * 0.85}
+          style={{ fontFamily: "var(--font-mono)" }}
+        >
+          EVERY FAULT LEAVES A RECORD
         </text>
       </svg>
     </div>

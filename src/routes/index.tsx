@@ -144,7 +144,7 @@ const projects = [
     problem:
       "The largest student organization on campus planned its events from memory, because the attendance data existed but nobody could ask it a question.",
     outcome:
-      "Built the data pipeline, the 18 analytics endpoints, and Campus Insights, the landing dashboard. 54,684 raw survey points filtered down to a dataset the rest of the product reads from.",
+      "Built the data pipeline, the 18 analytics endpoints, and Campus Insights, the landing dashboard. 54,516 raw survey points filtered down to a dataset the rest of the product reads from.",
 
 
     stack: "Next.js / Supabase / OpenAI / SerpAPI",

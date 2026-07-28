@@ -18,7 +18,7 @@ export const Route = createFileRoute("/work/event-compass")({
       {
         property: "og:description",
         content:
-          "54,684 raw survey points filtered to a trustworthy dataset, 18 analytics endpoints, and the four tabbed dashboard that is the product's home route.",
+          "54,516 raw survey points filtered to a trustworthy dataset, 18 analytics endpoints, and the four tabbed dashboard that is the product's home route.",
       },
       { property: "og:type", content: "article" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -61,7 +61,7 @@ const data: CaseData = {
     ),
     result: (
       <>
-        <Key>54,684 raw survey points</Key> filtered to <Key>36,308</Key> across 58 documented
+        <Key>54,516 raw survey points</Key> filtered to <Key>36,308</Key> across 58 documented
         fields, powering four dashboard views.
       </>
     ),
@@ -69,11 +69,11 @@ const data: CaseData = {
   metrics: [
     { value: "49", label: "API routes, across 41 React components and 11 pages" },
     {
-      value: "21",
+      value: "18",
       label:
         "Analytics endpoints spanning demographics, preferences, engagement, budget sensitivity, event performance, and evaluator scoring",
     },
-    { value: "54,684", label: "Raw survey data points, 36,308 after cleaning" },
+    { value: "54,516", label: "Raw survey data points, 36,308 after cleaning" },
     {
       value: "5",
       label: "Core planning operations: activities, schedule, shopping, tasks, and budget",

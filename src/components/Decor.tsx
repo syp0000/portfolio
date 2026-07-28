@@ -300,3 +300,190 @@ export function CursorFollower({ kind }: { kind: CursorKind }) {
     </div>
   );
 }
+
+/**
+ * Pantry AI's answer to the Big Dipper: the life of one meal, drawn as the
+ * line-art doodles the pantry wallpaper already speaks. Six stages, top to
+ * bottom, lit by scroll progress; the payoff line lands at the end of the
+ * page. Every path strokes currentColor, so each stage renders twice: a muted
+ * base and an accent copy fading in as the reader reaches it.
+ */
+const JOURNEY = [
+  {
+    y: 24,
+    label: "ingredients",
+    art: (
+      <g fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round">
+        {/* Dry spaghetti, banded */}
+        <path d="M-16 -13 L-11 13 M-13 -14 L-8 12 M-10 -14.5 L-5 11.5 M-7 -14 L-2 11" />
+        <path d="M-17 -2 L-5 -4 M-16.5 1 L-4.5 -1" />
+        {/* Garlic */}
+        <path d="M11 -15 C10 -12 6 -11.5 6 -8 C6 -4.7 8.5 -3 11 -3 C13.5 -3 16 -4.7 16 -8 C16 -11.5 12 -12 11 -15 Z M11 -8 V-3" />
+        {/* Tomato */}
+        <circle cx="10" cy="8" r="5.5" />
+        <path d="M10 2.5 l-2.5 -2.5 M10 2.5 l2.5 -2.5 M10 2.5 V0" />
+        {/* Basil leaf */}
+        <path d="M-9 16 Q-4 10 2 15 Q-3 21 -9 16 Z M-7.5 15.6 L0 14.8" />
+      </g>
+    ),
+  },
+  {
+    y: 88,
+    label: "prep",
+    art: (
+      <g fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round">
+        {/* Board */}
+        <rect x="-15" y="2" width="30" height="12" rx="3" />
+        {/* Knife */}
+        <path d="M-13 -9 H3 L1.5 -4.5 H-11 Q-14.5 -6.5 -13 -9 Z" />
+        <path d="M3 -6.75 H12" strokeWidth="2.4" />
+        {/* Chopped bits */}
+        <path d="M-8 6 h2 v2 h-2 Z M-2 8 h2 v2 h-2 Z M4 6 h2 v2 h-2 Z" />
+      </g>
+    ),
+  },
+  {
+    y: 152,
+    label: "boil",
+    art: (
+      <g fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round">
+        {/* Pot with handles */}
+        <path d="M-15 -3 H15 M-12 -3 V8 Q-12 11 -9 11 H9 Q12 11 12 8 V-3 M-15 0 H-18 M15 0 H18" />
+        {/* Spaghetti leaning out */}
+        <path d="M-3 -3 L3 -17 M1 -3 L8 -16" />
+        {/* Steam */}
+        <path d="M-8 -8 q-2.5 -3.5 0 -7 M-4 -9 q-2 -3 0 -6" />
+      </g>
+    ),
+  },
+  {
+    y: 216,
+    label: "sauce",
+    art: (
+      <g fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round">
+        {/* Pan and handle */}
+        <rect x="-16" y="-2" width="24" height="9.5" rx="2.5" />
+        <path d="M8 1 H20" strokeWidth="2.2" />
+        {/* Sauce wave and tomato bits */}
+        <path d="M-11 2.5 Q-8 -0.5 -5 2.5 Q-2 5.5 1 2.5" />
+        <circle cx="-9" cy="4.5" r="0.7" fill="currentColor" stroke="none" />
+        <circle cx="-2" cy="5" r="0.7" fill="currentColor" stroke="none" />
+        {/* Steam */}
+        <path d="M-6 -7 q-2 -3 0 -6 M0 -8 q-2 -3 0 -6" />
+      </g>
+    ),
+  },
+  {
+    y: 280,
+    label: "plate",
+    art: (
+      <g fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round">
+        <circle r="15" />
+        <circle r="10" opacity="0.6" />
+        {/* Noodle twirl */}
+        <path d="M-6 -1 A6 5 0 1 1 5.5 1.5 A4 3.5 0 1 1 -3 2 A2 1.7 0 1 1 1.5 2" />
+        <circle cx="3" cy="-4" r="0.8" fill="currentColor" stroke="none" />
+        <circle cx="-4" cy="4" r="0.8" fill="currentColor" stroke="none" />
+        <path d="M0 -6 l2 -2" />
+      </g>
+    ),
+  },
+  {
+    y: 344,
+    label: "done",
+    art: (
+      <g fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round">
+        {/* Empty plate, cutlery laid together: finished */}
+        <circle r="15" />
+        <circle r="10" opacity="0.6" />
+        <path d="M-6 8 L8 -8 M8 -8 l1.5 -3 M8 -8 l3 -1.5" />
+        <path d="M-9 4 L5 -12" />
+        {/* A small shine for a meal used well */}
+        <path d="M15 -14 v-4 M15 -14 v4 M13 -16 h4 M13 -12 h4" strokeWidth="0.9" />
+      </g>
+    ),
+  },
+] as const;
+
+const JOURNEY_LINE = "M40 45V67M40 109V131M40 173V195M40 237V259M40 301V323";
+
+export function PantryJourney() {
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    const onScroll = () => {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      setProgress(max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0);
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // Leading stage index, fractional so each one fades in rather than snaps.
+  const lead = progress * (JOURNEY.length - 1);
+  // The moral of the story arrives with the last stretch of the page.
+  const payoff = Math.min(1, Math.max(0, (progress - 0.75) / 0.25));
+
+  return (
+    // Same band as the Big Dipper: left quarter, full height, behind content.
+    <div
+      aria-hidden="true"
+      className="pointer-events-none fixed inset-y-0 left-0 z-0 hidden w-[25vw] lg:flex lg:items-center lg:justify-center"
+    >
+      <svg viewBox="0 0 100 384" className="max-h-[90vh] w-full overflow-visible">
+        {/* Dotted route between stages, then the accent line drawing over it. */}
+        <path d={JOURNEY_LINE} fill="none" stroke="var(--hairline)" strokeWidth="0.8" strokeDasharray="0.5 3" strokeLinecap="round" />
+        <path
+          d={JOURNEY_LINE}
+          fill="none"
+          stroke="var(--accent)"
+          strokeWidth="0.9"
+          strokeLinecap="round"
+          pathLength={1}
+          strokeDasharray="1"
+          strokeDashoffset={1 - progress}
+          opacity="0.8"
+        />
+
+        {JOURNEY.map((s, i) => {
+          const on = Math.min(1, Math.max(0, lead - i + 1));
+          return (
+            <g key={s.label} transform={`translate(40 ${s.y})`}>
+              <g style={{ color: "var(--muted-foreground)" }} opacity={0.35}>
+                {s.art}
+              </g>
+              <g style={{ color: "var(--accent)" }} opacity={on}>
+                {s.art}
+              </g>
+              <text
+                x="27"
+                y="2"
+                fontSize="4"
+                fill="var(--muted-foreground)"
+                opacity={0.4 + on * 0.45}
+                style={{ fontFamily: "var(--font-mono)" }}
+              >
+                {s.label}
+              </text>
+            </g>
+          );
+        })}
+
+        {/* The point of the pantry, spelled out once the plate is clean. */}
+        <text
+          x="50"
+          y="376"
+          textAnchor="middle"
+          fontSize="3.6"
+          letterSpacing="0.18em"
+          fill="var(--accent)"
+          opacity={payoff * 0.9}
+          style={{ fontFamily: "var(--font-mono)" }}
+        >
+          USED WELL, NOT WASTED
+        </text>
+      </svg>
+    </div>
+  );
+}

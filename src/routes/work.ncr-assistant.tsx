@@ -12,7 +12,7 @@ export const Route = createFileRoute("/work/ncr-assistant")({
       {
         name: "description",
         content:
-          "A mobile first reporting tool built solo for a battery manufacturing line, adopted by operator leads. Locked and versioned records, a duplicate guard, and ten minutes of paperwork down to three.",
+          "A mobile first reporting tool built solo for a battery manufacturing line, adopted by the operator leads (managers) of each station. Locked and versioned records, a duplicate guard, and ten minutes of paperwork down to three.",
       },
       { property: "og:title", content: "NCR Assistant, the tool the plant floor actually uses" },
       {
@@ -39,7 +39,7 @@ const data: CaseData = {
   summary: {
     problem: (
       <>
-        Managers manually wrote around <Key>100 reports per day</Key>.
+        Operator leads (managers) of each station manually wrote around <Key>100 reports per day</Key>.
       </>
     ),
     built: (
@@ -74,11 +74,11 @@ const data: CaseData = {
   constraints: [
     {
       title: "One report was easy. Ten reports were not.",
-      body: "Writing an NCR was not technically difficult, but managers had to repeat the same process throughout the day. Ten reports could take as long as 100 minutes, much of it spent entering similar information again and again.",
+      body: "Writing an NCR was not technically difficult, but operator leads had to repeat the same process throughout the day. Ten reports could take as long as 100 minutes, much of it spent entering similar information again and again.",
     },
     {
       title: "The users were managing the floor.",
-      body: "The tool was built for the managers leading operators, not for dedicated administrative staff. Documentation was necessary, but it competed with the production issues and people they were responsible for managing.",
+      body: "The tool was built for the operator leads (managers) who run each station, not for dedicated administrative staff. Documentation was necessary, but it competed with the production issues and people they were responsible for managing.",
     },
     {
       title: "Everyone can read, not everyone can write",
@@ -86,11 +86,11 @@ const data: CaseData = {
     },
     {
       title: "I was improving an existing workflow, not replacing it.",
-      body: "The judgment behind each NCR still belonged to the manager. The tool removed the repetitive manual entry and made it faster to turn that judgment into a complete report.",
+      body: "The judgment behind each NCR still belonged to the operator lead of the station. The tool removed the repetitive manual entry and made it faster to turn that judgment into a complete report.",
     },
     {
       title: "Nobody had assigned the project.",
-      body: "There was no formal mandate to build or use it. I had to show that it made the existing process easier, then improve it based on how managers actually used it.",
+      body: "There was no formal mandate to build or use it. I had to show that it made the existing process easier, then improve it based on how the operator leads actually used it.",
     },
   ],
   built: (
@@ -102,7 +102,7 @@ const data: CaseData = {
       </p>
       <p>
         The app turns a quick line side form into a <Mark>structured, auditable record</Mark> in PostgreSQL on
-        AWS RDS. Operators can see all records, edit only their own, and grant shared edit access
+        AWS RDS. Operator leads can see all records, edit only their own, and grant shared edit access
         when another user needs to help. Admins get full database access. Completed records are
         locked before editing, and <Mark>every change is captured in per record history</Mark>, so the audit
         trail is as real as the report itself.
@@ -115,7 +115,7 @@ const data: CaseData = {
         window, report type, issue, action, and optional evidence photo.
       </p>
       <p>
-        The form does the quiet work for the operator. It calculates duration from start and end
+        The form does the quiet work for the operator lead. It calculates duration from start and end
         time, steps management numbers up or down, handles suffixes, switches between Work
         Completion and Defect Report modes, and catches bad entries inline. If someone tries to file
         the same management number and process twice within twenty four hours, <Mark>the app stops them
@@ -124,12 +124,12 @@ const data: CaseData = {
       <p>
         I also added Korean and English polish and translation for the two free text fields. The
         browser never talks to the model directly. The app API relays the request, and the model
-        only touches the text the operator reviews. <Mark>Structured values stay deterministic, validated,
+        only touches the text the operator lead reviews. <Mark>Structured values stay deterministic, validated,
         and human owned.</Mark>
       </p>
       <p>
         The result is a tool that removes the worst part of recurring quality reports: retyping the
-        same station level defect again and again. Operators can copy a clean numbered report,
+        same station level defect again and again. Operator leads can copy a clean numbered report,
         export JSON, attach evidence, and move on. <Mark>Fast on the floor, defensible in an audit.</Mark>
       </p>
     </>
@@ -137,7 +137,7 @@ const data: CaseData = {
 
   diagram: <NcrDiagram />,
   figureCaption:
-    "The model sits next to the write path, never in it. It only rewrites free text the operator typed. Everything structured, the times, the station, the management number, is entered by a person and checked by code. The operator reads the result before it saves. Nothing outside the API touches the database, including the two roles, which are views the API builds rather than connections to it.",
+    "The model sits next to the write path, never in it. It only rewrites free text the operator lead typed. Everything structured, the times, the station, the management number, is entered by a person and checked by code. The operator lead reads the result before it saves. Nothing outside the API touches the database, including the two roles, which are views the API builds rather than connections to it.",
   video: {
     src: ncrDemo.url,
     poster: shotImages["ncr-01-form.jpg"],
@@ -192,7 +192,7 @@ const data: CaseData = {
     },
     {
       title: "Roles before features",
-      body: "Role based access went in early rather than after launch. A manager seeing operator controls would have killed trust faster than any missing feature.",
+      body: "Role based access went in early rather than after launch. An operator lead seeing admin controls would have killed trust faster than any missing feature.",
     },
     {
       title: "A public twin of the private tool",
@@ -200,7 +200,7 @@ const data: CaseData = {
     },
     {
       title: "Demo in person, every release",
-      body: "I showed each release to operators face to face instead of sending a changelog. Slower per release, and the reason usage grew instead of stalling at launch.",
+      body: "I showed each release to the operator leads face to face instead of sending a changelog. Slower per release, and the reason usage grew instead of stalling at launch.",
     },
   ],
 

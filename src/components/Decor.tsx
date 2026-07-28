@@ -106,7 +106,7 @@ export function BigDipper() {
     // as sky, not furniture.
     <div
       aria-hidden="true"
-      className="pointer-events-none fixed inset-y-0 left-0 z-0 hidden w-[25vw] lg:flex lg:items-center lg:justify-center"
+      className="pointer-events-none fixed inset-y-0 left-0 z-0 flex w-[44vw] items-center justify-center opacity-45 lg:w-[25vw] lg:opacity-100"
     >
       {/* viewBox starts at -16 so the Polaris pointer, which extends past the
           bowl to the left, stays inside the drawing on every viewport. */}
@@ -346,7 +346,7 @@ export function PantryJourney() {
   return (
     <div
       aria-hidden="true"
-      className="pointer-events-none fixed inset-y-0 left-0 z-0 hidden w-[25vw] lg:flex lg:items-center lg:justify-center"
+      className="pointer-events-none fixed inset-y-0 left-0 z-0 flex w-[44vw] items-center justify-center opacity-45 lg:w-[25vw] lg:opacity-100"
     >
       <svg viewBox="0 0 100 240" className="max-h-[90vh] w-full overflow-visible">
         {INGREDIENTS.map((g) => {
@@ -464,7 +464,7 @@ export function NcrSchematic() {
   return (
     <div
       aria-hidden="true"
-      className="pointer-events-none fixed inset-y-0 left-0 z-0 hidden w-[25vw] lg:flex lg:items-center lg:justify-center"
+      className="pointer-events-none fixed inset-y-0 left-0 z-0 flex w-[44vw] items-center justify-center opacity-45 lg:w-[25vw] lg:opacity-100"
     >
       <svg viewBox="6 0 100 384" className="max-h-[90vh] w-full overflow-visible">
         {/* Dead wire, then the energized run, then the current itself. */}

@@ -110,7 +110,7 @@ export function CompassDiagram() {
 
   return (
     <svg viewBox="0 0 1240 686" className="h-auto w-full min-w-[900px]" role="img"
-      aria-label="Event Compass architecture in six groups. Inputs are a Qualtrics survey export of 649 responses across 84 columns, CampusGroups history of 52 past events, and planner intake. The data foundation stages the survey into stg_survey_raw, derives stg_dictionary for column to question mapping, and builds a normalized survey model plus a past event model. The analytics layer holds campus preferences, demographics, budget and price sensitivity, engagement and community, and the forecast model. The planning layer runs guided start into concept generation into an event plan. Workspace tables hold events, budget_items, tasks, schedule_items, shopping_items, and activities. Planner outputs are the Campus Insights dashboard, the event copilot, an eight tab planning workspace, a printable event report, and product search results.">
+      aria-label="Event Compass architecture in six groups. Inputs are a Qualtrics survey export of 649 responses across 84 columns, CampusGroups history of 52 past events, and planner intake. The data foundation stages the survey into stg_survey_raw, derives stg_dictionary for column to question mapping, and builds a normalized survey model plus a past event model. The analytics layer holds campus preferences, demographics, budget and price sensitivity, engagement and community, and the forecast model. The planning layer runs guided start into concept generation into an event plan. Workspace tables hold events, budget_items, tasks, schedule_items, shopping_items, and activities. Planner outputs are the Campus Insights dashboard, the event copilot, an eight tab planning workspace, a printable event report, and product search results. The event copilot reads all six workspace tables, so its chats and suggestions stay grounded in the open event plan.">
       <Defs />
 
       <rect x="8" y="34" width="182" height="632" rx="8" {...grp} />
@@ -148,7 +148,12 @@ export function CompassDiagram() {
       <path d="M875 470 C 906 470 926 470 954 470" {...f} />
       <path d="M817 604 C 880 604 900 610 950 612" {...f} />
       <path d="M1084 494 L 1084 516" {...f} />
-      <path d="M875 458 C 898 458 908 350 950 332" {...f} />
+      <path d="M875 458 C 900 458 912 340 950 310" {...f} />
+      <path d="M817 502 C 895 502 918 370 950 318" {...f} />
+      <path d="M817 536 C 902 536 924 390 950 326" {...f} />
+      <path d="M817 570 C 908 570 928 410 950 334" {...f} />
+      <path d="M817 596 C 913 596 932 430 950 342" {...f} />
+      <path d="M817 638 C 918 638 935 450 950 350" {...f} />
 
       <rect x="22" y="84" width="154" height="52" rx="6" {...bx} />
       <text x="99" y="104" textAnchor="middle" {...T}>Qualtrics survey export</text>

@@ -177,6 +177,13 @@ const data: CaseData = {
         can move through Planning, Confirmed, Completed, or Cancelled.
       </p>
       <p>
+        The workspace also includes an <Mark>Event Copilot</Mark>. It sits inside the planner flow
+        instead of living on a separate chat page, so the planner can ask questions while looking at
+        the actual event plan. It reads the current event context and supports chats and suggestions
+        tied to the event, which helps connect the dashboard, builder, budget, schedule, tasks, and
+        shopping list into one planning experience.
+      </p>
+      <p>
         The shopping tab connects planning to real products. It <Mark>searches Amazon first, then Google
         Shopping if needed</Mark>, and returns listings with images, prices, ratings, reviews, vendors, and
         links within the selected price range. Choosing a product fills in the vendor, price, and
@@ -199,11 +206,16 @@ const data: CaseData = {
     src: demoVideo.url,
     poster: shotImages["ec-01-insights.jpg"],
     caption:
-      "A one minute walkthrough of the real system: Campus Insights, guided intake, concept generation, the eight tab plan, live product search inside the shopping list, and the Forecast tab.",
+      "A one minute walkthrough of the real system: Campus Insights, guided intake, concept generation, the eight-tab plan, live product search inside the shopping list, and the Forecast tab. Event Copilot is part of the build, but not shown in this cut.",
   },
   // No full-bleed hero: Campus Insights rides beside the compass at the top,
   // and still opens the shot grid below at full size.
   shots: [
+    {
+      file: "login.png",
+      owner: "Team",
+      caption: "The login screen, where every planning session starts.",
+    },
     {
       file: "ec-01-insights.jpg",
       owner: "Built by me",
@@ -236,6 +248,11 @@ const data: CaseData = {
       owner: "Team",
       caption:
         "The forecast tab, a regression over historical events, fit on the dataset this pipeline produced.",
+    },
+    {
+      file: "chatbot.png",
+      owner: "Team",
+      caption: "Event Copilot inside the planner flow, with chat and suggestions tied to the open event.",
     },
   ],
   decisions: [
@@ -284,8 +301,8 @@ const data: CaseData = {
     },
     {
       kind: "Used",
-      title: "Elsewhere in the product, by teammates",
-      body: "Concept generation uses a language model, and the attendance forecast uses a regression fit to past events. Both read the cleaned dataset. Neither is my work, and both are only as good as the pipeline under them.",
+      title: "Event Copilot and concept generation, by teammates",
+      body: "The copilot supports chat and suggestions inside the event workspace. Concept generation helps turn the planner's brief into event options. Both depend on the cleaned data and event context to stay grounded in the actual planning flow.",
     },
   ],
 

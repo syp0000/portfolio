@@ -10,13 +10,13 @@ import { shotImages, shotDims } from "@/lib/shots";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Siyeon Park, Software Engineer in Phoenix" },
+      { title: "Siyeon Park, Software Engineer" },
       {
         name: "description",
         content:
           "Software engineer who finds operational problems on the floor and ships the fix. Production tooling for a battery plant, planning software, and applied AI with judgment.",
       },
-      { property: "og:title", content: "Siyeon Park, Software Engineer in Phoenix" },
+      { property: "og:title", content: "Siyeon Park, Software Engineer" },
       {
         property: "og:description",
         content:

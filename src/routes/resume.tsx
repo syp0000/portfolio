@@ -8,7 +8,7 @@ export const Route = createFileRoute("/resume")({
       {
         name: "description",
         content:
-          "Resume of Siyeon Park, a software engineer in Phoenix building production tooling for operational problems. View or download the PDF.",
+          "Resume of Siyeon Park, a software engineer building production tooling for operational problems. View or download the PDF.",
       },
       { property: "og:title", content: "Resume, Siyeon Park" },
       {

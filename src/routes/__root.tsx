@@ -85,17 +85,27 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         name: "description",
         content:
-          "Software engineer in Phoenix building production tooling for operational problems.",
+          "Software engineer building production tooling for operational problems.",
       },
       { name: "author", content: "Siyeon Park" },
       { property: "og:title", content: "Siyeon Park, Software Engineer" },
       {
         property: "og:description",
         content:
-          "Software engineer in Phoenix building production tooling for operational problems.",
+          "Software engineer building production tooling for operational problems.",
       },
       { property: "og:type", content: "website" },
+      {
+        property: "og:image",
+        content: "https://portfolio-silk-gamma-tup092grmy.vercel.app/og.png",
+      },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
       { name: "twitter:card", content: "summary_large_image" },
+      {
+        name: "twitter:image",
+        content: "https://portfolio-silk-gamma-tup092grmy.vercel.app/og.png",
+      },
     ],
     links: [
       { rel: "stylesheet", href: appCss },

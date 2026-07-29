@@ -16,7 +16,7 @@ export const Route = createFileRoute("/about")({
       {
         property: "og:description",
         content:
-          "I like the part where you find out you built the wrong thing. Background and experience of a new grad software engineer in Phoenix.",
+          "I like the part where you find out you built the wrong thing. Background and experience of a new grad software engineer.",
       },
     ],
   }),

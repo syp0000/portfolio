@@ -129,7 +129,7 @@ const projects = [
     name: "NCR Assistant",
     meta: "In production, 2026",
     problem:
-      "Quality reports on a battery manufacturing line took ten minutes each, on paper, one hundred times a day, written by the operator leads (managers) of each station. Nobody had filed a ticket about it.",
+      "Quality reports on a battery manufacturing line took ten minutes each, typed up and pasted into a group chat, one hundred times a day by the operator leads (managers) of each station. Nobody had filed a ticket about it.",
     outcome: "Ten minutes down to three. Over 2,500 records now structured and queryable.",
     stack: "Node.js / PostgreSQL / AWS RDS / Anthropic API",
     // Ordered as the operator walks it: fill the form, read your own records,

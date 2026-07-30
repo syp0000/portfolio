@@ -12,7 +12,7 @@ export const Route = createFileRoute("/work/ncr-assistant")({
       {
         name: "description",
         content:
-          "A mobile first reporting tool built solo for a battery manufacturing line, adopted by the operator leads (managers) of each station. Locked and versioned records, a duplicate guard, and ten minutes of paperwork down to three.",
+          "A mobile first reporting tool built solo for a battery manufacturing line, adopted by the operator leads (managers) of each station. Locked and versioned records, a duplicate guard, and ten minutes of reporting down to three.",
       },
       { property: "og:title", content: "NCR Assistant, the tool the plant floor actually uses" },
       {
@@ -31,15 +31,15 @@ export const Route = createFileRoute("/work/ncr-assistant")({
 
 const data: CaseData = {
   meta: ["In production", "2026", "LSP USA", "Sole engineer"],
-  headline: "Ten minutes on paper, three minutes on a phone.",
+  headline: "Ten minutes of typing, three minutes on a phone.",
   mark: <StandingShot file="ncr-01-form.jpg" className="h-80" />,
   repoUrl: "https://github.com/syp0000/Demo_ncr",
 
-  lede: "Nonconformance reports on the battery line were still being written by hand, passed around verbally, and entered again later. I noticed the problem while working on root cause analysis and built a tool to replace that process, even though nobody had asked me to.",
+  lede: "Nonconformance reports on the battery line were still being typed up by hand and copy-pasted into a group chat. I noticed the problem while working on root cause analysis and built a tool to replace that process, even though nobody had asked me to.",
   summary: {
     problem: (
       <>
-        Operator leads (managers) of each station manually wrote around <Key>100 reports per day</Key>.
+        Operator leads (managers) of each station manually typed around <Key>100 reports per day</Key>.
       </>
     ),
     built: (
@@ -65,7 +65,7 @@ const data: CaseData = {
     <p>
       At roughly 100 reports a day and ten minutes per report, the plant was spending more than
       sixteen hours of labor on documentation every day. Most of that time went toward
-      transcription, and every handwritten or retyped field created another chance for information
+      transcription, and every retyped and re-pasted field created another chance for information
       to go missing.
     </p>
   ),
@@ -216,7 +216,7 @@ const data: CaseData = {
       </p>
       <p>
         More than 2,500 structured records have accumulated since launch. Quality data that once
-        sat in paper files can now be searched and analyzed.
+        scrolled away in chat threads can now be searched and analyzed.
       </p>
     </>
   ),

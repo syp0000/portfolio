@@ -188,7 +188,7 @@ const alsoKnowing = [
     body: "Evaluated two field data collection tools by building competing prototypes, and the recommendation was adopted by both the engineering and field teams.",
   },
   {
-    title: "CraveRAG",
+    title: "CravingRAG",
     body: "Building a retrieval augmented generation experiment on Snowflake.",
   },
 ];

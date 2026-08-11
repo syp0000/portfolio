@@ -26,7 +26,7 @@ export const Route = createFileRoute("/about")({
 const timeline = [
   {
     date: "2026 to now",
-    role: "Customer Service Engineer, Software",
+    role: "Manufacturing Software Engineer",
     org: "LSP USA",
     body: [
       "Diagnosed HMI, PLC, and Modbus integration failures in live production.",

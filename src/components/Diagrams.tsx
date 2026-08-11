@@ -72,7 +72,7 @@ export function NcrDiagram() {
       <Node x={230} y={20} title="Anthropic API" meta="Korean and English, polish and translate" w={200} />
       <Node x={225} y={252} title="Operator confirmation" meta="review, overwrite, submit" w={200} />
       <Node x={490} y={140} title="Deterministic validation" meta="time format, duplicate process, overlap checks" w={190} h={64} />
-      <Node x={730} y={140} title="PostgreSQL on AWS RDS" meta="2,500+ records" w={160} />
+      <Node x={730} y={140} title="PostgreSQL on AWS RDS" meta="4,000+ records" w={160} />
       <Node x={10} y={26} title="User view" meta="reads all, writes own and shared" w={170} h={52} />
       <Node x={10} y={258} title="Admin view" meta="full access, all records" w={170} h={52} />
 

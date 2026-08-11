@@ -50,14 +50,14 @@ const data: CaseData = {
     result: (
       <>
         Reporting time fell from <Key>10 minutes to 3</Key>, with{" "}
-        <Key>2,500+ structured records</Key>.
+        <Key>4,000+ structured records</Key>.
       </>
     ),
   },
   metrics: [
     { value: "10 to 3", label: "Minutes per report" },
     { value: "100", label: "Reports moving through it each day" },
-    { value: "2,500+", label: "Records accumulated in production" },
+    { value: "4,000+", label: "Records accumulated in production" },
     { value: "1", label: "Engineer on the project, start to finish" },
   ],
   costLabel: "Let's put a number on it",
@@ -215,7 +215,7 @@ const data: CaseData = {
         day, that gives roughly 700 minutes back to the production team.
       </p>
       <p>
-        More than 2,500 structured records have accumulated since launch. Quality data that once
+        More than 4,000 structured records have accumulated since launch. Quality data that once
         scrolled away in chat threads can now be searched and analyzed.
       </p>
     </>

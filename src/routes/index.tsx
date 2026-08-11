@@ -29,7 +29,7 @@ export const Route = createFileRoute("/")({
 
 const metrics = [
   { value: "70%", label: "Less time per nonconformance report, 10 minutes down to 3" },
-  { value: "2,500+", label: "Records running through the tool in production" },
+  { value: "4,000+", label: "Records running through the tool in production" },
   { value: "54,516", label: "Survey data points cleaned and modeled" },
   { value: "85x", label: "Pipeline speedup the research team shipped" },
 ];
@@ -130,7 +130,7 @@ const projects = [
     meta: "In production, 2026",
     problem:
       "Quality reports on a battery manufacturing line took ten minutes each, typed up and pasted into a group chat, one hundred times a day by the operator leads (managers) of each station. Nobody had filed a ticket about it.",
-    outcome: "Ten minutes down to three. Over 2,500 records now structured and queryable.",
+    outcome: "Ten minutes down to three. Over 4,000 records now structured and queryable.",
     stack: "Node.js / PostgreSQL / AWS RDS / Anthropic API",
     // Ordered as the operator walks it: fill the form, read your own records,
     // then the full log.

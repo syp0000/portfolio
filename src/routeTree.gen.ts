@@ -9,23 +9,18 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
-import { Route as ResumeRouteImport } from './routes/resume'
-import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as WorkPantryAiRouteImport } from './routes/work.pantry-ai'
-import { Route as WorkNcrAssistantRouteImport } from './routes/work.ncr-assistant'
-import { Route as WorkEventCompassRouteImport } from './routes/work.event-compass'
+import { Route as AboutRouteImport } from './routes/about'
+import { Route as ResumeRouteImport } from './routes/resume'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as WorkCravingragRouteImport } from './routes/work.cravingrag'
+import { Route as WorkEventCompassRouteImport } from './routes/work.event-compass'
+import { Route as WorkNcrAssistantRouteImport } from './routes/work.ncr-assistant'
+import { Route as WorkPantryAiRouteImport } from './routes/work.pantry-ai'
 
-const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
-  id: '/sitemap.xml',
-  path: '/sitemap.xml',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ResumeRoute = ResumeRouteImport.update({
-  id: '/resume',
-  path: '/resume',
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AboutRoute = AboutRouteImport.update({
@@ -33,19 +28,19 @@ const AboutRoute = AboutRouteImport.update({
   path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const ResumeRoute = ResumeRouteImport.update({
+  id: '/resume',
+  path: '/resume',
   getParentRoute: () => rootRouteImport,
 } as any)
-const WorkPantryAiRoute = WorkPantryAiRouteImport.update({
-  id: '/work/pantry-ai',
-  path: '/work/pantry-ai',
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
-const WorkNcrAssistantRoute = WorkNcrAssistantRouteImport.update({
-  id: '/work/ncr-assistant',
-  path: '/work/ncr-assistant',
+const WorkCravingragRoute = WorkCravingragRouteImport.update({
+  id: '/work/cravingrag',
+  path: '/work/cravingrag',
   getParentRoute: () => rootRouteImport,
 } as any)
 const WorkEventCompassRoute = WorkEventCompassRouteImport.update({
@@ -53,9 +48,14 @@ const WorkEventCompassRoute = WorkEventCompassRouteImport.update({
   path: '/work/event-compass',
   getParentRoute: () => rootRouteImport,
 } as any)
-const WorkCravingragRoute = WorkCravingragRouteImport.update({
-  id: '/work/cravingrag',
-  path: '/work/cravingrag',
+const WorkNcrAssistantRoute = WorkNcrAssistantRouteImport.update({
+  id: '/work/ncr-assistant',
+  path: '/work/ncr-assistant',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WorkPantryAiRoute = WorkPantryAiRouteImport.update({
+  id: '/work/pantry-ai',
+  path: '/work/pantry-ai',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -136,18 +136,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/sitemap.xml': {
-      id: '/sitemap.xml'
-      path: '/sitemap.xml'
-      fullPath: '/sitemap.xml'
-      preLoaderRoute: typeof SitemapDotxmlRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/resume': {
-      id: '/resume'
-      path: '/resume'
-      fullPath: '/resume'
-      preLoaderRoute: typeof ResumeRouteImport
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/about': {
@@ -157,25 +150,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/resume': {
+      id: '/resume'
+      path: '/resume'
+      fullPath: '/resume'
+      preLoaderRoute: typeof ResumeRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/work/pantry-ai': {
-      id: '/work/pantry-ai'
-      path: '/work/pantry-ai'
-      fullPath: '/work/pantry-ai'
-      preLoaderRoute: typeof WorkPantryAiRouteImport
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/work/ncr-assistant': {
-      id: '/work/ncr-assistant'
-      path: '/work/ncr-assistant'
-      fullPath: '/work/ncr-assistant'
-      preLoaderRoute: typeof WorkNcrAssistantRouteImport
+    '/work/cravingrag': {
+      id: '/work/cravingrag'
+      path: '/work/cravingrag'
+      fullPath: '/work/cravingrag'
+      preLoaderRoute: typeof WorkCravingragRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/work/event-compass': {
@@ -185,11 +178,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WorkEventCompassRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/work/cravingrag': {
-      id: '/work/cravingrag'
-      path: '/work/cravingrag'
-      fullPath: '/work/cravingrag'
-      preLoaderRoute: typeof WorkCravingragRouteImport
+    '/work/ncr-assistant': {
+      id: '/work/ncr-assistant'
+      path: '/work/ncr-assistant'
+      fullPath: '/work/ncr-assistant'
+      preLoaderRoute: typeof WorkNcrAssistantRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/work/pantry-ai': {
+      id: '/work/pantry-ai'
+      path: '/work/pantry-ai'
+      fullPath: '/work/pantry-ai'
+      preLoaderRoute: typeof WorkPantryAiRouteImport
       parentRoute: typeof rootRouteImport
     }
   }

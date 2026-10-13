@@ -16,6 +16,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as WorkPantryAiRouteImport } from './routes/work.pantry-ai'
 import { Route as WorkNcrAssistantRouteImport } from './routes/work.ncr-assistant'
 import { Route as WorkEventCompassRouteImport } from './routes/work.event-compass'
+import { Route as WorkCravingragRouteImport } from './routes/work.cravingrag'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
@@ -52,12 +53,18 @@ const WorkEventCompassRoute = WorkEventCompassRouteImport.update({
   path: '/work/event-compass',
   getParentRoute: () => rootRouteImport,
 } as any)
+const WorkCravingragRoute = WorkCravingragRouteImport.update({
+  id: '/work/cravingrag',
+  path: '/work/cravingrag',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/resume': typeof ResumeRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/work/cravingrag': typeof WorkCravingragRoute
   '/work/event-compass': typeof WorkEventCompassRoute
   '/work/ncr-assistant': typeof WorkNcrAssistantRoute
   '/work/pantry-ai': typeof WorkPantryAiRoute
@@ -67,6 +74,7 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/resume': typeof ResumeRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/work/cravingrag': typeof WorkCravingragRoute
   '/work/event-compass': typeof WorkEventCompassRoute
   '/work/ncr-assistant': typeof WorkNcrAssistantRoute
   '/work/pantry-ai': typeof WorkPantryAiRoute
@@ -77,6 +85,7 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/resume': typeof ResumeRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/work/cravingrag': typeof WorkCravingragRoute
   '/work/event-compass': typeof WorkEventCompassRoute
   '/work/ncr-assistant': typeof WorkNcrAssistantRoute
   '/work/pantry-ai': typeof WorkPantryAiRoute
@@ -88,6 +97,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/resume'
     | '/sitemap.xml'
+    | '/work/cravingrag'
     | '/work/event-compass'
     | '/work/ncr-assistant'
     | '/work/pantry-ai'
@@ -97,6 +107,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/resume'
     | '/sitemap.xml'
+    | '/work/cravingrag'
     | '/work/event-compass'
     | '/work/ncr-assistant'
     | '/work/pantry-ai'
@@ -106,6 +117,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/resume'
     | '/sitemap.xml'
+    | '/work/cravingrag'
     | '/work/event-compass'
     | '/work/ncr-assistant'
     | '/work/pantry-ai'
@@ -116,6 +128,7 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   ResumeRoute: typeof ResumeRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  WorkCravingragRoute: typeof WorkCravingragRoute
   WorkEventCompassRoute: typeof WorkEventCompassRoute
   WorkNcrAssistantRoute: typeof WorkNcrAssistantRoute
   WorkPantryAiRoute: typeof WorkPantryAiRoute
@@ -172,6 +185,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WorkEventCompassRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/work/cravingrag': {
+      id: '/work/cravingrag'
+      path: '/work/cravingrag'
+      fullPath: '/work/cravingrag'
+      preLoaderRoute: typeof WorkCravingragRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -180,6 +200,7 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   ResumeRoute: ResumeRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  WorkCravingragRoute: WorkCravingragRoute,
   WorkEventCompassRoute: WorkEventCompassRoute,
   WorkNcrAssistantRoute: WorkNcrAssistantRoute,
   WorkPantryAiRoute: WorkPantryAiRoute,

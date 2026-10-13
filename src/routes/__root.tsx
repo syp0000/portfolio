@@ -11,7 +11,7 @@ import {
 import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
-import { BigDipper, CursorFollower, NcrSchematic, PantryJourney, StarField, type CursorKind } from "../components/Decor";
+import { BigDipper, CravingJourney, CursorFollower, NcrSchematic, PantryJourney, StarField, type CursorKind } from "../components/Decor";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { SiteNav, SiteFooter } from "../components/SiteChrome";
 
@@ -146,6 +146,7 @@ type Look = {
   dipper?: boolean;
   journey?: boolean;
   schematic?: boolean;
+  eva?: boolean;
 };
 
 // Keyed by pathname with any trailing slash stripped, so home is "".
@@ -154,6 +155,7 @@ const ROUTE_LOOKS: Record<string, Look> = {
   "/about": { theme: "theme-shell", cursor: "star", stars: true },
   "/resume": { theme: "theme-shell", cursor: "star", stars: true },
   "/work/event-compass": { theme: "theme-space", cursor: "star", stars: true, dipper: true },
+  "/work/cravingrag": { theme: "theme-space", cursor: "star", stars: true, eva: true },
   "/work/pantry-ai": { theme: "theme-pantry", cursor: "pantry", journey: true },
   "/work/ncr-assistant": { theme: "theme-ncr", cursor: "pencil", schematic: true },
 };
@@ -181,6 +183,7 @@ function RootComponent() {
         </main>
         <SiteFooter />
         {look.dipper && <BigDipper />}
+        {look.eva && <CravingJourney />}
         {look.journey && <PantryJourney />}
         {look.schematic && <NcrSchematic />}
         <CursorFollower kind={look.cursor} />

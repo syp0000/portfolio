@@ -20,7 +20,7 @@ export const Route = createFileRoute("/")({
       {
         property: "og:description",
         content:
-          "Battery plant operators use a tool she built alone. It carries 100 reports a day. Three case studies, framed by business outcome.",
+          "Battery plant operators use a tool she built alone. It carries 100 reports a day. Four case studies, framed by business outcome.",
       },
     ],
   }),
@@ -138,6 +138,18 @@ const projects = [
     feature: true,
   },
   {
+    to: "/work/cravingrag" as const,
+    name: "CravingRAG",
+    meta: "Public demo live, 2026",
+    problem:
+      "AI-generated recipes satisfied every written requirement and still did not feel like food. And meaning-based search quietly fails the moment someone says no shellfish.",
+    outcome:
+      "A retrieval pipeline over 20,000 real recipes on Snowflake Cortex, with ingredient evidence behind every match. A blind-judged evaluation of four methods: NDCG@5 from 0.582 to 0.844, exclusion queries from 0.245 to 0.855.",
+    stack: "Python / React / Snowflake Cortex / Cloudflare",
+    thumbs: ["cr-01-search.jpg", "cr-02-results.jpg", "cr-04-catalog.jpg"],
+    feature: true,
+  },
+  {
     to: "/work/event-compass" as const,
     name: "Event Compass",
     meta: "Senior capstone, 2025",
@@ -186,10 +198,6 @@ const alsoKnowing = [
   {
     title: "Development Monitors",
     body: "Evaluated two field data collection tools by building competing prototypes, and the recommendation was adopted by both the engineering and field teams.",
-  },
-  {
-    title: "CravingRAG",
-    body: "Building a retrieval augmented generation experiment on Snowflake.",
   },
 ];
 
@@ -242,7 +250,7 @@ function Home() {
         <Reveal>
           <p className="meta-row tick-label">Selected work</p>
           <h2 className="mt-5 max-w-2xl text-3xl font-semibold md:text-4xl">
-            Three problems, and what changed after.
+            Four problems, and what changed after.
           </h2>
         </Reveal>
 

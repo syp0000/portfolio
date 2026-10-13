@@ -392,6 +392,64 @@ export function PantryDiagram() {
   );
 }
 
+export function CravingDiagram() {
+  const CH = { fill: "var(--muted-foreground)", fontSize: 10, fontWeight: 600, letterSpacing: "0.1em" };
+  const EL = { fill: "var(--muted-foreground)", fontSize: 8.5, fontStyle: "italic", opacity: 0.9 };
+  const d = { stroke: "var(--muted-foreground)", strokeWidth: 1.15, fill: "none", markerEnd: "url(#arw-dim2)", strokeDasharray: "4 3", opacity: 0.75 } as const;
+
+  return (
+    <svg viewBox="0 0 1240 510" className="h-auto w-full min-w-[900px]" role="img"
+      aria-label="CravingRAG in three lanes. Enrichment runs once per recipe: the RecipeNLG corpus of 20,000 real recipes is loaded by a dlt pipeline into Snowflake, where Cortex scores eight sensory qualities with a required evidence line and writes one sensory profile embedding per recipe. At search time a craving phrase is parsed into qualities and exclusions, vector similarity finds the closest sensory profiles, a hard exclusion step removes recipes whose real ingredient text contains an excluded item, and the Lean V3 layer filters drinks, duplicates, and identity mismatches. The output is up to five recipes with evidence, each search optionally writes a decision record, and the public demo replays twenty saved results without any live Snowflake call.">
+      <Defs />
+      <defs>
+        <marker id="arw-dim2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--muted-foreground)" />
+        </marker>
+      </defs>
+
+      <text x="16" y="32" {...CH}>ENRICHMENT, ONCE PER RECIPE</text>
+      <text x="16" y="222" {...CH}>SEARCH TIME</text>
+      <text x="16" y="382" {...CH}>OUTPUTS</text>
+
+      <Node x={10} y={50} w={180} title="RecipeNLG corpus" meta="20,000 real recipes" />
+      <Node x={250} y={50} w={170} title="dlt pipeline" meta="load into Snowflake" />
+      <Node x={480} y={50} w={230} title="Cortex enrichment" meta="8 qualities, evidence required" />
+      <Node x={770} y={50} w={220} title="Sensory profile embedding" meta="one vector per recipe" />
+
+      <path d="M 190 79 L 246 79" {...flow} />
+      <path d="M 420 79 L 476 79" {...flow} />
+      <path d="M 710 79 L 766 79" {...flow} />
+      {/* stored vectors meet the query at the similarity step */}
+      <path d="M 880 112 C 880 180 680 180 625 236" {...flow} strokeDasharray="4 4" />
+      <text x="890" y="170" {...EL}>stored once, reused by every search</text>
+
+      <Node x={10} y={240} w={180} title="Craving phrase" meta={'"warm spicy soup, no shellfish"'} />
+      <Node x={250} y={240} w={170} title="Query parse" meta="qualities and exclusions" />
+      <Node x={480} y={240} w={230} title="Vector similarity" meta="closest sensory profiles" />
+      <Node x={770} y={240} w={220} title="Hard exclusion" meta="checks real ingredient text" />
+      <Node x={1050} y={240} w={180} title="Lean V3 filter" meta="drinks, dupes, mismatches" />
+
+      <path d="M 190 269 L 246 269" {...flow} />
+      <path d="M 420 269 L 476 269" {...flow} />
+      <path d="M 710 269 L 766 269" {...flow} />
+      <path d="M 990 269 L 1046 269" {...flow} />
+      <path d="M 335 300 C 500 352 700 352 860 300" {...d} />
+      <text x="500" y="368" {...EL}>exclusions travel as text, never as embeddings</text>
+
+      <path d="M 1140 298 L 1140 396" {...flow} />
+
+      <Node x={1050} y={400} w={180} title="Top 5 with evidence" meta="ingredient lines per score" />
+      <Node x={770} y={400} w={220} title="Decision record" meta="interpretation, rejections, picks" />
+      <Node x={480} y={400} w={230} title="Public demo gallery" meta="20 saved results, no live calls" />
+
+      <path d="M 1046 429 L 994 429" {...d} />
+      <text x="880" y="392" {...EL}>every search, optional</text>
+      <path d="M 1140 462 C 1140 498 680 498 600 462" {...d} />
+      <text x="620" y="505" {...EL}>replayed by demo.cravingrag.com</text>
+    </svg>
+  );
+}
+
 /**
  * Decorative Event Compass mark: the project logo, slowly rotating. Purely
  * ornamental, hidden from assistive tech.
@@ -406,6 +464,26 @@ export function CompassMark({ className = "" }: { className?: string }) {
       // rotation stays on the compass rose rather than wobbling around it.
       className={`origin-center animate-spin object-contain [animation-duration:36s] motion-reduce:animate-none ${className}`}
     />
+  );
+}
+
+/**
+ * Decorative CravingRAG mark: the astronaut from the demo's backdrop footage,
+ * lifted off the starfield, drifting in zero gravity. Purely ornamental,
+ * hidden from assistive tech.
+ */
+export function CravingMark({ className = "" }: { className?: string }) {
+  return (
+    // Two nested animations with different periods compose into a slow
+    // wander, so the suit roams a little instead of bobbing on a rail.
+    <span className={`block [animation:sway_13s_ease-in-out_infinite] motion-reduce:animate-none ${className}`}>
+      <img
+        src="/astronaut.png"
+        alt=""
+        aria-hidden="true"
+        className="h-full w-full object-contain [animation:drift_9s_ease-in-out_infinite] motion-reduce:animate-none"
+      />
+    </span>
   );
 }
 

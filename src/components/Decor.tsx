@@ -394,6 +394,207 @@ export function PantryJourney() {
 }
 
 /**
+ * CravingRAG's margin piece: a craving crossing the sky as a small spiral
+ * galaxy, kin to the Milky Way footage behind the demo. The query is called
+ * out at the top, a dashed trajectory drops through the four stages of the
+ * real pipeline, and scroll carries the galaxy along it, shedding stardust on
+ * the curve already flown. Each stage lights as it passes, and the trip ends
+ * on a docking target holding the product's promise: top five, with evidence.
+ * Drawn in the same thin star-chart ink as the Big Dipper.
+ */
+type Pt = { x: number; y: number };
+/** Two cubic segments, an S falling down the margin. */
+const EVA_SEGS: [Pt, Pt, Pt, Pt][] = [
+  [{ x: 62, y: 30 }, { x: 16, y: 58 }, { x: 92, y: 90 }, { x: 50, y: 124 }],
+  [{ x: 50, y: 124 }, { x: 8, y: 160 }, { x: 84, y: 186 }, { x: 48, y: 204 }],
+];
+const EVA_PATH = "M62 30 C16 58, 92 90, 50 124 C8 160, 84 186, 48 204";
+
+/** Point at t over both segments. Pure math, so SSR agrees. */
+function evaAt(t: number): Pt {
+  const seg = EVA_SEGS[t < 0.5 ? 0 : 1];
+  const u = t < 0.5 ? t * 2 : t * 2 - 1;
+  const m = 1 - u;
+  const [p0, p1, p2, p3] = seg;
+  const x = m * m * m * p0.x + 3 * m * m * u * p1.x + 3 * m * u * u * p2.x + u * u * u * p3.x;
+  const y = m * m * m * p0.y + 3 * m * m * u * p1.y + 3 * m * u * u * p2.y + u * u * u * p3.y;
+  return { x, y };
+}
+
+/** The real pipeline, as waypoints on the trajectory. Sides alternate. */
+const EVA_STAGES = [
+  { t: 0.16, label: "PARSE", end: true },
+  { t: 0.4, label: "SIMILARITY", end: false },
+  { t: 0.62, label: "EXCLUSION", end: true },
+  { t: 0.84, label: "LEAN V3", end: false },
+] as const;
+
+export function CravingJourney() {
+  const [progress, setProgress] = useState(0);
+  const [reduced, setReduced] = useState(false);
+
+  useEffect(() => {
+    setReduced(window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+    const onScroll = () => {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      setProgress(max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0);
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // Reduced motion: a still chart, mid-flight, everything legible at once.
+  const p = reduced ? null : progress;
+  const t = p === null ? 0.38 : p;
+  const at = evaAt(t);
+  const docked = p === null ? 0 : smooth((p - 0.86) / 0.12);
+  // The tail samples earlier points on the same curve, so it follows the
+  // route actually flown instead of pointing stiffly backwards.
+  const tail = [1, 2, 3, 4, 5].map((k) => evaAt(Math.max(0, t - k * 0.022)));
+
+  return (
+    <div
+      aria-hidden="true"
+      className="pointer-events-none fixed inset-y-0 left-0 z-0 flex w-[44vw] items-center justify-center opacity-45 lg:w-[25vw] lg:opacity-100"
+    >
+      <svg viewBox="0 0 100 240" className="max-h-[90vh] w-full overflow-visible">
+        <defs>
+          <filter id="eva-glow" x="-200%" y="-200%" width="500%" height="500%">
+            <feGaussianBlur stdDeviation="2.6" />
+          </filter>
+          {/* Fades the galaxy photo's square frame into the sky, so only the
+              spiral itself appears to travel. */}
+          <radialGradient id="mw-fade">
+            <stop offset="45%" stopColor="#fff" />
+            <stop offset="98%" stopColor="#000" />
+          </radialGradient>
+          <mask id="mw-mask">
+            <circle r="9" fill="url(#mw-fade)" />
+          </mask>
+        </defs>
+
+        {/* The craving, called into the void. Fades once the trip is underway. */}
+        <text
+          x="62"
+          y="7"
+          textAnchor="middle"
+          fontSize="3.4"
+          letterSpacing="0.16em"
+          fill="var(--muted-foreground)"
+          opacity={p === null ? 0.6 : 0.65 * (1 - smooth(p / 0.2))}
+          style={{ fontFamily: "var(--font-mono)" }}
+        >
+          "WARM SPICY SOUP"
+        </text>
+
+        {/* Planned route, then the stretch already flown. */}
+        <path
+          d={EVA_PATH}
+          fill="none"
+          stroke="var(--hairline)"
+          strokeWidth="0.55"
+          strokeDasharray="1.8 2.6"
+        />
+        <path
+          d={EVA_PATH}
+          fill="none"
+          stroke="#fff"
+          strokeWidth="1.6"
+          opacity="0.25"
+          filter="url(#eva-glow)"
+          pathLength={1}
+          strokeDasharray="1"
+          strokeDashoffset={1 - t}
+        />
+        <path
+          d={EVA_PATH}
+          fill="none"
+          stroke="#fff"
+          strokeWidth="0.6"
+          opacity="0.85"
+          pathLength={1}
+          strokeDasharray="1"
+          strokeDashoffset={1 - t}
+        />
+
+        {/* Pipeline stages as waypoints, lighting as the astronaut passes. */}
+        {EVA_STAGES.map((s) => {
+          const w = evaAt(s.t);
+          const on = p === null ? 1 : smooth((p - s.t) / 0.05);
+          return (
+            <g key={s.label} transform={`translate(${w.x} ${w.y})`}>
+              <circle r="2.4" fill="none" stroke="var(--muted-foreground)" strokeWidth="0.35" opacity={0.3 + on * 0.4} />
+              <circle r="0.8" fill="#fff" opacity={0.25 + on * 0.65} />
+              <text
+                x={s.end ? -5 : 5}
+                y="1.1"
+                textAnchor={s.end ? "end" : "start"}
+                fontSize="3"
+                letterSpacing="0.14em"
+                fill="var(--muted-foreground)"
+                opacity={0.3 + on * 0.5}
+                style={{ fontFamily: "var(--font-mono)" }}
+              >
+                {s.label}
+              </text>
+            </g>
+          );
+        })}
+
+        {/* Docking target: the product's promise, breathing once reached. */}
+        <g transform="translate(48 204)">
+          <g className="star-breathe" style={{ animationDuration: "4.2s" }}>
+            <circle r="8.5" fill="none" stroke="var(--hairline)" strokeWidth="0.5" />
+            <circle r="8.5" fill="none" stroke="#fff" strokeWidth="0.55" opacity={docked * 0.8} />
+            <circle r="4.6" fill="none" stroke="var(--muted-foreground)" strokeWidth="0.4" opacity={0.5 + docked * 0.5} />
+            <path d="M0 -8.5 V-5.8 M0 8.5 V5.8 M-8.5 0 H-5.8 M8.5 0 H5.8" stroke="#fff" strokeWidth="0.45" opacity={0.4 + docked * 0.6} />
+            <circle r="1.1" fill="#fff" opacity={0.4 + docked * 0.6} />
+          </g>
+          <text
+            y="15.5"
+            textAnchor="middle"
+            fontSize="3.1"
+            letterSpacing="0.16em"
+            fill="var(--muted-foreground)"
+            opacity={0.45 + docked * 0.4}
+            style={{ fontFamily: "var(--font-mono)" }}
+          >
+            TOP 5 · EVIDENCE
+          </text>
+        </g>
+
+        {/* Stardust shed along the stretch of route just flown. */}
+        {tail.map((q, k) => (
+          <circle
+            key={k}
+            cx={q.x}
+            cy={q.y}
+            r={1.5 - k * 0.24}
+            fill="#d7e5ff"
+            opacity={(0.4 - k * 0.07) * (t > 0.002 ? 1 : 0)}
+            filter="url(#eva-glow)"
+          />
+        ))}
+        {/* The craving travels as a galaxy of its own: the real spiral photo,
+            edges faded into the sky, wheeling slowly as scroll carries it. */}
+        <g transform={`translate(${at.x} ${at.y})`}>
+          <circle r="6.5" fill="#d7e5ff" opacity="0.14" filter="url(#eva-glow)" />
+          <g mask="url(#mw-mask)">
+            <g
+              className="[animation:sky-wheel_48s_linear_infinite] motion-reduce:animate-none"
+              style={{ transformBox: "fill-box", transformOrigin: "center" }}
+            >
+              <image href="/milkyway.jpg" x={-9} y={-9} width={18} height={18} />
+            </g>
+          </g>
+        </g>
+      </svg>
+    </div>
+  );
+}
+
+/**
  * NCR Assistant's counterpart: one circuit, run long and vertical, drawn in
  * the ladder-logic vocabulary of the plant floor. A single wire threads
  * through contacts, splits into a parallel branch, and lands on a coil.

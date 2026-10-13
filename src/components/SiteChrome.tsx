@@ -4,6 +4,7 @@ import { useState } from "react";
 
 const links = [
   { to: "/work/ncr-assistant", label: "NCR Assistant" },
+  { to: "/work/cravingrag", label: "CravingRAG" },
   { to: "/work/event-compass", label: "Event Compass" },
   { to: "/work/pantry-ai", label: "Pantry AI" },
   { to: "/about", label: "About" },
